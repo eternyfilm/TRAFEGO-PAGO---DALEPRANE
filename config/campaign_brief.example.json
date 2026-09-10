@@ -1,0 +1,31 @@
+{
+  "nome": "Cobertura Lago Sul, Vista Livre",
+  "orcamento_diario": 150,
+  "privacy_policy_url": "https://www.daleprane.com.br/privacidade",
+  "targeting": {
+    "geo_locations": {
+      "cities": [{ "key": "SUBSTITUA_PELO_ID_RETORNADO_POR_search_locations" }]
+    },
+    "age_min": 32,
+    "age_max": 58,
+    "flexible_spec": [
+      {
+        "interests": [
+          { "id": "SUBSTITUA_PELO_ID_RETORNADO_POR_search_interests", "name": "Arquitetura" }
+        ]
+      }
+    ]
+  },
+  "formulario": [
+    "Nome completo",
+    "WhatsApp",
+    "Já conhece o Lago Sul ou busca uma região nova?",
+    "Pretende financiar ou é à vista?"
+  ],
+  "anuncio": {
+    "titulo": "Aqui o único problema é acordar todo dia com essa vista...",
+    "texto": "Cobertura duplex de 480m² no Lago Sul, assinada por escritório de arquitetura premiado. Terraço com piscina aquecida, automação completa e vista livre para o lago.",
+    "descricao": "Agende uma visita privativa com a Aline Daleprane."
+  },
+  "link": "https://www.daleprane.com.br"
+}
