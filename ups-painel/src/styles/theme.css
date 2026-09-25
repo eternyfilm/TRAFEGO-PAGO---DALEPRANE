@@ -48,7 +48,7 @@
   /* Tipografia */
   --serif: 'Instrument Serif', Georgia, serif;
   --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --marca: 'Coolvetica', 'Instrument Serif', sans-serif;
+  --marca: 'Coolvetica Heavy', 'Coolvetica', 'Instrument Serif', sans-serif;
 
   /* Ritmo */
   --raio: 14px;
@@ -164,8 +164,8 @@ textarea {
   align-items: center;
   gap: 11px;
   font-family: var(--marca);
-  font-size: 20px;
-  letter-spacing: 1.5px;
+  font-size: 26px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--texto);
   white-space: nowrap;
