@@ -97,9 +97,28 @@ npm run build    # typecheck + build de produção em dist/
 npm run preview  # serve o build de produção
 ```
 
-Os dados vivem em `localStorage` (v1 local). Na Home tem **Exportar JSON** e
-**Importar JSON** pra passar o estado entre navegadores ou fazer backup. Importar
-substitui o estado atual (pede confirmação).
+Sem variáveis de ambiente, os dados vivem em `localStorage` (modo local). Na Home
+tem **Exportar JSON** e **Importar JSON** pra backup. Um selo na Home mostra se
+está em modo **Local** ou **Sincronizado**.
+
+### Modo sincronizado (Supabase + realtime)
+
+Faz Kalleby e Caio verem cada check ao vivo. Passos:
+
+1. **Supabase:** crie um projeto em [supabase.com](https://supabase.com). Em SQL
+   Editor, rode `supabase/schema.sql` (cria a tabela `painel_estado`, liga o
+   realtime e as policies).
+2. **Chaves:** em Project Settings > API, copie a `URL` e a chave `anon` (pública).
+3. **Env:** copie `.env.example` para `.env.local` e preencha `VITE_SUPABASE_URL`,
+   `VITE_SUPABASE_ANON_KEY` e `VITE_APP_SENHA` (senha de acesso ao painel).
+4. **Deploy:** suba o repo na Vercel (ou Netlify). Aponte a raiz do projeto pra
+   `ups-painel`, e cadastre as mesmas três variáveis no painel de Environment
+   Variables do host. Cada push no branch redeploya.
+
+Segurança: a senha (`VITE_APP_SENHA`) é uma trava de interface, não criptografia.
+As policies do Supabase liberam a chave anon, então quem tiver URL + chave anon
+acessa os dados via API direto. Para dois fundadores e dados de operação, ok. Pra
+proteção real, migrar para Supabase Auth (login por email) e policies por usuário.
 
 Fonte de marca Coolvetica versionada em `src/styles/fonts/` (empacotada pelo
 Vite). Regular liga na marca "UPS DIGITAL" via `@font-face` em `theme.css`. Ficam
@@ -110,10 +129,11 @@ crammed para uso futuro.
 
 - **Vite + React + TypeScript.** SPA com roteamento por hash (`src/state/router.ts`).
 - **Camada de dados isolada** em `src/lib/storage.ts`: interface `StorageAdapter`
-  com `LocalStorageAdapter` na v1. Pra migrar pro Supabase, escreva um
-  `SupabaseAdapter` e troque a linha `export const storage = ...`. Nenhuma tela
-  fala com storage direto, elas passam pelo `store` (`src/state/store.tsx`,
-  Context + reducer).
+  com `LocalStorageAdapter` (local) e `SupabaseAdapter` (sincronizado com
+  realtime). O adapter é escolhido por env. Nenhuma tela fala com storage direto,
+  elas passam pelo `store` (`src/state/store.tsx`, Context + reducer, com
+  assinatura realtime, guarda contra loop e debounce nos saves).
+- **Trava de acesso** em `src/ui/PortaSenha.tsx` (senha simples via env).
 - **Dados iniciais** em `src/data/seed.ts` (todas as tarefas do plano, escada de
   oferta e riscos). Datas no fuso America/Sao_Paulo, formato BR (`src/lib/dates.ts`).
 - **Telas** em `src/telas/`: Home, Roadmap, Funil, Comercial, Estrategia.
@@ -122,8 +142,8 @@ crammed para uso futuro.
 
 ## Próximas melhorias
 
-- **Sync entre Kalleby e Caio (Supabase):** implementar `SupabaseAdapter` quando
-  fizer sentido. A camada já está pronta pra isso, é só o adapter + auth.
+- **Sync entre Kalleby e Caio (Supabase):** feito. Próximo nível é login por
+  email (Supabase Auth) e granularidade por registro em vez de blob único.
 - **Diagnóstico como export:** a tela Funil já tem os dados pra virar o relatório
   visual do degrau 1. Falta um layout de exportação (PDF ou página imprimível).
 - **Ligar o funil ao Comercial:** puxar o resultado lead → visita do teste pra

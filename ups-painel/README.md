@@ -29,6 +29,12 @@ npm run dev      # http://localhost:5173
 
 ## Dados
 
-Tudo em `localStorage` na v1. A camada de dados (`src/lib/storage.ts`) é isolada
-por trás de uma interface `StorageAdapter`, então dá pra plugar Supabase depois
-sem reescrever telas. Detalhes de arquitetura e roadmap técnico no `CLAUDE.md`.
+Dois modos, escolhidos por variável de ambiente:
+
+- **Local** (sem env): `localStorage`, salva só neste navegador.
+- **Sincronizado** (com env do Supabase): banco único na nuvem com realtime,
+  Kalleby e Caio veem cada mudança ao vivo, protegido por uma senha simples.
+
+A camada de dados (`src/lib/storage.ts`) é isolada por trás de `StorageAdapter`,
+então as telas não mudam entre um modo e outro. Setup do modo sincronizado
+(Supabase + deploy + `supabase/schema.sql`) e nota de segurança no `CLAUDE.md`.
