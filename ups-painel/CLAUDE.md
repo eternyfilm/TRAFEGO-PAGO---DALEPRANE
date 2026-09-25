@@ -101,9 +101,10 @@ Os dados vivem em `localStorage` (v1 local). Na Home tem **Exportar JSON** e
 **Importar JSON** pra passar o estado entre navegadores ou fazer backup. Importar
 substitui o estado atual (pede confirmação).
 
-Fonte de marca opcional: jogue `coolvetica.woff2`/`.woff` em
-`ups-painel/public/fonts/` e o `@font-face` já usa. Sem o arquivo, cai no fallback
-sem quebrar.
+Fonte de marca Coolvetica versionada em `src/styles/fonts/` (empacotada pelo
+Vite). Regular liga na marca "UPS DIGITAL" via `@font-face` em `theme.css`. Ficam
+lá também itálico, heavy compressed (family `Coolvetica Heavy`), condensed e
+crammed para uso futuro.
 
 ## Arquitetura (resumo)
 
