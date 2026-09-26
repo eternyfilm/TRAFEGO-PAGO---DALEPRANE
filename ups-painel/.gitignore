@@ -4,3 +4,8 @@ dist/
 .DS_Store
 
 *.tsbuildinfo
+
+# Variáveis de ambiente com chaves (o .env.example fica versionado)
+.env
+.env.*
+!.env.example

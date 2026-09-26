@@ -78,6 +78,7 @@ function reducer(state: AppState, acao: Acao): AppState {
 interface Ctx {
   state: AppState
   pronto: boolean
+  sincronizado: boolean
   dispatch: React.Dispatch<Acao>
 }
 
@@ -87,29 +88,55 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, seedState)
   const prontoRef = useRef(false)
   const [pronto, setPronto] = useReducerBool()
+  // Última versão serializada que já está sincronizada (salva por nós ou
+  // recebida do realtime). Serve de guarda contra loop: não re-salvamos o que
+  // acabou de chegar, nem re-aplicamos o que acabou de sair.
+  const ultimoRef = useRef<string>('')
 
-  // Hidrata do storage uma vez.
+  // Hidrata do storage uma vez e, se o adapter suportar, assina o realtime.
   useEffect(() => {
     let vivo = true
     storage.carregar().then((s) => {
       if (!vivo) return
+      ultimoRef.current = JSON.stringify(s)
       dispatch({ tipo: 'hidratar', state: s })
       prontoRef.current = true
       setPronto(true)
     })
+
+    let cancelar: (() => void) | undefined
+    if (storage.assinar) {
+      cancelar = storage.assinar((remoto) => {
+        const s = JSON.stringify(remoto)
+        // Ignora eco da nossa própria escrita.
+        if (s === ultimoRef.current) return
+        ultimoRef.current = s
+        dispatch({ tipo: 'substituir', state: remoto })
+      })
+    }
+
     return () => {
       vivo = false
+      cancelar?.()
     }
   }, [setPronto])
 
   // Persiste a cada mudança, só depois de hidratar (evita sobrescrever com seed).
+  // Debounce curto pra agrupar rajadas (ex: digitar em nota) numa escrita só.
   useEffect(() => {
     if (!prontoRef.current) return
-    storage.salvar(state)
+    const s = JSON.stringify(state)
+    // Nada mudou de fato (ex: estado veio do realtime): não re-salva.
+    if (s === ultimoRef.current) return
+    const t = setTimeout(() => {
+      ultimoRef.current = s
+      storage.salvar(state)
+    }, 500)
+    return () => clearTimeout(t)
   }, [state])
 
   return (
-    <StoreContext.Provider value={{ state, pronto, dispatch }}>
+    <StoreContext.Provider value={{ state, pronto, sincronizado: storage.sincronizado, dispatch }}>
       {children}
     </StoreContext.Provider>
   )

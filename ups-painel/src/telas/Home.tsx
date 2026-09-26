@@ -17,7 +17,7 @@ import { StatusPill, DonoPill } from '../ui/Pills'
 import type { Dono, Tarefa } from '../types'
 
 export function Home() {
-  const { state, dispatch } = useStore()
+  const { state, dispatch, sincronizado } = useStore()
   const inputArquivo = useRef<HTMLInputElement>(null)
 
   const reg = contagemRegressiva(DATA_ALVO)
@@ -60,7 +60,18 @@ export function Home() {
           <div className="olho">Rumo ao case, 31/01/2027</div>
           <h1>Sistemas de crescimento para o mercado imobiliário</h1>
         </div>
-        <div className="flex">
+        <div className="flex wrap">
+          <span
+            className={`pill ${sincronizado ? 'feito' : ''}`}
+            title={
+              sincronizado
+                ? 'Sincronizado em tempo real entre os dispositivos'
+                : 'Modo local, salva só neste navegador'
+            }
+          >
+            <span className="dot" />
+            {sincronizado ? 'Sincronizado' : 'Local'}
+          </span>
           <button className="btn ghost pequeno" onClick={baixar}>
             Exportar JSON
           </button>
