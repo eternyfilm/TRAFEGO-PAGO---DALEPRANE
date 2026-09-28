@@ -1,0 +1,61 @@
+name: Publicar painel no GitHub Pages
+
+on:
+  push:
+    branches: [claude/project-thread-ia6pds]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ups-painel
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build
+        env:
+          VITE_SUPABASE_URL: https://gjbgxtscxvrdhpbawjms.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYmd4dHNjeHZyZGhwYmF3am1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0NzQ2MTQsImV4cCI6MjEwNDA1MDYxNH0.xL5wBw5Y1QAKtV1r06v9bwpow_Bx9zoK1PanMI5G-ps
+          VITE_APP_SENHA: ups2027
+        run: npm run build -- --base=/TRAFEGO-PAGO---DALEPRANE/
+
+      - name: Upload do artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ups-painel/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy no Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
