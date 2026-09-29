@@ -14,8 +14,7 @@ import type {
   Risco,
   Decisao,
 } from '../types'
-import { storage } from '../lib/storage'
-import { seedState } from '../data/seed'
+import { storage, lerCacheLocal } from '../lib/storage'
 
 type Acao =
   | { tipo: 'hidratar'; state: AppState }
@@ -85,23 +84,27 @@ interface Ctx {
 const StoreContext = createContext<Ctx | null>(null)
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, seedState)
-  const prontoRef = useRef(false)
-  const [pronto, setPronto] = useReducerBool()
+  // Pinta na hora, do cache local (síncrono). A rede reconcilia por trás,
+  // então a tela nunca fica travada em "Carregando".
+  const [state, dispatch] = useReducer(reducer, undefined, lerCacheLocal)
+  const prontoRef = useRef(true)
+  const pronto = true
   // Última versão serializada que já está sincronizada (salva por nós ou
   // recebida do realtime). Serve de guarda contra loop: não re-salvamos o que
   // acabou de chegar, nem re-aplicamos o que acabou de sair.
-  const ultimoRef = useRef<string>('')
+  const ultimoRef = useRef<string>(JSON.stringify(lerCacheLocal()))
 
-  // Hidrata do storage uma vez e, se o adapter suportar, assina o realtime.
+  // Reconcilia com o storage (Supabase) em segundo plano e assina o realtime.
   useEffect(() => {
     let vivo = true
     storage.carregar().then((s) => {
       if (!vivo) return
-      ultimoRef.current = JSON.stringify(s)
-      dispatch({ tipo: 'hidratar', state: s })
-      prontoRef.current = true
-      setPronto(true)
+      const serial = JSON.stringify(s)
+      // Só aplica se veio algo diferente do que já está na tela.
+      if (serial !== ultimoRef.current) {
+        ultimoRef.current = serial
+        dispatch({ tipo: 'substituir', state: s })
+      }
     })
 
     let cancelar: (() => void) | undefined
@@ -119,7 +122,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       vivo = false
       cancelar?.()
     }
-  }, [setPronto])
+  }, [])
 
   // Persiste a cada mudança, só depois de hidratar (evita sobrescrever com seed).
   // Debounce curto pra agrupar rajadas (ex: digitar em nota) numa escrita só.
@@ -140,12 +143,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       {children}
     </StoreContext.Provider>
   )
-}
-
-// Pequeno hook de boolean para não trazer useState junto do useReducer.
-function useReducerBool(): [boolean, (v: boolean) => void] {
-  const [v, d] = useReducer((_: boolean, n: boolean) => n, false)
-  return [v, d]
 }
 
 export function useStore(): Ctx {

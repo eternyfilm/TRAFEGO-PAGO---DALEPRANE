@@ -125,6 +125,18 @@ export const storage: StorageAdapter = temSupabase
   ? new SupabaseAdapter()
   : new LocalStorageAdapter()
 
+// Leitura síncrona do cache local, para pintar a tela na hora sem esperar a
+// rede. Tanto o local quanto o Supabase gravam esse cache em toda salvar.
+export function lerCacheLocal(): AppState {
+  try {
+    const bruto = localStorage.getItem(CHAVE)
+    if (!bruto) return structuredClone(seedState)
+    return normalizar(JSON.parse(bruto))
+  } catch {
+    return structuredClone(seedState)
+  }
+}
+
 // Utilidades de export/import JSON usadas na Home.
 export function exportarJSON(state: AppState): string {
   return JSON.stringify(state, null, 2)
