@@ -4,6 +4,9 @@ Automação de gestão de tráfego (Meta Ads + Google Ads) para a Daleprane Inte
 Imobiliária: aprovação de campanhas, criação via API e relatório diário automático
 pro corretor.
 
+> **Também neste repositório:** `conquistare-site/`, o site da Conquistare Cred (simulador de
+> crédito + captação de lead). Instruções em [`conquistare-site/README.md`](conquistare-site/README.md).
+
 ## Como as peças se encaixam
 
 1. **Painel Torre Daleprane** (link à parte, artifact publicado): você revisa cada
