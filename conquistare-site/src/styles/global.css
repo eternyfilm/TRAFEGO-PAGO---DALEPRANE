@@ -33,7 +33,7 @@
   --sombra-forte: 0 2px 6px rgba(42, 0, 56, 0.08), 0 24px 60px rgba(42, 0, 56, 0.18);
   --maxw: 1200px;
   --gutter: 24px;
-  --topo-h: 76px;
+  --topo-h: 84px;
 }
 
 *,
@@ -247,36 +247,22 @@ button {
   padding: 7px 16px;
 }
 
-/* ---------- logo (provisório em texto até chegar o arquivo oficial) ---------- */
-.logo {
-  display: inline-flex;
-  flex-direction: column;
-  line-height: 1;
-}
-.logo-nome {
-  font-weight: 800;
-  font-size: 25px;
-  letter-spacing: -0.045em;
-  color: var(--roxo);
-}
-.logo-desc {
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--verde);
-  margin-top: 3px;
-  padding-left: 1px;
-}
-.logo--claro .logo-nome {
-  color: var(--branco);
-}
-.logo--claro .logo-desc {
-  color: var(--verde-luz);
-}
+/* ---------- logo ---------- */
 .logo-img {
-  height: 40px;
+  display: block;
+  height: 66px;
   width: auto;
+  align-self: flex-start;
+  object-fit: contain;
+}
+.cta-logo {
+  height: 120px;
+  width: auto;
+  margin: 0 auto 28px;
+  display: block;
+}
+.logo-img--claro {
+  height: 96px;
 }
 
 /* ---------- topo ---------- */
@@ -2222,6 +2208,70 @@ button {
   background: var(--verde);
 }
 
+/* ---------- Cadú (mascote) ---------- */
+.secao--cadu {
+  padding-top: 40px;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+.cadu {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+  align-items: end;
+}
+.cadu--sem-imagem {
+  grid-template-columns: 1fr;
+  padding-bottom: 72px;
+  max-width: 720px;
+}
+.cadu-figura {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.cadu-figura::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, var(--roxo-3), var(--roxo));
+}
+.cadu-figura img {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+}
+.cadu-fala {
+  padding-bottom: 72px;
+}
+.cadu-fala h2 {
+  font-size: clamp(34px, 4.4vw, 54px);
+  margin-bottom: 22px;
+}
+.cadu-balao {
+  position: relative;
+  padding: 24px 28px;
+  border-radius: 24px 24px 24px 6px;
+  background: var(--branco);
+  box-shadow: var(--sombra);
+  margin-bottom: 28px;
+  max-width: 560px;
+}
+.cadu-balao p {
+  font-size: 18px;
+  color: var(--tinta);
+}
+.cadu-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 /* ---------- quem somos ---------- */
 .mv p {
   font-size: 20px;
@@ -2295,8 +2345,19 @@ button {
   }
   .passos--3,
   .canais,
-  .versus {
+  .versus,
+  .cadu {
     grid-template-columns: 1fr;
+  }
+  .cadu {
+    gap: 8px;
+  }
+  .cadu-figura img {
+    max-width: 300px;
+  }
+  .cadu-fala {
+    order: -1;
+    padding-bottom: 0;
   }
   .faixa-bancos .container {
     flex-direction: column;
@@ -2325,8 +2386,8 @@ button {
   .topo-in {
     gap: 12px;
   }
-  .logo-nome {
-    font-size: 19px;
+  .topo .logo-img {
+    height: 48px;
   }
   .topo-acoes {
     gap: 8px;

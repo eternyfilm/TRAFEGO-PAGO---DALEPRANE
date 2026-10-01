@@ -13,9 +13,19 @@ export const marca = {
   // Conquistare (checklist no README).
   rascunho: true,
 
-  // Logo oficial: coloque o arquivo em public/ (ex.: public/logo.svg) e
-  // aponte aqui. Vazio = usa a marca provisória desenhada em src/ui/Logo.tsx.
-  logoUrl: '',
+  // Logos oficiais em public/marca. A versão branca foi extraída do logo
+  // branco oficial (fundo roxo removido). Quando houver SVG, é só trocar aqui.
+  logos: {
+    roxo: '/marca/logo-empilhado-roxo.png',
+    branco: '/marca/logo-empilhado-branco.png',
+    simbolo: '/marca/simbolo.png',
+  },
+
+  // Mascote/porta-voz da marca. PNG com fundo transparente em public/marca.
+  mascote: {
+    nome: 'Cadú',
+    imagem: '/marca/cadu.png',
+  },
 
   contato: {
     // Somente dígitos, com DDI + DDD. CONFIRMAR: hoje aponta pro fixo do

@@ -106,6 +106,39 @@ export function AvisoCookies() {
   )
 }
 
+// "Prazer, eu sou o Cadú": o mascote apresenta a Conquistare e puxa pro
+// WhatsApp. Se a imagem ainda não estiver em public/marca, a seção segue só
+// com o texto.
+export function Cadu() {
+  const [temImagem, setTemImagem] = useState(true)
+  const { nome, imagem } = marca.mascote
+  return (
+    <div className={`cadu ${temImagem ? '' : 'cadu--sem-imagem'}`}>
+      {temImagem && (
+        <div className="cadu-figura">
+          <img src={imagem} alt={`${nome}, mascote da ${marca.nome}`} onError={() => setTemImagem(false)} loading="lazy" />
+        </div>
+      )}
+      <div className="cadu-fala">
+        <span className="sobretitulo">Prazer!</span>
+        <h2>Eu sou o {nome}.</h2>
+        <div className="cadu-balao">
+          <p>
+            Me conta o que você quer conquistar: a casa própria, o carro novo ou aquele projeto parado. Eu comparo os 7 bancos
+            parceiros e te mostro o caminho mais leve, seja financiamento, consórcio ou empréstimo.
+          </p>
+        </div>
+        <div className="cadu-botoes">
+          <a className="btn btn--whats btn--lg" href={linkWhatsApp(`Oi, ${nome}! Quero ajuda pra conquistar meu sonho.`)} target="_blank" rel="noopener noreferrer">
+            <IconeWhatsApp tamanho={20} /> Falar com o {nome}
+          </a>
+          <Link para="/simular" className="btn btn--fantasma btn--lg">Simular sozinho</Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // O "$" vazado que a Conquistare usa como grafismo nas peças.
 export function Cifrao({ className = '' }: { className?: string }) {
   return (

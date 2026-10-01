@@ -23,7 +23,7 @@ npm run build    # typecheck + build em dist/
 
 | Quero mudar... | Arquivo |
 | --- | --- |
-| Nome, WhatsApp, e-mail, CNPJ, texto legal, logo | `src/config/marca.ts` |
+| Nome, WhatsApp, e-mail, CNPJ, texto legal, logos | `src/config/marca.ts` (arquivos em `public/marca`) |
 | Cores e fonte | `src/styles/global.css` (bloco `:root` no topo) |
 | Produtos, taxas, limites, prazos, FAQs de produto | `src/config/produtos.ts` |
 | Números, depoimentos, FAQ geral, comparativo de taxas, blog | `src/config/conteudo.ts` |
@@ -58,8 +58,8 @@ servir o `index.html` em qualquer rota.
 A faixa amarela de "versão de rascunho" fica no ar enquanto `marca.rascunho` for `true`. Desligar só
 depois de passar por esta lista:
 
-- [ ] Logo oficial (SVG ou PNG transparente) em `public/` e `marca.logoUrl` preenchido. Hoje o topo
-      mostra o nome em texto nas cores da marca, sem símbolo inventado
+- [x] Logo oficial (PNGs em `public/marca`, caminhos em `marca.logos`). Ideal trocar por SVG
+      quando exportarem, pra ficar nítido em qualquer tela
 - [ ] Confirmar a fonte da marca (o site usa Poppins como aproximação)
 - [ ] Número de WhatsApp (hoje aponta pro fixo (61) 3547-0030), e-mail e horário de atendimento
 - [ ] Razão social e CNPJ

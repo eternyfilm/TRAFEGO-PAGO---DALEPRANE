@@ -4,7 +4,7 @@ import { marca, linkWhatsApp } from '../config/marca'
 import { Link } from '../lib/router'
 import { moeda, parcelaConsorcio, parcelaPrice } from '../lib/financas'
 import { Simulador } from '../ui/Simulador'
-import { Acordeao, Bancos, Cabecalho, CardProduto, Cifrao, Secao } from '../ui/Comuns'
+import { Acordeao, Bancos, Cabecalho, CardProduto, Cadu, Cifrao, Secao } from '../ui/Comuns'
 import { Icone, IconeWhatsApp } from '../ui/Icones'
 import { CardArtigo } from './Blog'
 
@@ -67,6 +67,11 @@ export function Home() {
             </div>
           </div>
         ))}
+      </Secao>
+
+      {/* CADÚ */}
+      <Secao tom="creme" className="secao--cadu">
+        <Cadu />
       </Secao>
 
       {/* APROVAÇÃO EM 1 HORA */}
@@ -222,6 +227,7 @@ export function Home() {
       <section className="cta-final">
         <Cifrao className="cta-cifrao" />
         <div className="container cta-final-in">
+          <img src={marca.logos.branco} alt="" className="cta-logo" />
           <h2>Vamos conquistar o seu sonho?</h2>
           <div className="cta-final-botoes">
             <Link para="/simular" className="btn btn--verde btn--lg">Simular agora</Link>
