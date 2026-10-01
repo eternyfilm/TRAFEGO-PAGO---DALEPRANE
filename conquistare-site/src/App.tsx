@@ -6,7 +6,8 @@ import { categorias, porRota, type Categoria as TCat } from './config/produtos'
 import { artigos } from './config/conteudo'
 import { Header } from './ui/Header'
 import { Footer } from './ui/Footer'
-import { AvisoCookies, FaixaRascunho, WhatsFlutuante } from './ui/Comuns'
+import { AvisoCookies, FaixaRascunho } from './ui/Comuns'
+import { ChatCadu } from './ui/ChatCadu'
 import { Home } from './paginas/Home'
 import { Categoria } from './paginas/Categoria'
 import { Produto } from './paginas/Produto'
@@ -67,7 +68,7 @@ export function App() {
       <Header />
       <main key={path}>{el}</main>
       <Footer />
-      <WhatsFlutuante />
+      <ChatCadu />
       <AvisoCookies />
     </>
   )

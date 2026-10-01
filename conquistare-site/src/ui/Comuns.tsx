@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
-import { marca, linkWhatsApp } from '../config/marca'
+import { marca } from '../config/marca'
 import { consentimento, definirConsentimento } from '../lib/rastreio'
 import { Link } from '../lib/router'
-import { Icone, IconeWhatsApp } from './Icones'
+import { Icone } from './Icones'
+import { abrirCadu } from './ChatCadu'
 import type { Produto } from '../config/produtos'
 import { destaqueTaxa } from '../lib/financas'
 
@@ -62,20 +63,6 @@ export function Cabecalho({ sobre, titulo, texto, centro = false }: { sobre?: st
   )
 }
 
-export function WhatsFlutuante() {
-  return (
-    <a
-      className="whats-flutuante"
-      href={linkWhatsApp(`Olá, ${marca.nome}! Quero falar com um especialista.`)}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Falar no WhatsApp"
-    >
-      <IconeWhatsApp tamanho={28} />
-    </a>
-  )
-}
-
 export function FaixaRascunho() {
   if (!marca.rascunho) return null
   return (
@@ -124,14 +111,14 @@ export function Cadu() {
         <h2>Eu sou o {nome}.</h2>
         <div className="cadu-balao">
           <p>
-            Me conta o que você quer conquistar: a casa própria, o carro novo ou aquele projeto parado. Eu comparo os 7 bancos
-            parceiros e te mostro o caminho mais leve, seja financiamento, consórcio ou empréstimo.
+            Sou o assistente virtual da Conquistare. Me conta o que você quer conquistar: a casa própria, o carro novo ou aquele
+            projeto parado. Eu tiro suas dúvidas e te mostro o caminho mais leve, seja financiamento, consórcio ou empréstimo.
           </p>
         </div>
         <div className="cadu-botoes">
-          <a className="btn btn--whats btn--lg" href={linkWhatsApp(`Oi, ${nome}! Quero ajuda pra conquistar meu sonho.`)} target="_blank" rel="noopener noreferrer">
-            <IconeWhatsApp tamanho={20} /> Falar com o {nome}
-          </a>
+          <button className="btn btn--primario btn--lg" onClick={abrirCadu}>
+            <Icone nome="chat" tamanho={20} /> Conversar com o {nome}
+          </button>
           <Link para="/simular" className="btn btn--fantasma btn--lg">Simular sozinho</Link>
         </div>
       </div>

@@ -1,3 +1,7 @@
+import logoRoxo from '../assets/marca/logo-empilhado-roxo.png'
+import logoBranco from '../assets/marca/logo-empilhado-branco.png'
+import simbolo from '../assets/marca/simbolo.png'
+
 // Tudo que é identidade e dado institucional da Conquistare mora aqui.
 // Trocar cor, contato ou texto legal é mexer só neste arquivo (cores também
 // estão espelhadas em src/styles/global.css, bloco :root).
@@ -13,12 +17,12 @@ export const marca = {
   // Conquistare (checklist no README).
   rascunho: true,
 
-  // Logos oficiais em public/marca. A versão branca foi extraída do logo
+  // Logos oficiais em src/assets/marca. A versão branca foi extraída do logo
   // branco oficial (fundo roxo removido). Quando houver SVG, é só trocar aqui.
   logos: {
-    roxo: '/marca/logo-empilhado-roxo.png',
-    branco: '/marca/logo-empilhado-branco.png',
-    simbolo: '/marca/simbolo.png',
+    roxo: logoRoxo,
+    branco: logoBranco,
+    simbolo,
   },
 
   // Mascote/porta-voz da marca. PNG com fundo transparente em public/marca.

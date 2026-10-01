@@ -17,6 +17,7 @@ cd conquistare-site
 npm install
 npm run dev      # http://localhost:5174
 npm run build    # typecheck + build em dist/
+npm run previa   # site inteiro num arquivo só (previa/index.html), pra mandar pra aprovação
 ```
 
 ## Onde mexer
@@ -26,11 +27,23 @@ npm run build    # typecheck + build em dist/
 | Nome, WhatsApp, e-mail, CNPJ, texto legal, logos | `src/config/marca.ts` (arquivos em `public/marca`) |
 | Cores e fonte | `src/styles/global.css` (bloco `:root` no topo) |
 | Produtos, taxas, limites, prazos, FAQs de produto | `src/config/produtos.ts` |
-| Números, depoimentos, FAQ geral, comparativo de taxas, blog | `src/config/conteudo.ts` |
+| Números, depoimentos, missão/visão/valores, FAQ geral, blog | `src/config/conteudo.ts` |
+| Falas e caminhos do Cadú (assistente virtual) | `src/config/cadu.ts` |
 
 Cada produto em `produtos.ts` gera sozinho: card na home, item no menu, aba no simulador, página
 própria, opção no fluxo de simulação e bloco na central de ajuda. `ativo: false` esconde o produto do
 site inteiro.
+
+## Cadú, o assistente virtual
+
+O chat do Cadú abre pelo botão flutuante (canto inferior direito) e pelo botão da seção "Eu sou o
+Cadú" na home. Ele funciona por roteiro: cada momento da conversa é um "nó" em `src/config/cadu.ts`
+com falas e botões. Se a pessoa digitar, ele procura a resposta no FAQ geral e no FAQ de cada produto;
+se não achar, oferece o WhatsApp. Quando a pessoa pede contato, ele pede nome e celular e manda o
+lead pelo mesmo caminho do simulador (`origem: chat-cadu`, com o resumo da conversa).
+
+O roteiro atual é provisório e vai ser revisado com a Aline e a Zizi. A imagem do Cadú entra em
+`public/marca/cadu.png` (PNG transparente); sem ela, o chat usa o símbolo do C como avatar.
 
 ## Pra onde vai o lead
 
@@ -68,6 +81,7 @@ depois de passar por esta lista:
 - [ ] Autorização pra exibir as avaliações do Google (hoje com primeiro nome + inicial)
 - [ ] Números de volume (crédito intermediado, clientes) se quiserem exibir
 - [ ] Revisão jurídica da política de privacidade e dos termos
+- [ ] Roteiro do Cadú revisado com Aline e Zizi (`src/config/cadu.ts`) e imagem dele em `public/marca/cadu.png`
 - [ ] Fotos próprias (ver abaixo)
 
 ## Imagens
