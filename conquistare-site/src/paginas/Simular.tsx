@@ -2,7 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react'
 import { porSlug, produtosAtivos, type CampoExtra, type Produto } from '../config/produtos'
 import { marca } from '../config/marca'
 import { Link, navegar, useBusca } from '../lib/router'
-import { moeda, paraNumero, pct, prazoTexto, simular } from '../lib/financas'
+import { destaqueTaxa, moeda, paraNumero, prazoTexto, simular } from '../lib/financas'
 import { UFS, cpfValido, emailValido, mascaraCPF, mascaraCEP, mascaraData, mascaraMoeda, mascaraTelefone, telefoneValido } from '../lib/formatos'
 import { enviarLead, ultimoLead, whatsDoLead } from '../lib/leads'
 import { Icone, IconeWhatsApp } from '../ui/Icones'
@@ -125,7 +125,7 @@ export function Simular() {
   const [enviando, setEnviando] = useState(false)
 
   const valor = paraNumero(valorTxt)
-  const r = useMemo(() => (produto?.simulavel && valor && prazo ? simular(produto, valor, prazo, extras) : null), [produto, valor, prazo, extras])
+  const r = useMemo(() => (produto && valor && prazo ? simular(produto, valor, prazo, extras) : null), [produto, valor, prazo, extras])
 
   function escolher(p: Produto) {
     setProduto(p)
@@ -140,10 +140,8 @@ export function Simular() {
   function validarPasso1() {
     if (!produto) return false
     const e: Record<string, string> = {}
-    if (produto.simulavel) {
-      if (valor < produto.valorMin!) e.valor = `Mínimo de ${moeda(produto.valorMin!)}`
-      if (valor > produto.valorMax!) e.valor = `Máximo de ${moeda(produto.valorMax!)}`
-    }
+    if (valor < produto.valorMin) e.valor = `Mínimo de ${moeda(produto.valorMin)}`
+    if (valor > produto.valorMax) e.valor = `Máximo de ${moeda(produto.valorMax)}`
     produto.camposExtras?.forEach((c) => {
       if (!extras[c.id]?.trim()) e[c.id] = 'Campo obrigatório'
     })
@@ -153,7 +151,7 @@ export function Simular() {
 
   async function enviar() {
     if (!produto) return
-    const e = validarDados(dados, produto.simulavel)
+    const e = validarDados(dados, true)
     setErros(e as Record<string, string>)
     if (Object.keys(e).length) return
     setEnviando(true)
@@ -161,13 +159,13 @@ export function Simular() {
       produto: produto.slug,
       produtoNome: produto.nome,
       nome: dados.nome.trim(),
-      cpf: produto.simulavel ? dados.cpf : undefined,
+      cpf: dados.cpf,
       telefone: dados.telefone,
       email: dados.email.trim(),
       cidade: dados.cidade.trim(),
       uf: dados.uf,
-      valor: produto.simulavel ? valor : undefined,
-      prazo: produto.simulavel ? prazo : undefined,
+      valor,
+      prazo,
       parcelaEstimada: r ? Math.round(r.parcela * 100) / 100 : undefined,
       extras,
       origem: '/simular',
@@ -175,7 +173,7 @@ export function Simular() {
     navegar('/obrigado')
   }
 
-  const etapas = ['Produto', produto?.simulavel ? 'Simulação' : 'Detalhes', 'Seus dados']
+  const etapas = ['Produto', 'Simulação', 'Seus dados']
 
   return (
     <section className="fluxo">
@@ -199,7 +197,7 @@ export function Simular() {
                   <span className="card-produto-ic"><Icone nome={p.icone} tamanho={24} /></span>
                   <span>
                     <strong>{p.nome}</strong>
-                    <small>{p.taxaMensal ? `a partir de ${pct(p.taxaMensal)} a.m.` : p.taxaRotulo}</small>
+                    <small>{destaqueTaxa(p).rotulo.toLowerCase()} {destaqueTaxa(p).valor}</small>
                   </span>
                   <Icone nome="seta" tamanho={18} />
                 </button>
@@ -217,26 +215,22 @@ export function Simular() {
 
               {passo === 1 && (
                 <>
-                  <h1>{produto.simulavel ? 'Monte sua simulação' : `Cotação de ${produto.nomeCurto.toLowerCase()}`}</h1>
+                  <h1>Monte sua simulação</h1>
                   <p className="fluxo-sub">{produto.nome}</p>
                   <div className="form-grade">
-                    {produto.simulavel && (
-                      <>
-                        <div className="span-2">
-                          <Campo rotulo="Valor que você precisa" erro={erros.valor} ajuda={`De ${moeda(produto.valorMin!)} a ${moeda(produto.valorMax!)}`}>
-                            <input className="input-grande" value={valorTxt} inputMode="numeric" onChange={(e) => setValorTxt(mascaraMoeda(e.target.value))} />
-                          </Campo>
-                        </div>
-                        <div className="span-2">
-                          <span className="campo-rotulo">Prazo</span>
-                          <div className="simulador-prazos">
-                            {produto.prazos!.map((m) => (
-                              <button key={m} type="button" className={m === prazo ? 'ativo' : ''} onClick={() => setPrazo(m)}>{m}x</button>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    )}
+                    <div className="span-2">
+                      <Campo rotulo={produto.rotuloValor ?? 'Valor que você precisa'} erro={erros.valor} ajuda={`De ${moeda(produto.valorMin)} a ${moeda(produto.valorMax)}`}>
+                        <input className="input-grande" value={valorTxt} inputMode="numeric" onChange={(e) => setValorTxt(mascaraMoeda(e.target.value))} />
+                      </Campo>
+                    </div>
+                    <div className="span-2">
+                      <span className="campo-rotulo">Prazo</span>
+                      <div className="simulador-prazos">
+                        {produto.prazos.map((m) => (
+                          <button key={m} type="button" className={m === prazo ? 'ativo' : ''} onClick={() => setPrazo(m)}>{m}x</button>
+                        ))}
+                      </div>
+                    </div>
                     {produto.camposExtras?.map((c) => (
                       <CampoDinamico key={c.id} c={c} valor={extras[c.id] ?? ''} erro={erros[c.id]} onChange={(v) => setExtras({ ...extras, [c.id]: v })} />
                     ))}
@@ -245,7 +239,7 @@ export function Simular() {
                     <div className="alerta">
                       <Icone nome="alerta" tamanho={18} />
                       <span>{r.alerta}</span>
-                      {r.valorMaximo && r.valorMaximo >= produto.valorMin! && (
+                      {r.valorMaximo && r.valorMaximo >= produto.valorMin && (
                         <button type="button" onClick={() => setValorTxt(mascaraMoeda(String(r.valorMaximo)))}>Usar valor máximo</button>
                       )}
                     </div>
@@ -260,9 +254,9 @@ export function Simular() {
                 <>
                   <h1>Pra quem enviamos a proposta?</h1>
                   <p className="fluxo-sub">Um especialista vai te chamar no WhatsApp com as opções dos bancos parceiros.</p>
-                  <FormDados d={dados} set={setDados} erros={erros} pedirCpf={produto.simulavel} />
+                  <FormDados d={dados} set={setDados} erros={erros} pedirCpf />
                   <button className="btn btn--primario btn--lg btn--bloco" disabled={enviando} onClick={enviar}>
-                    {enviando ? 'Enviando...' : produto.simulavel ? 'Receber minha proposta' : 'Receber cotação'}
+                    {enviando ? 'Enviando...' : 'Receber minha proposta'}
                   </button>
                   <p className="seguro"><Icone nome="cadeado" tamanho={16} /> Seus dados são protegidos e usados só pra esta solicitação.</p>
                 </>
@@ -278,13 +272,17 @@ export function Simular() {
                   <dl>
                     <div><dt>Valor</dt><dd>{moeda(valor)}</dd></div>
                     <div><dt>Prazo</dt><dd>{prazoTexto(prazo)}</dd></div>
-                    <div><dt>Taxa a partir de</dt><dd>{pct(produto.taxaMensal!)} a.m. ({pct(r.taxaAnual)} a.a.)</dd></div>
+                    <div><dt>{destaqueTaxa(produto).rotulo}</dt><dd>{destaqueTaxa(produto).valor}{produto.modalidade === 'credito' ? ` (${destaqueTaxa(produto).detalhe})` : ''}</dd></div>
                     <div><dt>Total estimado</dt><dd>{moeda(r.total)}</dd></div>
                   </dl>
-                  <p className="nota">Cálculo pela tabela Price, sem IOF e seguros. O CET real aparece na proposta.</p>
+                  <p className="nota">
+                    {produto.modalidade === 'consorcio'
+                      ? 'Carta + taxa de administração divididas pelo prazo. Fundo de reserva e seguro variam por administradora.'
+                      : 'Cálculo pela tabela Price, sem IOF e seguros. O CET real aparece na proposta.'}
+                  </p>
                 </>
               ) : (
-                <p className="resumo-vazio">{produto.simulavel ? 'Preencha valor e prazo pra ver a parcela.' : 'Cotação gratuita e sem compromisso, com várias seguradoras.'}</p>
+                <p className="resumo-vazio">Preencha valor e prazo pra ver a parcela.</p>
               )}
               <ul className="resumo-provas">
                 <li><Icone nome="check" tamanho={16} /> Sem taxa antecipada</li>
@@ -296,54 +294,6 @@ export function Simular() {
         )}
       </div>
     </section>
-  )
-}
-
-// ---------- cotação curta (hero de seguros) ----------
-
-export function FormCotacao({ p }: { p: Produto }) {
-  const [dados, setDados] = useState<Dados>(dadosVazios)
-  const [extras, setExtras] = useState<Record<string, string>>({})
-  const [erros, setErros] = useState<Record<string, string>>({})
-  const [enviando, setEnviando] = useState(false)
-
-  async function enviar() {
-    const e: Record<string, string> = validarDados(dados, false) as Record<string, string>
-    p.camposExtras?.forEach((c) => {
-      if (!extras[c.id]?.trim()) e[c.id] = 'Campo obrigatório'
-    })
-    setErros(e)
-    if (Object.keys(e).length) return
-    setEnviando(true)
-    await enviarLead({
-      produto: p.slug,
-      produtoNome: p.nome,
-      nome: dados.nome.trim(),
-      telefone: dados.telefone,
-      email: dados.email.trim(),
-      cidade: dados.cidade.trim(),
-      uf: dados.uf,
-      extras,
-      origem: p.rota,
-    })
-    navegar('/obrigado')
-  }
-
-  return (
-    <div className="simulador">
-      <div className="simulador-corpo">
-        <h3 className="cotacao-titulo">Peça sua cotação grátis</h3>
-        <div className="form-grade">
-          {p.camposExtras?.map((c) => (
-            <CampoDinamico key={c.id} c={c} valor={extras[c.id] ?? ''} erro={erros[c.id]} onChange={(v) => setExtras({ ...extras, [c.id]: v })} />
-          ))}
-        </div>
-        <FormDados d={dados} set={setDados} erros={erros} pedirCpf={false} />
-        <button className="btn btn--primario btn--bloco btn--lg" disabled={enviando} onClick={enviar}>
-          {enviando ? 'Enviando...' : 'Quero minha cotação'}
-        </button>
-      </div>
-    </div>
   )
 }
 

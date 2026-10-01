@@ -12,11 +12,11 @@ import { Categoria } from './paginas/Categoria'
 import { Produto } from './paginas/Produto'
 import { Obrigado, Simular } from './paginas/Simular'
 import { Artigo, Blog } from './paginas/Blog'
-import { Ajuda, Contato, Empresas, Entrar, NaoEncontrada, Privacidade, Sobre, Termos } from './paginas/Institucional'
+import { Ajuda, Contato, Entrar, NaoEncontrada, Parceiros, Privacidade, Sobre, Termos } from './paginas/Institucional'
 
 function resolver(path: string): { titulo: string; el: ReactNode } {
   const limpo = path.replace(/\/+$/, '') || '/'
-  if (limpo === '/') return { titulo: `${marca.nomeCompleto} | ${marca.assinatura}`, el: <Home /> }
+  if (limpo === '/') return { titulo: `${marca.nomeCompleto} | ${marca.descritor}`, el: <Home /> }
 
   const cat = (Object.keys(categorias) as TCat[]).find((c) => categorias[c].rota === limpo)
   if (cat) return { titulo: `${categorias[cat].nome} | ${marca.nome}`, el: <Categoria c={cat} /> }
@@ -33,7 +33,8 @@ function resolver(path: string): { titulo: string; el: ReactNode } {
   const fixas: Record<string, [string, ReactNode]> = {
     '/simular': ['Simule seu crédito', <Simular />],
     '/obrigado': ['Recebemos sua solicitação', <Obrigado />],
-    '/empresas': ['Para empresas', <Empresas />],
+    '/parceiros': ['Para imobiliárias e corretores', <Parceiros />],
+    '/empresas': ['Para imobiliárias e corretores', <Parceiros />],
     '/sobre': ['Quem somos', <Sobre />],
     '/ajuda': ['Central de ajuda', <Ajuda />],
     '/contato': ['Fale com a gente', <Contato />],

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { produtosSimulaveis, type Produto } from '../config/produtos'
-import { moeda, pct, prazoTexto, simular } from '../lib/financas'
+import { destaqueTaxa, moeda, prazoTexto, simular } from '../lib/financas'
 import { navegar } from '../lib/router'
 import { evento } from '../lib/rastreio'
 import { Icone } from './Icones'
@@ -17,14 +17,16 @@ function doSlider(t: number, min: number, max: number) {
 }
 
 export function Simulador({ fixo, compacto = false }: { fixo?: Produto; compacto?: boolean }) {
-  const lista = fixo ? [fixo] : produtosSimulaveis.filter((p) => p.categoria === 'emprestimos').concat(produtosSimulaveis.filter((p) => p.categoria !== 'emprestimos'))
+  const ordem = ['financiamentos', 'consorcios', 'emprestimos']
+  const lista = fixo ? [fixo] : [...produtosSimulaveis].sort((a, b) => ordem.indexOf(a.categoria) - ordem.indexOf(b.categoria))
   const [slug, setSlug] = useState(lista[0].slug)
   const p = lista.find((x) => x.slug === slug) ?? lista[0]
   const [valores, setValores] = useState<Record<string, number>>({})
   const [prazos, setPrazos] = useState<Record<string, number>>({})
-  const valor = valores[p.slug] ?? p.valorPadrao!
-  const prazo = prazos[p.slug] ?? p.prazoPadrao!
+  const valor = valores[p.slug] ?? p.valorPadrao
+  const prazo = prazos[p.slug] ?? p.prazoPadrao
   const r = useMemo(() => simular(p, valor, prazo, {}), [p, valor, prazo])
+  const taxa = destaqueTaxa(p)
 
   function continuar() {
     evento('SimulacaoIniciada', { produto: p.slug, valor, prazo })
@@ -45,25 +47,25 @@ export function Simulador({ fixo, compacto = false }: { fixo?: Produto; compacto
       )}
 
       <div className="simulador-corpo">
-        <label className="simulador-rotulo" htmlFor={`valor-${p.slug}`}>De quanto você precisa?</label>
+        <label className="simulador-rotulo" htmlFor={`valor-${p.slug}`}>{p.rotuloValor ?? 'De quanto você precisa?'}</label>
         <div className="simulador-valor">{moeda(valor)}</div>
         <input
           id={`valor-${p.slug}`}
           type="range"
           min={0}
           max={1000}
-          value={Math.round(paraSlider(valor, p.valorMin!, p.valorMax!) * 1000)}
-          onChange={(e) => setValores({ ...valores, [p.slug]: doSlider(Number(e.target.value) / 1000, p.valorMin!, p.valorMax!) })}
-          style={{ ['--pos' as string]: `${paraSlider(valor, p.valorMin!, p.valorMax!) * 100}%` }}
+          value={Math.round(paraSlider(valor, p.valorMin, p.valorMax) * 1000)}
+          onChange={(e) => setValores({ ...valores, [p.slug]: doSlider(Number(e.target.value) / 1000, p.valorMin, p.valorMax) })}
+          style={{ ['--pos' as string]: `${paraSlider(valor, p.valorMin, p.valorMax) * 100}%` }}
         />
         <div className="simulador-limites">
-          <span>{moeda(p.valorMin!)}</span>
-          <span>{moeda(p.valorMax!)}</span>
+          <span>{moeda(p.valorMin)}</span>
+          <span>{moeda(p.valorMax)}</span>
         </div>
 
         <span className="simulador-rotulo">Em quantas parcelas?</span>
         <div className="simulador-prazos">
-          {p.prazos!.map((m) => (
+          {p.prazos.map((m) => (
             <button key={m} className={m === prazo ? 'ativo' : ''} onClick={() => setPrazos({ ...prazos, [p.slug]: m })}>
               {m}x
             </button>
@@ -77,9 +79,9 @@ export function Simulador({ fixo, compacto = false }: { fixo?: Produto; compacto
             <span>{prazoTexto(prazo)}</span>
           </div>
           <div className="simulador-taxa">
-            <small>Taxa a partir de</small>
-            <strong>{pct(p.taxaMensal!)} a.m.</strong>
-            <span>{pct(r.taxaAnual)} a.a.</span>
+            <small>{taxa.rotulo}</small>
+            <strong>{taxa.valor}</strong>
+            <span>{taxa.detalhe}</span>
           </div>
         </div>
 

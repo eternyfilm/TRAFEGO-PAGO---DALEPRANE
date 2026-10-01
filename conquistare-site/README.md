@@ -1,8 +1,14 @@
 # Site Conquistare Cred
 
-Site de crédito da Conquistare, com a estrutura da Creditas como referência: simulador no hero com abas
-por produto, página própria pra cada produto, simulação em etapas que vira lead, área pra empresas,
-blog, central de ajuda com busca, área do cliente e páginas legais.
+Site da Conquistare Cred (Soluções Financeiras), correspondente multibancos em Brasília, com a
+estrutura da Creditas como referência: simulador no hero com abas por produto, página própria pra cada
+produto, simulação em etapas que vira lead, página pra imobiliárias e corretores, blog, central de
+ajuda com busca, área do cliente e páginas legais.
+
+Identidade e conteúdo vêm do material oficial no Drive da agência (`Conquistare.ai`, portfólio
+`Conquistare Cred.pdf`): roxo `#61027E`, verde `#338D53`, o "$" vazado como grafismo, produtos
+(financiamento imobiliário, consórcio, consignado, correspondente com 7 bancos), aprovação em até
+1 hora, missão, visão, valores, endereço e avaliações do Google.
 
 ## Rodar
 
@@ -52,19 +58,17 @@ servir o `index.html` em qualquer rota.
 A faixa amarela de "versão de rascunho" fica no ar enquanto `marca.rascunho` for `true`. Desligar só
 depois de passar por esta lista:
 
-- [ ] Logo oficial em `public/` e `marca.logoUrl` preenchido
-- [ ] Cores oficiais no `:root` do CSS (a paleta atual, marinho e dourado, é provisória)
-- [ ] WhatsApp, e-mail, endereço e horário reais
-- [ ] Razão social, CNPJ e lista de bancos parceiros reais
-- [ ] Confirmar o modelo de operação (correspondente bancário?) e ajustar o texto legal
-- [ ] Taxas, valores e prazos de cada produto conforme os bancos parceiros
-- [ ] Desligar os produtos que a Conquistare não opera
-- [ ] Números reais em `conteudo.ts` (ou remover a faixa de números)
-- [ ] Depoimentos reais, com autorização por escrito (depoimento inventado em site de crédito é
-      propaganda enganosa)
-- [ ] História real na página "Quem somos"
+- [ ] Logo oficial (SVG ou PNG transparente) em `public/` e `marca.logoUrl` preenchido. Hoje o topo
+      mostra o nome em texto nas cores da marca, sem símbolo inventado
+- [ ] Confirmar a fonte da marca (o site usa Poppins como aproximação)
+- [ ] Número de WhatsApp (hoje aponta pro fixo (61) 3547-0030), e-mail e horário de atendimento
+- [ ] Razão social e CNPJ
+- [ ] Taxas reais por banco (financiamento, lote, consignado) e taxa de administração dos consórcios
+- [ ] Confirmar se opera financiamento de veículo (`ativo` em `produtos.ts`)
+- [ ] Autorização pra exibir as avaliações do Google (hoje com primeiro nome + inicial)
+- [ ] Números de volume (crédito intermediado, clientes) se quiserem exibir
 - [ ] Revisão jurídica da política de privacidade e dos termos
-- [ ] Fotos próprias no lugar das composições gráficas (ver abaixo)
+- [ ] Fotos próprias (ver abaixo)
 
 ## Imagens
 

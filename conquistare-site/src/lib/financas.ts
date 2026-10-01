@@ -26,9 +26,24 @@ function arredondaBaixo(v: number) {
   return Math.floor(v / passo) * passo
 }
 
+// Consórcio: carta + taxa de administração, divididas pelo prazo, sem juros.
+// (Fundo de reserva e seguro variam por administradora e ficam de fora.)
+export function parcelaConsorcio(carta: number, taxaAdmPct: number, meses: number): number {
+  return (carta * (1 + taxaAdmPct / 100)) / meses
+}
+
+// Texto curto de "preço" de cada produto, usado em cards, simulador e ficha.
+export function destaqueTaxa(p: Produto): { rotulo: string; valor: string; detalhe: string } {
+  if (p.modalidade === 'consorcio') {
+    return { rotulo: 'Sem juros', valor: `taxa adm. ${pct(p.taxaAdm ?? 0, 0)}`, detalhe: 'total no prazo' }
+  }
+  const t = p.taxaMensal ?? 0
+  return { rotulo: 'Taxa a partir de', valor: `${pct(t)} a.m.`, detalhe: `${pct(taxaAnual(t))} a.a.` }
+}
+
 export function simular(p: Produto, valor: number, prazo: number, extras: Record<string, string>): ResultadoSimulacao {
-  const taxa = p.taxaMensal ?? 0
-  const parcela = parcelaPrice(valor, taxa, prazo)
+  const taxa = p.modalidade === 'consorcio' ? 0 : p.taxaMensal ?? 0
+  const parcela = p.modalidade === 'consorcio' ? parcelaConsorcio(valor, p.taxaAdm ?? 0, prazo) : parcelaPrice(valor, taxa, prazo)
   const total = parcela * prazo
   const r: ResultadoSimulacao = { parcela, total, juros: total - valor, taxaAnual: taxaAnual(taxa) }
 

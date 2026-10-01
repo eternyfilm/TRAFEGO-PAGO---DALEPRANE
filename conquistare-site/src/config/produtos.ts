@@ -2,19 +2,13 @@
 // de menu sai daqui. Pra desligar um produto, `ativo: false`. Pra criar um
 // novo, copie um bloco e ajuste.
 //
-// TAXAS SÃO REFERÊNCIAS DE MERCADO PROVISÓRIAS. Substituir pelas taxas reais
-// dos bancos parceiros da Conquistare antes de sair do modo rascunho.
+// Linhas de produto tiradas do portfólio da Conquistare: financiamento
+// imobiliário, empréstimo consignado, consórcio e correspondente bancário
+// (7 bancos). TAXAS SÃO REFERÊNCIAS PROVISÓRIAS: substituir pelas taxas
+// reais dos bancos parceiros antes de sair do modo rascunho.
 
-export type Categoria = 'emprestimos' | 'financiamentos' | 'seguros'
-export type IconeProduto =
-  | 'casa'
-  | 'carro'
-  | 'carteira'
-  | 'aposentado'
-  | 'chave'
-  | 'escudo'
-  | 'coracao'
-  | 'predio'
+export type Categoria = 'financiamentos' | 'emprestimos' | 'consorcios'
+export type IconeProduto = 'casa' | 'carro' | 'carteira' | 'aposentado' | 'chave' | 'terreno' | 'predio'
 
 // Campo extra pedido no simulador, além de valor e prazo.
 export interface CampoExtra {
@@ -27,8 +21,8 @@ export interface CampoExtra {
 
 // Regra que limita o valor pedido.
 export type Limite =
-  | { tipo: 'percentualDoBem'; campo: string; percentual: number } // garantia/financiamento
-  | { tipo: 'margemDaRenda'; campo: string; percentual: number } // consignado
+  | { tipo: 'percentualDoBem'; campo: string; percentual: number } // financiamento
+  | { tipo: 'margemDaRenda'; campo: string; percentual: number } // consignado / renda
 
 export interface Produto {
   slug: string
@@ -41,14 +35,16 @@ export interface Produto {
   chamada: string // frase de card
   titulo: string // H1 da página
   subtitulo: string
-  simulavel: boolean
-  taxaMensal?: number // % a.m. a partir de
-  taxaRotulo?: string // quando o destaque não é taxa (seguros)
-  valorMin?: number
-  valorMax?: number
-  valorPadrao?: number
-  prazos?: number[]
-  prazoPadrao?: number
+  // credito: juros pela tabela Price. consorcio: sem juros, taxa de administração.
+  modalidade: 'credito' | 'consorcio'
+  taxaMensal?: number // % a.m. a partir de (crédito)
+  taxaAdm?: number // % total sobre a carta (consórcio)
+  valorMin: number
+  valorMax: number
+  valorPadrao: number
+  prazos: number[]
+  prazoPadrao: number
+  rotuloValor?: string // pergunta do simulador
   camposExtras?: CampoExtra[]
   limite?: Limite
   destaques: { titulo: string; texto: string }[]
@@ -59,207 +55,51 @@ export interface Produto {
 }
 
 export const categorias: Record<Categoria, { nome: string; rota: string; titulo: string; texto: string }> = {
-  emprestimos: {
-    nome: 'Empréstimos',
-    rota: '/emprestimos',
-    titulo: 'Empréstimo com taxa baixa de verdade',
-    texto:
-      'Usar um bem como garantia ou a sua margem consignável derruba a taxa. Você paga menos juros e ganha prazo pra respirar.',
-  },
   financiamentos: {
     nome: 'Financiamentos',
     rota: '/financiamentos',
-    titulo: 'Financie a próxima conquista',
-    texto: 'Casa própria ou carro novo, com a gente comparando os bancos pra você fechar a melhor condição.',
+    titulo: 'Financie sua conquista com quem compara 7 bancos por você',
+    texto: 'Casa, apartamento, lote ou carro. A gente leva seu perfil aos bancos parceiros e acompanha tudo até o dinheiro chegar no vendedor.',
   },
-  seguros: {
-    nome: 'Seguros',
-    rota: '/seguros',
-    titulo: 'Proteção sem letra miúda',
-    texto: 'Cotação com várias seguradoras em um só lugar e alguém de verdade pra te explicar a apólice.',
+  emprestimos: {
+    nome: 'Empréstimos',
+    rota: '/emprestimos',
+    titulo: 'Empréstimo com desconto em folha e taxa que cabe no mês',
+    texto: 'Consignado pra aposentados, pensionistas, servidores e trabalhadores CLT, com processo simples e transparente.',
+  },
+  consorcios: {
+    nome: 'Consórcios',
+    rota: '/consorcios',
+    titulo: 'Conquiste sem pagar juros',
+    texto: 'Planeje a compra do imóvel ou do carro com parcelas que cabem no bolso e sem juros. Só taxa de administração, tudo às claras.',
   },
 }
 
-const passosCredito = [
-  { titulo: 'Simule em 2 minutos', texto: 'Escolha valor e prazo e veja a parcela na hora, sem compromisso.' },
-  { titulo: 'Envie seus dados', texto: 'Um especialista analisa seu perfil e compara as propostas dos bancos parceiros.' },
-  { titulo: 'Receba a proposta', texto: 'Você vê taxa, CET e parcela final antes de decidir qualquer coisa.' },
-  { titulo: 'Dinheiro na conta', texto: 'Assinou, o valor cai direto na sua conta. Sem taxa antecipada.' },
+// Fluxo real do financiamento, do portfólio da Conquistare.
+const etapasFinanciamento = [
+  { titulo: 'Simulação', texto: 'Você escolhe valor e prazo e vê a parcela na hora.' },
+  { titulo: 'Aprovação do crédito', texto: 'Levamos seu perfil aos bancos parceiros. Aprovação em até 1 hora.' },
+  { titulo: 'Avaliação do imóvel', texto: 'O banco avalia o imóvel. A gente agenda e acompanha.' },
+  { titulo: 'Análise jurídica', texto: 'Conferência de documentos e conformidade do imóvel e das partes.' },
+  { titulo: 'Assinatura', texto: 'Escritura ou contrato com força de escritura.' },
+  { titulo: 'Registro e liberação', texto: 'Registro em cartório e o recurso cai na conta do vendedor.' },
+]
+
+const passosConsignado = [
+  { titulo: 'Simule', texto: 'Informe quanto precisa e veja a parcela na hora.' },
+  { titulo: 'Fale com a gente', texto: 'Um consultor confere sua margem e compara os bancos parceiros.' },
+  { titulo: 'Proposta clara', texto: 'Você vê taxa, CET e parcela final antes de decidir.' },
+  { titulo: 'Dinheiro na conta', texto: 'Contrato assinado, valor liberado. Sem taxa antecipada.' },
+]
+
+const passosConsorcio = [
+  { titulo: 'Escolha a carta', texto: 'Defina o valor do bem que você quer conquistar e o prazo.' },
+  { titulo: 'Entre no grupo', texto: 'Você começa a pagar parcelas sem juros, só com taxa de administração.' },
+  { titulo: 'Contemplação', texto: 'Por sorteio mensal ou por lance, quando você quiser antecipar.' },
+  { titulo: 'Compre à vista', texto: 'Com a carta na mão, você negocia como comprador à vista.' },
 ]
 
 export const produtos: Produto[] = [
-  {
-    slug: 'garantia-imovel',
-    ativo: true,
-    categoria: 'emprestimos',
-    rota: '/emprestimo/garantia-de-imovel',
-    icone: 'casa',
-    nome: 'Empréstimo com garantia de imóvel',
-    nomeCurto: 'Garantia de imóvel',
-    chamada: 'Até 60% do valor do seu imóvel, com a menor taxa do crédito pessoal.',
-    titulo: 'Seu imóvel vale mais do que você imagina',
-    subtitulo:
-      'Use sua casa ou apartamento como garantia e consiga crédito alto, com taxa baixa e até 20 anos pra pagar. Você continua morando nele normalmente.',
-    simulavel: true,
-    taxaMensal: 1.09,
-    valorMin: 50_000,
-    valorMax: 3_000_000,
-    valorPadrao: 200_000,
-    prazos: [36, 60, 120, 180, 240],
-    prazoPadrao: 180,
-    camposExtras: [
-      { id: 'valorBem', rotulo: 'Valor aproximado do imóvel', tipo: 'moeda' },
-      { id: 'tipoImovel', rotulo: 'Tipo de imóvel', tipo: 'select', opcoes: ['Casa', 'Apartamento', 'Sala comercial', 'Terreno'] },
-      {
-        id: 'quitado',
-        rotulo: 'O imóvel está quitado?',
-        tipo: 'select',
-        opcoes: ['Sim, quitado', 'Não, ainda estou pagando'],
-        ajuda: 'Imóvel financiado também pode ser usado, dependendo do saldo devedor.',
-      },
-    ],
-    limite: { tipo: 'percentualDoBem', campo: 'valorBem', percentual: 0.6 },
-    destaques: [
-      { titulo: 'Taxa a partir de 1,09% a.m.', texto: 'Muito abaixo do empréstimo pessoal comum, porque o imóvel reduz o risco pro banco.' },
-      { titulo: 'Até 240 meses', texto: 'Parcela que cabe no mês, sem apertar o orçamento da família.' },
-      { titulo: 'O imóvel continua seu', texto: 'Você segue morando, alugando ou usando o imóvel como sempre.' },
-      { titulo: 'Use como quiser', texto: 'Quitar dívidas caras, investir no negócio, reformar ou realizar um projeto.' },
-    ],
-    paraQuem: [
-      'Tem imóvel residencial ou comercial em área urbana',
-      'Imóvel no seu nome ou de familiar que topa participar',
-      'Quer trocar dívidas caras por uma só, com juros menores',
-      'Precisa de um valor alto pra um projeto grande',
-    ],
-    documentos: ['RG e CPF', 'Comprovante de renda', 'Comprovante de residência', 'Matrícula atualizada do imóvel', 'IPTU do ano'],
-    passos: [
-      ...passosCredito.slice(0, 2),
-      { titulo: 'Avaliação do imóvel', texto: 'Um engenheiro parceiro visita o imóvel pra confirmar o valor. Sem custo antecipado.' },
-      { titulo: 'Contrato e liberação', texto: 'Contrato registrado em cartório e o dinheiro cai na sua conta.' },
-    ],
-    faq: [
-      { p: 'Posso perder meu imóvel?', r: 'O imóvel só é executado em caso de inadimplência prolongada, seguindo um rito legal com vários avisos. Por isso a gente dimensiona a parcela pra caber com folga no seu orçamento.' },
-      { p: 'Imóvel financiado serve como garantia?', r: 'Pode servir, dependendo do saldo devedor. Em alguns casos o novo crédito quita o financiamento antigo e libera a diferença pra você.' },
-      { p: 'Quanto tempo leva?', r: 'Da simulação até o dinheiro na conta costuma levar de 15 a 30 dias, porque envolve avaliação e registro em cartório.' },
-      { p: 'Existe custo pra começar?', r: 'Não. Nenhum valor é cobrado antes da liberação. Custos de avaliação e registro, quando existem, entram no próprio contrato.' },
-    ],
-  },
-  {
-    slug: 'garantia-veiculo',
-    ativo: true,
-    categoria: 'emprestimos',
-    rota: '/emprestimo/garantia-de-veiculo',
-    icone: 'carro',
-    nome: 'Empréstimo com garantia de veículo',
-    nomeCurto: 'Garantia de veículo',
-    chamada: 'Seu carro quitado vira crédito rápido, e você continua dirigindo.',
-    titulo: 'Seu carro vira crédito. E continua na sua garagem.',
-    subtitulo: 'Use seu carro, moto ou caminhão quitado como garantia e consiga crédito com taxa menor e até 60 meses pra pagar.',
-    simulavel: true,
-    taxaMensal: 1.49,
-    valorMin: 5_000,
-    valorMax: 150_000,
-    valorPadrao: 30_000,
-    prazos: [12, 24, 36, 48, 60],
-    prazoPadrao: 36,
-    camposExtras: [
-      { id: 'valorBem', rotulo: 'Valor aproximado do veículo (FIPE)', tipo: 'moeda' },
-      { id: 'anoVeiculo', rotulo: 'Ano do veículo', tipo: 'ano' },
-      { id: 'tipoVeiculo', rotulo: 'Tipo', tipo: 'select', opcoes: ['Carro', 'Moto', 'Caminhão', 'Utilitário'] },
-    ],
-    limite: { tipo: 'percentualDoBem', campo: 'valorBem', percentual: 0.9 },
-    destaques: [
-      { titulo: 'Taxa a partir de 1,49% a.m.', texto: 'Bem abaixo do cartão e do cheque especial.' },
-      { titulo: 'Até 90% da FIPE', texto: 'Quanto mais valioso o veículo, maior o crédito disponível.' },
-      { titulo: 'Continue dirigindo', texto: 'O veículo fica com você durante todo o contrato.' },
-      { titulo: 'Liberação rápida', texto: 'Processo mais simples que o de imóvel, com dinheiro em poucos dias.' },
-    ],
-    paraQuem: ['Tem carro, moto ou caminhão quitado', 'Veículo com até 20 anos de fabricação', 'Documento no seu nome', 'Quer crédito rápido sem se desfazer do veículo'],
-    documentos: ['CNH ou RG e CPF', 'Comprovante de renda', 'Comprovante de residência', 'CRLV do veículo'],
-    passos: passosCredito,
-    faq: [
-      { p: 'Preciso deixar o carro com vocês?', r: 'Não. O veículo continua com você. Só fica registrada uma alienação no documento até a quitação.' },
-      { p: 'Carro financiado serve?', r: 'Normalmente o veículo precisa estar quitado. Em alguns casos dá pra quitar o saldo com o próprio empréstimo, fale com um especialista.' },
-      { p: 'Posso vender o carro depois?', r: 'Sim, após quitar o contrato a alienação é baixada e o veículo fica livre.' },
-    ],
-  },
-  {
-    slug: 'consignado-clt',
-    ativo: true,
-    categoria: 'emprestimos',
-    rota: '/emprestimo/consignado-clt',
-    icone: 'carteira',
-    nome: 'Crédito consignado CLT',
-    nomeCurto: 'Consignado CLT',
-    chamada: 'Pra quem tem carteira assinada, com parcela descontada direto no salário.',
-    titulo: 'Carteira assinada agora vale taxa menor',
-    subtitulo:
-      'Com o consignado do trabalhador, a parcela sai direto da folha. Isso derruba o risco e a taxa. Sem boleto, sem esquecer vencimento.',
-    simulavel: true,
-    taxaMensal: 2.49,
-    valorMin: 1_000,
-    valorMax: 100_000,
-    valorPadrao: 10_000,
-    prazos: [12, 24, 36, 48],
-    prazoPadrao: 24,
-    camposExtras: [
-      { id: 'renda', rotulo: 'Salário bruto mensal', tipo: 'moeda', ajuda: 'A parcela pode comprometer até 35% do salário.' },
-      { id: 'tempoEmpresa', rotulo: 'Tempo na empresa atual', tipo: 'select', opcoes: ['Menos de 6 meses', '6 meses a 1 ano', '1 a 3 anos', 'Mais de 3 anos'] },
-    ],
-    limite: { tipo: 'margemDaRenda', campo: 'renda', percentual: 0.35 },
-    destaques: [
-      { titulo: 'Desconto em folha', texto: 'A parcela sai do salário todo mês. Zero boleto, zero atraso.' },
-      { titulo: 'Taxa menor que o pessoal', texto: 'Menos risco pro banco significa juros menores pra você.' },
-      { titulo: 'Troque dívidas caras', texto: 'Quite cartão e cheque especial com um crédito muito mais barato.' },
-      { titulo: 'Até 35% do salário', texto: 'Limite legal que protege seu orçamento.' },
-    ],
-    paraQuem: ['Trabalhador com carteira assinada (CLT)', 'Empregado doméstico e de MEI registrados no eSocial', 'Quer sair do rotativo do cartão ou do cheque especial'],
-    documentos: ['RG e CPF', 'Carteira de trabalho digital', 'Último holerite'],
-    passos: passosCredito,
-    faq: [
-      { p: 'Minha empresa precisa ser conveniada?', r: 'Com o crédito do trabalhador, a contratação usa os dados do eSocial. Um especialista confirma se o seu vínculo já está habilitado.' },
-      { p: 'E se eu for demitido?', r: 'Parte da rescisão pode ser usada pra abater o saldo, e o contrato segue com as condições combinadas. A gente te explica tudo antes de assinar.' },
-      { p: 'Negativado pode contratar?', r: 'Em muitos casos sim, porque a garantia é o desconto em folha. A análise considera o seu vínculo e sua margem.' },
-    ],
-  },
-  {
-    slug: 'consignado-inss',
-    ativo: true,
-    categoria: 'emprestimos',
-    rota: '/emprestimo/consignado-inss',
-    icone: 'aposentado',
-    nome: 'Consignado INSS e servidor público',
-    nomeCurto: 'Consignado INSS',
-    chamada: 'Aposentados, pensionistas e servidores, com as menores taxas permitidas.',
-    titulo: 'Crédito com respeito pra quem já construiu muito',
-    subtitulo: 'Aposentados, pensionistas do INSS e servidores públicos têm acesso às menores taxas do crédito pessoal, com parcela descontada do benefício.',
-    simulavel: true,
-    taxaMensal: 1.85,
-    valorMin: 1_000,
-    valorMax: 150_000,
-    valorPadrao: 15_000,
-    prazos: [24, 48, 72, 96],
-    prazoPadrao: 72,
-    camposExtras: [
-      { id: 'renda', rotulo: 'Valor do benefício ou salário', tipo: 'moeda', ajuda: 'A parcela respeita a margem consignável de até 35%.' },
-      { id: 'vinculo', rotulo: 'Você é', tipo: 'select', opcoes: ['Aposentado INSS', 'Pensionista INSS', 'Servidor federal', 'Servidor estadual', 'Servidor municipal', 'Militar'] },
-    ],
-    limite: { tipo: 'margemDaRenda', campo: 'renda', percentual: 0.35 },
-    destaques: [
-      { titulo: 'Taxa dentro do teto oficial', texto: 'O teto de juros do consignado INSS é definido pelo governo, e a gente busca o melhor abaixo dele.' },
-      { titulo: 'Até 96 meses', texto: 'Parcelas menores, mais tempo pra pagar.' },
-      { titulo: 'Atendimento humano', texto: 'Explicação clara, sem pressa e sem ligação insistente.' },
-      { titulo: 'Portabilidade', texto: 'Já tem consignado? A gente tenta reduzir sua taxa trazendo o contrato.' },
-    ],
-    paraQuem: ['Aposentados e pensionistas do INSS', 'Servidores públicos federais, estaduais e municipais', 'Militares das Forças Armadas'],
-    documentos: ['RG e CPF', 'Extrato do benefício ou contracheque', 'Comprovante de residência'],
-    passos: passosCredito,
-    faq: [
-      { p: 'A Conquistare liga oferecendo crédito sem eu pedir?', r: 'Não. Só entramos em contato depois que você simula ou pede atendimento. Desconfie de qualquer ligação pedindo depósito antecipado.' },
-      { p: 'Posso reduzir a taxa do consignado que já tenho?', r: 'Sim, pela portabilidade. Levamos seu contrato pra um banco com taxa menor e, às vezes, ainda sobra um troco.' },
-      { p: 'Qual o prazo máximo?', r: 'Para INSS, até 96 meses. Para servidores, depende do convênio do órgão.' },
-    ],
-  },
   {
     slug: 'financiamento-imobiliario',
     ativo: true,
@@ -268,59 +108,101 @@ export const produtos: Produto[] = [
     icone: 'chave',
     nome: 'Financiamento imobiliário',
     nomeCurto: 'Financiamento imobiliário',
-    chamada: 'A gente compara os bancos e acompanha tudo até a entrega das chaves.',
-    titulo: 'A chave da sua casa, sem burocracia no caminho',
-    subtitulo: 'Comparamos as condições dos principais bancos e cuidamos da papelada do começo ao registro. Você só escolhe a melhor proposta.',
-    simulavel: true,
+    chamada: 'Casa ou apartamento com aprovação em até 1 hora e 7 bancos comparados.',
+    titulo: 'A chave da sua casa, com aprovação em até 1 hora',
+    subtitulo:
+      'Somos correspondente multibancos: levamos seu perfil a Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter e acompanhamos cada etapa até o recurso chegar no vendedor.',
+    modalidade: 'credito',
     taxaMensal: 0.95,
     valorMin: 100_000,
     valorMax: 5_000_000,
     valorPadrao: 400_000,
     prazos: [120, 240, 360, 420],
     prazoPadrao: 360,
+    rotuloValor: 'Quanto você quer financiar?',
     camposExtras: [
-      { id: 'valorBem', rotulo: 'Valor do imóvel que você quer comprar', tipo: 'moeda' },
+      { id: 'valorBem', rotulo: 'Valor do imóvel', tipo: 'moeda' },
       { id: 'renda', rotulo: 'Renda familiar mensal', tipo: 'moeda' },
       { id: 'usoFgts', rotulo: 'Vai usar FGTS?', tipo: 'select', opcoes: ['Sim', 'Não', 'Não sei'] },
+      { id: 'situacao', rotulo: 'O imóvel é', tipo: 'select', opcoes: ['Novo / na planta', 'Usado', 'Ainda estou procurando'] },
     ],
     limite: { tipo: 'percentualDoBem', campo: 'valorBem', percentual: 0.8 },
     destaques: [
-      { titulo: 'Vários bancos, uma conversa', texto: 'Levamos seu perfil pros bancos parceiros e trazemos a melhor proposta.' },
-      { titulo: 'Até 80% do imóvel', texto: 'Com prazo de até 35 anos.' },
-      { titulo: 'Uso do FGTS', texto: 'A gente orienta como usar o FGTS na entrada ou pra amortizar.' },
-      { titulo: 'Acompanhamento até o registro', texto: 'Da análise ao cartório, você não fica sozinho.' },
+      { titulo: 'Aprovação em até 1 hora', texto: 'Resposta rápida pra você não perder o imóvel que escolheu.' },
+      { titulo: '7 bancos, uma conversa', texto: 'Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter comparados pro seu perfil.' },
+      { titulo: 'SFH, SFI e FGTS', texto: 'Orientação sobre a modalidade certa e o uso do FGTS na entrada.' },
+      { titulo: 'Acompanhamento total', texto: 'Da simulação ao registro, com a gente cuidando da papelada.' },
     ],
-    paraQuem: ['Quem vai comprar o primeiro imóvel', 'Quem quer trocar de imóvel', 'Quem busca comparar bancos sem perder tempo'],
-    documentos: ['RG e CPF', 'Comprovante de renda', 'Comprovante de estado civil', 'Extrato do FGTS (se for usar)'],
-    passos: [
-      { titulo: 'Simule', texto: 'Veja uma estimativa de parcela e de entrada.' },
-      { titulo: 'Análise de crédito', texto: 'Enviamos seu perfil aos bancos parceiros.' },
-      { titulo: 'Avaliação e documentação', texto: 'Cuidamos da avaliação do imóvel e da papelada.' },
-      { titulo: 'Assinatura e chaves', texto: 'Contrato assinado, registro feito, chave na mão.' },
+    paraQuem: [
+      'Vai comprar o primeiro imóvel',
+      'Quer trocar de imóvel ou investir',
+      'Quer usar o FGTS na entrada',
+      'Não quer perder tempo indo de banco em banco',
     ],
+    documentos: ['RG e CPF', 'Comprovante de renda', 'Comprovante de estado civil', 'Comprovante de residência', 'Extrato do FGTS (se for usar)'],
+    passos: etapasFinanciamento,
     faq: [
-      { p: 'Qual a entrada mínima?', r: 'Em geral 20% do valor do imóvel, podendo usar FGTS. Em alguns programas a entrada pode ser menor.' },
+      { p: 'Qual a entrada mínima?', r: 'Em geral 20% do valor do imóvel, e o FGTS pode compor essa entrada. Algumas linhas permitem entrada menor.' },
+      { p: 'O que é SFH e SFI?', r: 'SFH é o Sistema Financeiro da Habitação, com regras e taxas mais favoráveis pra imóveis até um teto de valor, e permite uso do FGTS. SFI vale pra imóveis acima desse teto.' },
       { p: 'Vocês cobram pela assessoria?', r: 'A assessoria de crédito é remunerada pelos bancos parceiros. Você não paga nada a mais por isso.' },
+      { p: 'A aprovação em 1 hora vale pra todo mundo?', r: 'A análise de crédito costuma sair em até 1 hora com a documentação completa. Avaliação, jurídico e registro têm prazos próprios, e a gente acompanha cada um.' },
     ],
   },
   {
-    slug: 'financiamento-veiculo',
+    slug: 'financiamento-lote',
     ativo: true,
+    categoria: 'financiamentos',
+    rota: '/financiamento/lote',
+    icone: 'terreno',
+    nome: 'Financiamento de lote',
+    nomeCurto: 'Lote e terreno',
+    chamada: 'Financie o terreno hoje e construa no seu tempo.',
+    titulo: 'O primeiro passo da casa dos seus sonhos é o lote',
+    subtitulo: 'Financiamento de lotes e terrenos urbanos, com as taxas comparadas entre os bancos parceiros.',
+    modalidade: 'credito',
+    taxaMensal: 1.15,
+    valorMin: 50_000,
+    valorMax: 2_000_000,
+    valorPadrao: 200_000,
+    prazos: [60, 120, 180, 240],
+    prazoPadrao: 180,
+    rotuloValor: 'Quanto você quer financiar?',
+    camposExtras: [
+      { id: 'valorBem', rotulo: 'Valor do lote', tipo: 'moeda' },
+      { id: 'renda', rotulo: 'Renda familiar mensal', tipo: 'moeda' },
+      { id: 'regularizado', rotulo: 'O lote tem escritura/registro?', tipo: 'select', opcoes: ['Sim', 'Não', 'Não sei'] },
+    ],
+    limite: { tipo: 'percentualDoBem', campo: 'valorBem', percentual: 0.7 },
+    destaques: [
+      { titulo: 'Taxas comparadas', texto: 'Cada banco tem uma regra pra lote. A gente sabe qual combina com o seu caso.' },
+      { titulo: 'Prazo longo', texto: 'Parcelas que cabem enquanto você planeja a obra.' },
+      { titulo: 'Análise do terreno', texto: 'Conferimos documentação e regularidade antes de você assinar.' },
+      { titulo: 'Depois, a construção', texto: 'Orientação sobre o crédito pra construir quando chegar a hora.' },
+    ],
+    paraQuem: ['Quer comprar terreno em condomínio ou loteamento', 'Planeja construir nos próximos anos'],
+    documentos: ['RG e CPF', 'Comprovante de renda', 'Matrícula do lote', 'Comprovante de residência'],
+    passos: etapasFinanciamento.map((e) => (e.titulo === 'Avaliação do imóvel' ? { ...e, titulo: 'Avaliação do lote' } : e)),
+    faq: [{ p: 'Todo lote pode ser financiado?', r: 'O lote precisa estar regularizado, com matrícula e em área urbana. A gente confere isso antes de você fechar negócio.' }],
+  },
+  {
+    slug: 'financiamento-veiculo',
+    ativo: true, // CONFIRMAR com a Conquistare se opera financiamento de veículo
     categoria: 'financiamentos',
     rota: '/financiamento/veiculo',
     icone: 'carro',
     nome: 'Financiamento de veículo',
     nomeCurto: 'Financiamento de veículo',
-    chamada: 'Novo ou seminovo, com a taxa comparada entre vários bancos.',
+    chamada: 'Novo ou seminovo, com a taxa comparada antes de você fechar na loja.',
     titulo: 'Carro novo sem cair na primeira taxa que aparece',
-    subtitulo: 'Antes de fechar na concessionária, compare. A gente cota em vários bancos e você decide com calma.',
-    simulavel: true,
+    subtitulo: 'Antes de fechar na concessionária, compare. A gente cota nos bancos parceiros e você decide com calma.',
+    modalidade: 'credito',
     taxaMensal: 1.39,
     valorMin: 10_000,
     valorMax: 400_000,
     valorPadrao: 60_000,
     prazos: [24, 36, 48, 60],
     prazoPadrao: 48,
+    rotuloValor: 'Quanto você quer financiar?',
     camposExtras: [
       { id: 'valorBem', rotulo: 'Valor do veículo', tipo: 'moeda' },
       { id: 'condicao', rotulo: 'Condição', tipo: 'select', opcoes: ['Zero km', 'Seminovo'] },
@@ -332,111 +214,152 @@ export const produtos: Produto[] = [
       { titulo: 'Até 60 meses', texto: 'Com ou sem entrada, conforme o perfil.' },
       { titulo: 'Sem venda casada', texto: 'Seguro e acessórios só se você quiser.' },
     ],
-    paraQuem: ['Quem vai comprar carro ou moto', 'Quem quer comparar antes de fechar na loja'],
+    paraQuem: ['Vai comprar carro ou moto', 'Quer comparar antes de fechar na loja'],
     documentos: ['CNH', 'Comprovante de renda', 'Comprovante de residência'],
-    passos: passosCredito,
+    passos: passosConsignado,
+    faq: [{ p: 'Preciso dar entrada?', r: 'Depende do perfil e do banco. Com entrada, a taxa costuma ser melhor.' }],
+  },
+  {
+    slug: 'consignado-inss',
+    ativo: true,
+    categoria: 'emprestimos',
+    rota: '/emprestimo/consignado-inss',
+    icone: 'aposentado',
+    nome: 'Consignado INSS e servidor público',
+    nomeCurto: 'Consignado INSS e servidor',
+    chamada: 'Aposentados, pensionistas e servidores, com parcela descontada do benefício.',
+    titulo: 'Crédito com respeito pra quem já construiu muito',
+    subtitulo:
+      'Empréstimo com desconto em folha pra aposentados e pensionistas do INSS e servidores públicos. Processo simples, transparente e com as taxas dos bancos parceiros comparadas.',
+    modalidade: 'credito',
+    taxaMensal: 1.85,
+    valorMin: 1_000,
+    valorMax: 150_000,
+    valorPadrao: 15_000,
+    prazos: [24, 48, 72, 96],
+    prazoPadrao: 72,
+    rotuloValor: 'De quanto você precisa?',
+    camposExtras: [
+      { id: 'renda', rotulo: 'Valor do benefício ou salário', tipo: 'moeda', ajuda: 'A parcela respeita a margem consignável de até 35%.' },
+      { id: 'vinculo', rotulo: 'Você é', tipo: 'select', opcoes: ['Aposentado INSS', 'Pensionista INSS', 'Servidor federal', 'Servidor do GDF', 'Servidor municipal', 'Militar'] },
+    ],
+    limite: { tipo: 'margemDaRenda', campo: 'renda', percentual: 0.35 },
+    destaques: [
+      { titulo: 'Desconto em folha', texto: 'A parcela sai direto do benefício. Sem boleto, sem atraso.' },
+      { titulo: 'Taxas comparadas', texto: 'Buscamos a melhor condição entre os bancos parceiros.' },
+      { titulo: 'Atendimento humano', texto: 'Explicação clara, sem pressa e sem ligação insistente.' },
+      { titulo: 'Portabilidade', texto: 'Já tem consignado? A gente tenta reduzir sua taxa trazendo o contrato.' },
+    ],
+    paraQuem: ['Aposentados e pensionistas do INSS', 'Servidores públicos federais, distritais e municipais', 'Militares'],
+    documentos: ['RG e CPF', 'Extrato do benefício ou contracheque', 'Comprovante de residência'],
+    passos: passosConsignado,
     faq: [
-      { p: 'Preciso dar entrada?', r: 'Depende do perfil e do banco. Com entrada, a taxa costuma ser melhor.' },
-      { p: 'Posso comprar de particular?', r: 'Sim, alguns bancos parceiros financiam veículos de particular.' },
+      { p: 'A Conquistare liga oferecendo crédito sem eu pedir?', r: 'Não. Só entramos em contato depois que você simula ou pede atendimento. Desconfie de qualquer ligação pedindo depósito antecipado.' },
+      { p: 'Posso reduzir a taxa do consignado que já tenho?', r: 'Sim, pela portabilidade. Levamos seu contrato pra um banco com taxa menor e, às vezes, ainda sobra um troco.' },
     ],
   },
   {
-    slug: 'seguro-auto',
+    slug: 'consignado-clt',
     ativo: true,
-    categoria: 'seguros',
-    rota: '/seguro/auto',
-    icone: 'escudo',
-    nome: 'Seguro auto',
-    nomeCurto: 'Seguro auto',
-    chamada: 'Cotação em várias seguradoras e assistência 24h.',
-    titulo: 'Seu carro protegido, sua cabeça tranquila',
-    subtitulo: 'Comparamos seguradoras e montamos a cobertura certa pro seu uso, sem pagar por aquilo que você não precisa.',
-    simulavel: false,
-    taxaRotulo: 'Cotação grátis',
+    categoria: 'emprestimos',
+    rota: '/emprestimo/consignado-clt',
+    icone: 'carteira',
+    nome: 'Consignado CLT',
+    nomeCurto: 'Consignado CLT',
+    chamada: 'Pra quem tem carteira assinada, com parcela descontada direto no salário.',
+    titulo: 'Carteira assinada agora vale taxa menor',
+    subtitulo: 'Com o consignado do trabalhador, a parcela sai direto da folha. Isso derruba o risco e a taxa.',
+    modalidade: 'credito',
+    taxaMensal: 2.49,
+    valorMin: 1_000,
+    valorMax: 100_000,
+    valorPadrao: 10_000,
+    prazos: [12, 24, 36, 48],
+    prazoPadrao: 24,
+    rotuloValor: 'De quanto você precisa?',
     camposExtras: [
-      { id: 'modelo', rotulo: 'Modelo e ano do veículo', tipo: 'texto' },
-      { id: 'cep', rotulo: 'CEP de pernoite', tipo: 'texto' },
+      { id: 'renda', rotulo: 'Salário bruto mensal', tipo: 'moeda', ajuda: 'A parcela pode comprometer até 35% do salário.' },
+      { id: 'tempoEmpresa', rotulo: 'Tempo na empresa atual', tipo: 'select', opcoes: ['Menos de 6 meses', '6 meses a 1 ano', '1 a 3 anos', 'Mais de 3 anos'] },
     ],
+    limite: { tipo: 'margemDaRenda', campo: 'renda', percentual: 0.35 },
     destaques: [
-      { titulo: 'Várias seguradoras', texto: 'Uma cotação, várias opções lado a lado.' },
-      { titulo: 'Assistência 24h', texto: 'Guincho, chaveiro e carro reserva conforme o plano.' },
-      { titulo: 'Ajuda no sinistro', texto: 'A gente acompanha seu caso com a seguradora.' },
-      { titulo: 'Renovação sem susto', texto: 'Avisamos antes de vencer e recotamos pra você.' },
+      { titulo: 'Desconto em folha', texto: 'A parcela sai do salário todo mês. Zero boleto, zero atraso.' },
+      { titulo: 'Taxa menor que o pessoal', texto: 'Menos risco pro banco significa juros menores pra você.' },
+      { titulo: 'Troque dívidas caras', texto: 'Quite cartão e cheque especial com um crédito mais barato.' },
+      { titulo: 'Até 35% do salário', texto: 'Limite legal que protege seu orçamento.' },
     ],
-    paraQuem: ['Quem tem carro, moto ou utilitário', 'Quem quer renovar pagando menos'],
-    documentos: ['CNH', 'CRLV do veículo'],
-    passos: [
-      { titulo: 'Conte sobre o veículo', texto: 'Modelo, ano e onde ele dorme.' },
-      { titulo: 'Receba as cotações', texto: 'Comparamos as seguradoras parceiras.' },
-      { titulo: 'Escolha e contrate', texto: 'Apólice emitida e proteção ativa.' },
-    ],
-    faq: [{ p: 'A cotação tem custo?', r: 'Não. A cotação é gratuita e sem compromisso.' }],
+    paraQuem: ['Trabalhador com carteira assinada (CLT)', 'Empregado doméstico e de MEI registrados no eSocial'],
+    documentos: ['RG e CPF', 'Carteira de trabalho digital', 'Último holerite'],
+    passos: passosConsignado,
+    faq: [{ p: 'Negativado pode contratar?', r: 'Em muitos casos sim, porque a garantia é o desconto em folha. A análise considera o seu vínculo e sua margem.' }],
   },
   {
-    slug: 'seguro-vida',
+    slug: 'consorcio-imovel',
     ativo: true,
-    categoria: 'seguros',
-    rota: '/seguro/vida',
-    icone: 'coracao',
-    nome: 'Seguro de vida',
-    nomeCurto: 'Seguro de vida',
-    chamada: 'Proteção pra quem depende de você, a partir de poucos reais por mês.',
-    titulo: 'Cuidar de quem você ama também é planejamento',
-    subtitulo: 'Seguro de vida com coberturas pra morte, invalidez e doenças graves, montado de acordo com a sua fase de vida.',
-    simulavel: false,
-    taxaRotulo: 'Cotação grátis',
-    camposExtras: [{ id: 'nascimento', rotulo: 'Data de nascimento', tipo: 'texto' }],
+    categoria: 'consorcios',
+    rota: '/consorcio/imovel',
+    icone: 'casa',
+    nome: 'Consórcio de imóvel',
+    nomeCurto: 'Consórcio de imóvel',
+    chamada: 'Sua casa própria planejada, com parcelas sem juros.',
+    titulo: 'Realize o sonho da casa própria sem pagar juros',
+    subtitulo: 'O consórcio é a forma planejada de conquistar seu imóvel: parcelas menores, sem juros e com a chance de ser contemplado a qualquer mês.',
+    modalidade: 'consorcio',
+    taxaAdm: 16,
+    valorMin: 100_000,
+    valorMax: 2_000_000,
+    valorPadrao: 300_000,
+    prazos: [120, 160, 200, 240],
+    prazoPadrao: 200,
+    rotuloValor: 'Qual o valor da carta de crédito?',
     destaques: [
-      { titulo: 'Coberturas sob medida', texto: 'Morte, invalidez, doenças graves e diária por internação.' },
-      { titulo: 'Cabe no orçamento', texto: 'Planos acessíveis e ajustáveis.' },
-      { titulo: 'Sem inventário', texto: 'A indenização não entra em inventário e sai rápido pra família.' },
-      { titulo: 'Beneficiários livres', texto: 'Você escolhe quem recebe.' },
+      { titulo: 'Sem juros', texto: 'Você paga só a taxa de administração, diluída nas parcelas.' },
+      { titulo: 'Parcela menor', texto: 'Normalmente bem abaixo da parcela de um financiamento do mesmo valor.' },
+      { titulo: 'Use o FGTS', texto: 'Pra dar lance ou complementar a carta, conforme as regras.' },
+      { titulo: 'Poder de compra à vista', texto: 'Contemplado, você negocia o imóvel como comprador à vista.' },
     ],
-    paraQuem: ['Quem tem filhos ou dependentes', 'Quem tem financiamento ou dívidas de longo prazo', 'Profissionais autônomos'],
-    documentos: ['RG e CPF'],
-    passos: [
-      { titulo: 'Conte sobre você', texto: 'Idade, profissão e o que quer proteger.' },
-      { titulo: 'Receba as opções', texto: 'Planos comparados entre seguradoras.' },
-      { titulo: 'Contrate', texto: 'Proteção ativa em poucos dias.' },
+    paraQuem: ['Quer comprar imóvel sem pressa e sem juros', 'Quer investir em imóvel com planejamento', 'Tem FGTS pra usar em lance'],
+    documentos: ['RG e CPF', 'Comprovante de renda', 'Comprovante de residência'],
+    passos: passosConsorcio,
+    faq: [
+      { p: 'Consórcio tem juros?', r: 'Não. O custo é a taxa de administração, que é diluída nas parcelas, mais o fundo de reserva previsto no contrato.' },
+      { p: 'Como funciona o lance?', r: 'Você oferece antecipar parte das parcelas pra ser contemplado antes. O maior lance do mês leva, além do sorteio.' },
     ],
-    faq: [{ p: 'Posso mudar os beneficiários depois?', r: 'Sim, a qualquer momento, direto com a seguradora ou com a nossa ajuda.' }],
   },
   {
-    slug: 'seguro-residencial',
+    slug: 'consorcio-veiculo',
     ativo: true,
-    categoria: 'seguros',
-    rota: '/seguro/residencial',
-    icone: 'predio',
-    nome: 'Seguro residencial',
-    nomeCurto: 'Seguro residencial',
-    chamada: 'Casa protegida contra incêndio, roubo e danos, com assistências úteis no dia a dia.',
-    titulo: 'Sua casa protegida por menos do que você imagina',
-    subtitulo: 'Incêndio, roubo, danos elétricos e uma lista de serviços de assistência pra casa, como encanador e eletricista.',
-    simulavel: false,
-    taxaRotulo: 'Cotação grátis',
-    camposExtras: [
-      { id: 'cep', rotulo: 'CEP do imóvel', tipo: 'texto' },
-      { id: 'tipoImovel', rotulo: 'Tipo de imóvel', tipo: 'select', opcoes: ['Casa', 'Apartamento'] },
-    ],
+    categoria: 'consorcios',
+    rota: '/consorcio/veiculo',
+    icone: 'carro',
+    nome: 'Consórcio de veículo',
+    nomeCurto: 'Consórcio de veículo',
+    chamada: 'Carro ou moto planejados, sem juros e com parcela leve.',
+    titulo: 'Seu próximo carro, planejado e sem juros',
+    subtitulo: 'Carta de crédito pra carro, moto ou caminhão, com parcelas que cabem no mês e contemplação por sorteio ou lance.',
+    modalidade: 'consorcio',
+    taxaAdm: 14,
+    valorMin: 30_000,
+    valorMax: 500_000,
+    valorPadrao: 90_000,
+    prazos: [50, 60, 80, 100],
+    prazoPadrao: 80,
+    rotuloValor: 'Qual o valor da carta de crédito?',
     destaques: [
-      { titulo: 'Coberturas essenciais', texto: 'Incêndio, roubo, danos elétricos e vendaval.' },
-      { titulo: 'Assistência 24h', texto: 'Encanador, eletricista, chaveiro e vidraceiro.' },
-      { titulo: 'Preço acessível', texto: 'Um dos seguros com melhor custo-benefício.' },
-      { titulo: 'Proprietário ou inquilino', texto: 'Serve pros dois casos.' },
+      { titulo: 'Sem juros', texto: 'Só taxa de administração, diluída nas parcelas.' },
+      { titulo: 'Novo ou seminovo', texto: 'A carta vale pra carro, moto ou caminhão.' },
+      { titulo: 'Contemplação por lance', texto: 'Antecipe a conquista quando quiser.' },
+      { titulo: 'Troca planejada', texto: 'Ideal pra quem troca de carro a cada poucos anos.' },
     ],
-    paraQuem: ['Proprietários', 'Inquilinos', 'Quem tem imóvel financiado'],
-    documentos: ['RG e CPF', 'Endereço do imóvel'],
-    passos: [
-      { titulo: 'Informe o imóvel', texto: 'Endereço e tipo.' },
-      { titulo: 'Compare', texto: 'Planos lado a lado.' },
-      { titulo: 'Contrate', texto: 'Casa protegida.' },
-    ],
-    faq: [{ p: 'Inquilino pode contratar?', r: 'Sim. O seguro protege seus bens e responsabilidades, mesmo sem ser dono do imóvel.' }],
+    paraQuem: ['Quer trocar de carro sem pagar juros', 'Frotistas e motoristas de aplicativo', 'Quem planeja a compra com antecedência'],
+    documentos: ['RG e CPF', 'Comprovante de renda', 'Comprovante de residência'],
+    passos: passosConsorcio,
+    faq: [{ p: 'Posso usar a carta pra comprar seminovo?', r: 'Sim, dentro das regras da administradora para ano e estado do veículo.' }],
   },
 ]
 
 export const produtosAtivos = produtos.filter((p) => p.ativo)
-export const produtosSimulaveis = produtosAtivos.filter((p) => p.simulavel)
+export const produtosSimulaveis = produtosAtivos
 
 export function porCategoria(c: Categoria): Produto[] {
   return produtosAtivos.filter((p) => p.categoria === c)

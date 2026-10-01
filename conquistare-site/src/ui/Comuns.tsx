@@ -4,7 +4,7 @@ import { consentimento, definirConsentimento } from '../lib/rastreio'
 import { Link } from '../lib/router'
 import { Icone, IconeWhatsApp } from './Icones'
 import type { Produto } from '../config/produtos'
-import { pct } from '../lib/financas'
+import { destaqueTaxa } from '../lib/financas'
 
 export function Acordeao({ itens }: { itens: { p: string; r: string }[] }) {
   const [aberto, setAberto] = useState<number | null>(0)
@@ -34,14 +34,10 @@ export function CardProduto({ p }: { p: Produto }) {
       <h3>{p.nome}</h3>
       <p>{p.chamada}</p>
       <div className="card-produto-pe">
-        {p.taxaMensal ? (
-          <span className="card-produto-taxa">
-            <small>a partir de</small>
-            <strong>{pct(p.taxaMensal)} a.m.</strong>
-          </span>
-        ) : (
-          <span className="card-produto-taxa"><strong>{p.taxaRotulo}</strong></span>
-        )}
+        <span className="card-produto-taxa">
+          <small>{destaqueTaxa(p).rotulo}</small>
+          <strong>{destaqueTaxa(p).valor}</strong>
+        </span>
         <span className="card-produto-seta"><Icone nome="seta" /></span>
       </div>
     </Link>
@@ -84,7 +80,7 @@ export function FaixaRascunho() {
   if (!marca.rascunho) return null
   return (
     <div className="faixa-rascunho">
-      Versão de rascunho: taxas, números e depoimentos são ilustrativos e serão substituídos pelos dados reais.
+      Versão de rascunho: taxas e valores de simulação são ilustrativos e serão substituídos pelos dados dos bancos parceiros.
     </div>
   )
 }
@@ -107,6 +103,23 @@ export function AvisoCookies() {
         <button className="btn btn--primario btn--sm" onClick={() => decidir('aceito')}>Aceitar</button>
       </div>
     </div>
+  )
+}
+
+// O "$" vazado que a Conquistare usa como grafismo nas peças.
+export function Cifrao({ className = '' }: { className?: string }) {
+  return (
+    <svg className={`cifrao ${className}`} viewBox="0 0 200 320" aria-hidden="true">
+      <text x="100" y="262" textAnchor="middle">$</text>
+    </svg>
+  )
+}
+
+export function Bancos({ claro = false }: { claro?: boolean }) {
+  return (
+    <ul className={`bancos ${claro ? 'bancos--claro' : ''}`}>
+      {marca.legal.parceiros.map((b) => <li key={b}>{b}</li>)}
+    </ul>
   )
 }
 

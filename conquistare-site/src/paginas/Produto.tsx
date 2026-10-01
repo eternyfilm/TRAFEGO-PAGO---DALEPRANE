@@ -3,35 +3,33 @@ import { categorias, porCategoria } from '../config/produtos'
 import { faqGeral } from '../config/conteudo'
 import { marca, linkWhatsApp } from '../config/marca'
 import { Link } from '../lib/router'
-import { moeda, pct } from '../lib/financas'
+import { destaqueTaxa, moeda } from '../lib/financas'
 import { Simulador } from '../ui/Simulador'
-import { Acordeao, Cabecalho, CardProduto, Lista, Secao } from '../ui/Comuns'
+import { Acordeao, Cabecalho, CardProduto, Cifrao, Lista, Secao } from '../ui/Comuns'
 import { Icone, IconeWhatsApp } from '../ui/Icones'
-import { FormCotacao } from './Simular'
 
 export function Produto({ p }: { p: TProduto }) {
   const relacionados = porCategoria(p.categoria).filter((x) => x.slug !== p.slug).slice(0, 3)
   return (
     <>
-      <section className="hero hero--produto">
+      <section className="hero hero--marca hero--produto">
+        <Cifrao className="hero-cifrao" />
         <div className="container hero-grade">
           <div className="hero-texto">
             <nav className="migalha" aria-label="Caminho">
               <Link para="/">Início</Link> / <Link para={categorias[p.categoria].rota}>{categorias[p.categoria].nome}</Link> / <span>{p.nomeCurto}</span>
             </nav>
-            <span className="selo"><Icone nome={p.icone} tamanho={16} /> {p.nome}</span>
+            <span className="selo selo--escuro"><Icone nome={p.icone} tamanho={16} /> {p.nome}</span>
             <h1>{p.titulo}</h1>
             <p className="hero-sub">{p.subtitulo}</p>
-            {p.simulavel && (
-              <div className="ficha">
-                <div><small>Taxa a partir de</small><strong>{pct(p.taxaMensal!)} a.m.</strong></div>
-                <div><small>Valor</small><strong>{moeda(p.valorMin!)} a {moeda(p.valorMax!)}</strong></div>
-                <div><small>Prazo</small><strong>até {Math.max(...p.prazos!)} meses</strong></div>
-              </div>
-            )}
+            <div className="ficha">
+              <div><small>{destaqueTaxa(p).rotulo}</small><strong>{destaqueTaxa(p).valor}</strong></div>
+              <div><small>{p.modalidade === 'consorcio' ? 'Carta de crédito' : 'Valor'}</small><strong>{moeda(p.valorMin)} a {moeda(p.valorMax)}</strong></div>
+              <div><small>Prazo</small><strong>até {Math.max(...p.prazos)} meses</strong></div>
+            </div>
           </div>
           <div className="hero-sim">
-            {p.simulavel ? <Simulador fixo={p} /> : <FormCotacao p={p} />}
+            <Simulador fixo={p} />
           </div>
         </div>
       </section>
@@ -91,10 +89,11 @@ export function Produto({ p }: { p: TProduto }) {
       )}
 
       <section className="cta-final">
+        <Cifrao className="cta-cifrao" />
         <div className="container cta-final-in">
-          <h2>{p.simulavel ? 'Veja sua parcela em menos de 2 minutos.' : 'Receba sua cotação sem compromisso.'}</h2>
+          <h2>{p.modalidade === 'consorcio' ? 'Vamos conquistar o seu sonho?' : 'Chegou a hora de conquistar!'}</h2>
           <div className="cta-final-botoes">
-            <Link para={`/simular?produto=${p.slug}`} className="btn btn--dourado btn--lg">{p.simulavel ? 'Simular agora' : 'Pedir cotação'}</Link>
+            <Link para={`/simular?produto=${p.slug}`} className="btn btn--verde btn--lg">Simular agora</Link>
             <a className="btn btn--claro-contorno btn--lg" href={linkWhatsApp(`Olá, ${marca.nome}! Quero saber mais sobre ${p.nome}.`)} target="_blank" rel="noopener noreferrer">
               <IconeWhatsApp tamanho={20} /> WhatsApp
             </a>

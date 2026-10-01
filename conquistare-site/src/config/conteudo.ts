@@ -1,44 +1,67 @@
 // Conteúdo institucional: números, depoimentos, FAQ geral e blog.
-// Números e depoimentos abaixo são ILUSTRATIVOS. Trocar por dados reais da
-// Conquistare (e depoimentos com autorização por escrito) antes de publicar.
+// Fonte: portfólio "Conquistare Cred.pdf" (Drive da agência).
 
+// Só fatos que estão no portfólio. Volume de crédito e nº de clientes
+// entram quando a Conquistare passar os números reais.
 export const numeros = [
-  { valor: 'R$ 50 mi+', rotulo: 'em crédito intermediado' },
-  { valor: '4.000+', rotulo: 'clientes atendidos' },
-  { valor: '15+', rotulo: 'bancos e seguradoras parceiros' },
-  { valor: '24h', rotulo: 'pra primeira resposta' },
+  { valor: '7', rotulo: 'bancos parceiros comparados' },
+  { valor: '1h', rotulo: 'pra aprovação do financiamento' },
+  { valor: '4', rotulo: 'soluções: financiamento, empréstimo, consórcio e correspondente' },
+  { valor: '100%', rotulo: 'acompanhado, da simulação ao registro' },
 ]
 
 export const beneficios = [
-  { icone: 'grafico', titulo: 'Taxa menor de verdade', texto: 'Com garantia ou consignado, você sai do juro de cartão e cheque especial e paga uma fração disso.' },
-  { icone: 'balanca', titulo: 'Vários bancos, uma proposta', texto: 'A gente compara as instituições parceiras e traz a condição que faz mais sentido pro seu perfil.' },
-  { icone: 'pessoa', titulo: 'Gente de verdade do seu lado', texto: 'Especialista que explica CET, prazo e parcela antes de você assinar qualquer coisa.' },
-  { icone: 'cadeado', titulo: 'Zero taxa antecipada', texto: 'Nenhum valor é cobrado pra liberar crédito. Se alguém pedir depósito antes, não é a Conquistare.' },
+  { icone: 'relogio', titulo: 'Aprovação em até 1 hora', texto: 'Resposta rápida pra você não perder o imóvel que escolheu.' },
+  { icone: 'balanca', titulo: 'Correspondente multibancos', texto: 'Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter comparados pro seu perfil.' },
+  { icone: 'pessoa', titulo: 'Consultoria sob medida', texto: 'Um trabalho direcionado pro seu perfil, com as melhores taxas e vantagens apresentadas com clareza.' },
+  { icone: 'escudo', titulo: 'Acompanhamento até o fim', texto: 'Da aprovação até o recurso chegar no vendedor. Tranquilidade pra você e pros parceiros.' },
 ] as const
 
-// Taxa média aproximada ao mês, para comparação visual. Fonte de referência:
-// estatísticas de juros do Banco Central. Revisar os valores periodicamente.
-export const comparativoTaxas = [
-  { rotulo: 'Rotativo do cartão', taxa: 14.5, destaque: false },
-  { rotulo: 'Cheque especial', taxa: 7.8, destaque: false },
-  { rotulo: 'Crédito pessoal comum', taxa: 5.9, destaque: false },
-  { rotulo: 'Conquistare com garantia', taxa: 1.09, destaque: true },
+// Avaliações públicas no Google, transcritas do portfólio. Confirmar com a
+// Conquistare se pode exibir o nome completo ou só primeiro nome + inicial.
+export const depoimentos = [
+  {
+    nome: 'Diego D.',
+    origem: 'Avaliação no Google',
+    produto: 'Financiamento imobiliário',
+    texto:
+      'Tinha um sonho de adquirir um imóvel, estava com bastante ansiedade, e ela foi essencial, me auxiliou e cuidou de todo o trâmite para o financiamento. Consegui comprar meu primeiro imóvel.',
+  },
+  {
+    nome: 'Cleidionice V.',
+    origem: 'Avaliação no Google',
+    produto: 'Financiamento bancário',
+    texto: 'Achei a equipe bastante profissional, demonstraram experiência, cumpridores de prazos. A assessoria junto ao setor de financiamento bancário foi a que mais gostei. Atendimento nota 10.',
+  },
+  {
+    nome: 'Lilianne R.',
+    origem: 'Avaliação no Google',
+    produto: 'Pós-venda',
+    texto: 'Está muito além do papel de uma correspondente bancária, mas sim de alguém que verdadeiramente se preocupa com o próximo! Atendimento e profissionalismo além do esperado! Nota 1000.',
+  },
 ]
 
-export const depoimentos = [
-  { nome: 'Mariana S.', cidade: 'Brasília, DF', produto: 'Garantia de imóvel', texto: 'Juntei três dívidas de cartão numa parcela só e a economia no mês pagou a escola das crianças. Me explicaram cada número antes de assinar.' },
-  { nome: 'Roberto A.', cidade: 'Águas Claras, DF', produto: 'Consignado INSS', texto: 'Trouxeram meu consignado pra um banco com taxa menor e a parcela caiu. Atendimento com paciência, sem aquela pressão de telemarketing.' },
-  { nome: 'Juliana e Pedro', cidade: 'Goiânia, GO', produto: 'Financiamento imobiliário', texto: 'Compararam quatro bancos pra gente. Fechamos com uma taxa que sozinhos não teríamos conseguido.' },
-  { nome: 'Carlos M.', cidade: 'Taguatinga, DF', produto: 'Garantia de veículo', texto: 'Precisava de capital de giro rápido pra loja. Usei a caminhonete como garantia e continuei trabalhando com ela.' },
+export const missao =
+  'Facilitar o acesso a soluções financeiras confiáveis e personalizadas, permitindo que nossos clientes realizem seus sonhos de aquisição de imóveis, veículos e viagens, alcancem estabilidade financeira e realizem seus projetos de vida.'
+
+export const visao =
+  'Ser a principal escolha em serviços financeiros, reconhecida pela excelência na oferta de crédito responsável e soluções inovadoras para aquisição de bens e investimentos.'
+
+export const valores = [
+  { titulo: 'Integridade', texto: 'Agimos com honestidade e ética em todas as transações, construindo confiança e respeito com clientes e parceiros.' },
+  { titulo: 'Inovação financeira', texto: 'Buscamos constantemente maneiras de tornar o crédito mais acessível e personalizado.' },
+  { titulo: 'Atendimento ao cliente', texto: 'Colocamos as necessidades e objetivos dos clientes em primeiro lugar.' },
+  { titulo: 'Responsabilidade social', texto: 'Contribuímos para a realização de projetos de vida e para a estabilidade financeira de famílias.' },
+  { titulo: 'Colaboração', texto: 'Trabalhamos em equipe, num ambiente de aprendizagem contínua.' },
 ]
 
 export const faqGeral = [
-  { p: 'A Conquistare é um banco?', r: 'Não. Somos correspondentes bancários: conectamos você às instituições financeiras parceiras, comparamos propostas e acompanhamos todo o processo. O crédito é concedido pelo banco.' },
-  { p: 'Vocês cobram alguma taxa antecipada?', r: 'Nunca. Nenhum valor é cobrado antes da liberação do crédito. Se alguém pedir depósito ou pagamento antecipado em nome da Conquistare, é golpe. Denuncie pelos nossos canais oficiais.' },
+  { p: 'A Conquistare é um banco?', r: 'Não. Somos correspondente bancário multibancos: trabalhamos com Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter, comparamos as propostas pro seu perfil e acompanhamos todo o processo. O crédito é concedido pelo banco.' },
+  { p: 'Vocês cobram alguma taxa antecipada?', r: 'Nunca. Nenhum valor é cobrado antes da liberação do crédito. Se alguém pedir depósito ou pagamento antecipado em nome da Conquistare, é golpe.' },
+  { p: 'A aprovação sai mesmo em 1 hora?', r: 'A aprovação de crédito do financiamento costuma sair em até 1 hora com a documentação completa. As etapas seguintes (avaliação, jurídico, registro) têm prazos próprios, e a gente acompanha cada uma.' },
+  { p: 'Consórcio ou financiamento: qual é melhor pra mim?', r: 'Financiamento te dá o bem agora e você paga juros. Consórcio não tem juros, mas você depende de sorteio ou lance pra ser contemplado. Se tem pressa, financiamento. Se pode planejar, o consórcio costuma sair mais barato. A gente simula os dois pra você comparar.' },
   { p: 'Simular compromete meu CPF?', r: 'Não. A simulação não gera consulta que afete seu score. A análise de crédito só acontece com a sua autorização.' },
-  { p: 'Negativado pode conseguir crédito?', r: 'Em várias modalidades sim, principalmente com garantia ou consignado, porque o risco pro banco é menor. Cada caso é analisado individualmente.' },
-  { p: 'O que é CET?', r: 'Custo Efetivo Total. É a taxa que inclui juros, impostos (IOF), seguros e tarifas. É o número que você deve comparar entre propostas, e ele sempre aparece na sua proposta antes da assinatura.' },
-  { p: 'Quanto tempo até o dinheiro cair?', r: 'Consignado e garantia de veículo costumam sair em poucos dias. Garantia de imóvel e financiamento imobiliário levam de 15 a 30 dias por causa da avaliação e do registro.' },
+  { p: 'Onde vocês ficam?', r: 'No SIG, Quadra 01, Ed. Platinum Office, sala 405, em Brasília/DF. Atendemos também por WhatsApp e telefone.' },
 ]
 
 export interface Artigo {
@@ -107,24 +130,23 @@ export const artigos: Artigo[] = [
     ],
   },
   {
-    slug: 'home-equity-mitos',
-    titulo: '5 mitos sobre empréstimo com garantia de imóvel',
-    resumo: '"Vou perder minha casa", "é só pra quem está quebrado". Separamos o que é verdade do que é medo.',
-    categoria: 'Garantia de imóvel',
-    leitura: '6 min',
+    slug: 'consorcio-ou-financiamento',
+    titulo: 'Consórcio ou financiamento: qual leva você mais rápido (e mais barato) ao imóvel?',
+    resumo: 'Um tem juros e te entrega o bem agora. O outro não tem juros e pede planejamento. Veja como escolher.',
+    categoria: 'Consórcio',
+    leitura: '5 min',
     data: '2026-07-30',
     corpo: [
-      { tipo: 'p', texto: 'O empréstimo com garantia de imóvel, também chamado de home equity, é muito usado em outros países e ainda gera desconfiança por aqui. Vamos aos mitos.' },
-      { tipo: 'h2', texto: '1. "Vou perder minha casa"' },
-      { tipo: 'p', texto: 'O imóvel só é executado após inadimplência prolongada e um rito legal com várias notificações. Com a parcela bem dimensionada, o risco é controlado.' },
-      { tipo: 'h2', texto: '2. "É só pra quem está endividado"' },
-      { tipo: 'p', texto: 'Muita gente usa pra investir no próprio negócio, reformar ou financiar um projeto grande com juro baixo.' },
-      { tipo: 'h2', texto: '3. "Preciso sair do imóvel"' },
-      { tipo: 'p', texto: 'Não. Você continua morando, alugando ou usando normalmente.' },
-      { tipo: 'h2', texto: '4. "Imóvel financiado não serve"' },
-      { tipo: 'p', texto: 'Dependendo do saldo devedor, serve sim.' },
-      { tipo: 'h2', texto: '5. "É muito burocrático"' },
-      { tipo: 'p', texto: 'Tem etapas a mais que um crédito comum, mas o especialista cuida da maior parte delas pra você.' },
+      { tipo: 'p', texto: 'Na hora de comprar um imóvel ou um carro, as duas portas mais comuns são o financiamento e o consórcio. Nenhum é melhor em tudo. Depende do seu momento.' },
+      { tipo: 'h2', texto: 'Financiamento: o bem agora' },
+      { tipo: 'p', texto: 'Você recebe o imóvel logo após a aprovação e o registro, e paga juros por isso. Ideal pra quem já achou o imóvel ou não pode esperar.' },
+      { tipo: 'h2', texto: 'Consórcio: sem juros, com planejamento' },
+      { tipo: 'p', texto: 'Você paga parcelas com taxa de administração, sem juros, e é contemplado por sorteio ou lance. Costuma sair bem mais barato no total, mas exige paciência.' },
+      { tipo: 'h2', texto: 'Como decidir' },
+      { tipo: 'li', texto: 'Tem pressa ou já escolheu o imóvel? Financiamento.' },
+      { tipo: 'li', texto: 'Pode esperar e quer pagar menos no total? Consórcio.' },
+      { tipo: 'li', texto: 'Tem FGTS ou uma reserva? Os dois aceitam, de jeitos diferentes.' },
+      { tipo: 'p', texto: 'Na Conquistare a gente simula os dois lado a lado pra você decidir com números, não com achismo.' },
     ],
   },
 ]

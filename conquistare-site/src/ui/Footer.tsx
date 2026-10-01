@@ -8,8 +8,8 @@ import { porSlug } from '../config/produtos'
 import { moeda, pct, taxaAnual } from '../lib/financas'
 
 export function Footer() {
-  const ref = porSlug('garantia-imovel') ?? porSlug('consignado-clt')
-  const cats: Categoria[] = ['emprestimos', 'financiamentos', 'seguros']
+  const ref = porSlug('financiamento-imobiliario')
+  const cats: Categoria[] = ['financiamentos', 'consorcios', 'emprestimos']
   return (
     <footer className="rodape">
       <div className="container">
@@ -37,7 +37,7 @@ export function Footer() {
           <div>
             <h4>Conquistare</h4>
             <Link para="/sobre">Quem somos</Link>
-            <Link para="/empresas">Para empresas</Link>
+            <Link para="/parceiros">Para parceiros</Link>
             <Link para="/blog">Blog</Link>
             <Link para="/ajuda">Central de ajuda</Link>
             <Link para="/contato">Fale com a gente</Link>
@@ -52,6 +52,7 @@ export function Footer() {
               <Icone nome="email" tamanho={16} /> {marca.contato.email}
             </a>
             <span><Icone nome="relogio" tamanho={16} /> {marca.contato.horario}</span>
+            <a href={`tel:+${marca.contato.telefone}`}><Icone nome="telefone" tamanho={16} /> {marca.contato.telefoneExibicao} (fixo)</a>
             <span><Icone nome="local" tamanho={16} /> {marca.contato.endereco}</span>
           </div>
         </div>

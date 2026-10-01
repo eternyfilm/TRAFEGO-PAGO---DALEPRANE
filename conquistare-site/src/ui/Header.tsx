@@ -4,7 +4,7 @@ import { categorias, porCategoria, type Categoria } from '../config/produtos'
 import { Logo } from './Logo'
 import { Icone } from './Icones'
 
-const ordem: Categoria[] = ['emprestimos', 'financiamentos', 'seguros']
+const ordem: Categoria[] = ['financiamentos', 'consorcios', 'emprestimos']
 
 export function Header() {
   const { path } = useRota()
@@ -58,7 +58,7 @@ export function Header() {
               )}
             </div>
           ))}
-          <Link para="/empresas" className="nav-link">Para empresas</Link>
+          <Link para="/parceiros" className="nav-link">Para parceiros</Link>
           <Link para="/ajuda" className="nav-link">Ajuda</Link>
         </nav>
 
@@ -84,7 +84,7 @@ export function Header() {
             </div>
           ))}
           <div className="gaveta-grupo">
-            <Link para="/empresas" className="gaveta-link">Para empresas</Link>
+            <Link para="/parceiros" className="gaveta-link">Para imobiliárias e corretores</Link>
             <Link para="/sobre" className="gaveta-link">Sobre a Conquistare</Link>
             <Link para="/blog" className="gaveta-link">Blog</Link>
             <Link para="/ajuda" className="gaveta-link">Central de ajuda</Link>

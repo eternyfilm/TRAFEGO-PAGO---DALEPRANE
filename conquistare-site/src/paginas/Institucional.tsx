@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
 import { marca, linkWhatsApp } from '../config/marca'
-import { faqGeral, numeros } from '../config/conteudo'
+import { faqGeral, missao, numeros, valores, visao } from '../config/conteudo'
 import { produtosAtivos } from '../config/produtos'
 import { Link, navegar } from '../lib/router'
 import { emailValido, mascaraCPF, mascaraTelefone, telefoneValido, cpfValido } from '../lib/formatos'
 import { enviarLead } from '../lib/leads'
-import { Acordeao, Cabecalho, Lista, Secao } from '../ui/Comuns'
+import { Acordeao, Bancos, Cabecalho, Cifrao, Secao } from '../ui/Comuns'
 import { Icone, IconeInstagram, IconeWhatsApp } from '../ui/Icones'
 
 function TopoPagina({ sobre, titulo, texto }: { sobre: string; titulo: string; texto?: string }) {
@@ -27,20 +27,20 @@ export function Sobre() {
     <>
       <TopoPagina
         sobre="Quem somos"
-        titulo="A gente existe pra que crédito seja ferramenta, não armadilha."
-        texto={`A ${marca.nome} nasceu pra aproximar as pessoas do crédito certo: com taxa justa, informação clara e alguém de verdade do lado.`}
+        titulo="Sua solução financeira completa"
+        texto="Na Conquistare, acreditamos que o sucesso financeiro está ao alcance de todos. Nossos serviços são pensados pra você tomar decisões sólidas e conquistar seus objetivos de vida."
       />
       <Secao>
         <div className="duas-colunas">
           <div>
-            <Cabecalho sobre="Nossa história" titulo="Conquistar é verbo de quem constrói." />
+            <Cabecalho sobre="Bem-vindo à Conquistare Cred" titulo="Conquistar é verbo de quem planeja." />
             <p className="texto-longo">
-              [Espaço para a história da Conquistare: quando e por que nasceu, quem são os fundadores e qual foi o momento que motivou a
-              empresa. Uma história real e específica aqui vale mais que qualquer frase de missão.]
+              Oferecemos uma ampla gama de produtos e serviços financeiros, projetados pra atender às diferentes necessidades dos nossos
+              clientes: financiamento imobiliário, empréstimo consignado, consórcio e correspondência bancária.
             </p>
             <p className="texto-longo">
-              Hoje conectamos pessoas e empresas aos bancos parceiros, comparamos propostas e acompanhamos cada contrato até o fim. Nosso
-              trabalho só termina quando a parcela cabe no mês e o cliente entende exatamente o que assinou.
+              Como correspondente multibancos, trabalhamos com Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter. Nossa consultoria é
+              direcionada pro perfil de cada cliente, e acompanhamos tudo desde a aprovação até o recurso chegar no vendedor.
             </p>
           </div>
           <div className="grade-numeros-card">
@@ -53,58 +53,63 @@ export function Sobre() {
           </div>
         </div>
       </Secao>
+      <Secao tom="escuro" className="secao--cifrao">
+        <Cifrao className="secao-cifrao" />
+        <div className="duas-colunas">
+          <div className="mv">
+            <span className="sobretitulo">Missão</span>
+            <p>{missao}</p>
+          </div>
+          <div className="mv">
+            <span className="sobretitulo">Visão</span>
+            <p>{visao}</p>
+          </div>
+        </div>
+      </Secao>
       <Secao tom="creme">
-        <Cabecalho sobre="No que acreditamos" titulo="Nossos compromissos" centro />
-        <div className="grade-beneficios">
-          {[
-            ['Transparência total', 'CET, parcela e total a pagar mostrados antes de qualquer assinatura.'],
-            ['Nada antecipado', 'Nunca cobramos para liberar crédito. Nunca.'],
-            ['Crédito responsável', 'Se a parcela não cabe, a gente fala. Mesmo que isso signifique não fechar.'],
-            ['Gente atendendo gente', 'Especialista com nome, que acompanha você do início ao fim.'],
-          ].map(([t, x]) => (
-            <div key={t} className="beneficio">
+        <Cabecalho sobre="Valores" titulo="No que a gente acredita" centro />
+        <div className="grade-valores">
+          {valores.map((v) => (
+            <div key={v.titulo} className="beneficio">
               <span className="beneficio-ic"><Icone nome="check" /></span>
-              <h3>{t}</h3>
-              <p>{x}</p>
+              <h3>{v.titulo}</h3>
+              <p>{v.texto}</p>
             </div>
           ))}
         </div>
       </Secao>
       <Secao>
-        <Cabecalho sobre="Parceiros" titulo="Instituições com quem trabalhamos" centro />
-        <div className="parceiros">
-          {marca.legal.parceiros.map((p) => <span key={p}>{p}</span>)}
-        </div>
+        <Cabecalho sobre="Bancos parceiros" titulo="Com quem trabalhamos" centro />
+        <Bancos />
       </Secao>
     </>
   )
 }
 
-// ---------- Empresas ----------
+// ---------- Parceiros (imobiliárias e corretores) ----------
 
-export function Empresas() {
-  const [f, setF] = useState({ empresa: '', nome: '', cargo: '', telefone: '', email: '', funcionarios: '' })
+export function Parceiros() {
+  const [f, setF] = useState({ empresa: '', nome: '', perfil: '', telefone: '', email: '', volume: '' })
   const [erros, setErros] = useState<Record<string, string>>({})
   const [enviando, setEnviando] = useState(false)
 
   async function enviar() {
     const e: Record<string, string> = {}
-    if (!f.empresa.trim()) e.empresa = 'Informe a empresa'
     if (!f.nome.trim()) e.nome = 'Informe seu nome'
+    if (!f.perfil) e.perfil = 'Selecione'
     if (!telefoneValido(f.telefone)) e.telefone = 'Celular com DDD'
     if (!emailValido(f.email)) e.email = 'E-mail inválido'
-    if (!f.funcionarios) e.funcionarios = 'Selecione'
     setErros(e)
     if (Object.keys(e).length) return
     setEnviando(true)
     await enviarLead({
-      produto: 'empresas',
-      produtoNome: 'Consignado para empresas',
+      produto: 'parceiros',
+      produtoNome: 'Parceria (imobiliária/corretor)',
       nome: f.nome,
       telefone: f.telefone,
       email: f.email,
-      extras: { empresa: f.empresa, cargo: f.cargo, funcionarios: f.funcionarios },
-      origem: '/empresas',
+      extras: { empresa: f.empresa, perfil: f.perfil, volume: f.volume },
+      origem: '/parceiros',
     })
     navegar('/obrigado')
   }
@@ -121,39 +126,49 @@ export function Empresas() {
     </label>
   )
 
+  const select = (k: keyof typeof f, rotulo: string, opcoes: string[]) => (
+    <label className={`campo ${erros[k] ? 'campo--erro' : ''}`}>
+      <span className="campo-rotulo">{rotulo}</span>
+      <select value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })}>
+        <option value="">Selecione</option>
+        {opcoes.map((o) => <option key={o}>{o}</option>)}
+      </select>
+      {erros[k] && <span className="campo-erro">{erros[k]}</span>}
+    </label>
+  )
+
   return (
     <>
-      <section className="hero hero--produto">
+      <section className="hero hero--marca hero--produto">
+        <Cifrao className="hero-cifrao" />
         <div className="container hero-grade">
           <div className="hero-texto">
-            <span className="selo"><Icone nome="empresa" tamanho={16} /> Para empresas</span>
-            <h1>Colaborador sem dívida cara trabalha melhor.</h1>
+            <span className="selo selo--escuro"><Icone nome="empresa" tamanho={16} /> Imobiliárias, corretores e construtoras</span>
+            <h1>Seu cliente aprovado em até <em>1 hora</em>. Você fecha mais.</h1>
             <p className="hero-sub">
-              Ofereça consignado com taxa reduzida como benefício. Implantação sem custo, sem mudar sua folha e com suporte dedicado ao RH.
+              A Conquistare cuida do crédito do seu cliente do começo ao fim: aprovação, avaliação, jurídico, assinatura e registro, até o
+              recurso cair na conta do vendedor.
             </p>
-            <Lista itens={['Custo zero para a empresa', 'Integração simples com a folha', 'Educação financeira para o time', 'Atendimento direto aos colaboradores']} />
+            <ul className="hero-provas">
+              <li><Icone nome="relogio" tamanho={18} /> Aprovação de crédito em até 1 hora</li>
+              <li><Icone nome="balanca" tamanho={18} /> 7 bancos pra encaixar cada perfil</li>
+              <li><Icone nome="check" tamanho={18} /> Status do processo sempre atualizado pra você</li>
+            </ul>
           </div>
           <div className="hero-sim">
             <div className="simulador">
               <div className="simulador-corpo">
-                <h3 className="cotacao-titulo">Fale com nosso time corporativo</h3>
+                <h3 className="cotacao-titulo">Quero ser parceiro</h3>
                 <div className="form-grade">
-                  <div className="span-2">{campo('empresa', 'Empresa')}</div>
                   {campo('nome', 'Seu nome', { autoComplete: 'name' })}
-                  {campo('cargo', 'Cargo')}
+                  {select('perfil', 'Você é', ['Corretor autônomo', 'Imobiliária', 'Construtora / incorporadora', 'Outro'])}
+                  <div className="span-2">{campo('empresa', 'Imobiliária ou empresa (opcional)')}</div>
                   {campo('telefone', 'Celular', { inputMode: 'tel', placeholder: '(61) 99999-9999' })}
-                  {campo('email', 'E-mail corporativo', { type: 'email' })}
-                  <label className={`campo span-2 ${erros.funcionarios ? 'campo--erro' : ''}`}>
-                    <span className="campo-rotulo">Número de colaboradores</span>
-                    <select value={f.funcionarios} onChange={(e) => setF({ ...f, funcionarios: e.target.value })}>
-                      <option value="">Selecione</option>
-                      {['Até 50', '51 a 200', '201 a 1.000', 'Mais de 1.000'].map((o) => <option key={o}>{o}</option>)}
-                    </select>
-                    {erros.funcionarios && <span className="campo-erro">{erros.funcionarios}</span>}
-                  </label>
+                  {campo('email', 'E-mail', { type: 'email' })}
+                  <div className="span-2">{select('volume', 'Vendas financiadas por mês', ['1 a 2', '3 a 5', '6 a 10', 'Mais de 10'])}</div>
                 </div>
                 <button className="btn btn--primario btn--bloco btn--lg" disabled={enviando} onClick={enviar}>
-                  {enviando ? 'Enviando...' : 'Quero oferecer o benefício'}
+                  {enviando ? 'Enviando...' : 'Quero ser parceiro'}
                 </button>
               </div>
             </div>
@@ -161,12 +176,12 @@ export function Empresas() {
         </div>
       </section>
       <Secao tom="creme">
-        <Cabecalho sobre="Como funciona" titulo="Implantação em 3 passos" centro />
+        <Cabecalho sobre="Como funciona" titulo="Você indica, a gente cuida do crédito" centro />
         <ol className="passos passos--3">
           {[
-            ['Convênio', 'Formalizamos a parceria sem custo e sem alterar seus processos.'],
-            ['Divulgação', 'Entregamos materiais prontos pro time conhecer o benefício.'],
-            ['Atendimento', 'Nós atendemos cada colaborador. O RH só confirma a margem.'],
+            ['Indique o cliente', 'Mande os dados pelo WhatsApp ou formulário. A gente faz a simulação na hora.'],
+            ['Aprovação rápida', 'Crédito analisado em até 1 hora no banco que melhor encaixa o perfil.'],
+            ['Até o registro', 'Acompanhamos avaliação, jurídico, assinatura e registro. Você recebe cada atualização.'],
           ].map(([t, x], i) => (
             <li key={t} className="passo">
               <span className="passo-n">{String(i + 1).padStart(2, '0')}</span>

@@ -1,62 +1,61 @@
-import { categorias, porCategoria, type Categoria } from '../config/produtos'
-import { artigos, beneficios, comparativoTaxas, depoimentos, faqGeral, numeros } from '../config/conteudo'
+import { categorias, porCategoria, porSlug, type Categoria } from '../config/produtos'
+import { artigos, beneficios, depoimentos, faqGeral, numeros } from '../config/conteudo'
 import { marca, linkWhatsApp } from '../config/marca'
 import { Link } from '../lib/router'
-import { pct } from '../lib/financas'
+import { moeda, parcelaConsorcio, parcelaPrice } from '../lib/financas'
 import { Simulador } from '../ui/Simulador'
-import { Acordeao, Cabecalho, CardProduto, Secao } from '../ui/Comuns'
+import { Acordeao, Bancos, Cabecalho, CardProduto, Cifrao, Secao } from '../ui/Comuns'
 import { Icone, IconeWhatsApp } from '../ui/Icones'
 import { CardArtigo } from './Blog'
 
 export function Home() {
-  const cats: Categoria[] = ['emprestimos', 'financiamentos', 'seguros']
-  const maiorTaxa = Math.max(...comparativoTaxas.map((c) => c.taxa))
+  const cats: Categoria[] = ['financiamentos', 'consorcios', 'emprestimos']
+  const fin = porSlug('financiamento-imobiliario')
+  const cons = porSlug('consorcio-imovel')
+
+  // Comparativo ilustrativo com o mesmo valor de bem nos dois caminhos.
+  const valorExemplo = 300_000
+  const parcelaFin = fin ? parcelaPrice(valorExemplo, fin.taxaMensal ?? 0, 360) : 0
+  const parcelaCons = cons ? parcelaConsorcio(valorExemplo, cons.taxaAdm ?? 0, 200) : 0
 
   return (
     <>
       {/* HERO */}
-      <section className="hero">
+      <section className="hero hero--marca">
+        <Cifrao className="hero-cifrao" />
         <div className="container hero-grade">
           <div className="hero-texto">
-            <span className="selo"><span className="selo-ponto" /> Crédito com garantia e consignado</span>
+            <span className="selo selo--escuro"><span className="selo-ponto" /> Correspondente multibancos · Brasília/DF</span>
             <h1>
-              Crédito pra <em>conquistar</em> o que importa.
+              Chegou a hora de <em>conquistar</em>!
             </h1>
             <p className="hero-sub">
-              A menor taxa que der pro seu perfil, comparada entre vários bancos. Cada número explicado antes de você
-              assinar, e zero taxa antecipada.
+              Financiamento imobiliário, consórcio e empréstimo com 7 bancos comparados pro seu perfil e aprovação do
+              financiamento em até 1 hora.
             </p>
             <ul className="hero-provas">
-              <li><Icone nome="check" tamanho={18} /> Simulação grátis, sem afetar o score</li>
-              <li><Icone nome="check" tamanho={18} /> Especialista humano do começo ao fim</li>
-              <li><Icone nome="check" tamanho={18} /> Resposta em até 24h úteis</li>
+              <li><Icone nome="relogio" tamanho={18} /> Aprovação do financiamento em até 1 hora</li>
+              <li><Icone nome="balanca" tamanho={18} /> Caixa, BRB, Santander, Itaú, Bradesco, Poupex e Inter</li>
+              <li><Icone nome="check" tamanho={18} /> Acompanhamento da simulação ao registro</li>
             </ul>
           </div>
           <div className="hero-sim">
-            <div className="hero-flutua hero-flutua--a" aria-hidden="true">
-              <span className="hero-flutua-ic"><Icone nome="check" tamanho={16} /></span>
-              <span><small>Proposta aprovada</small><strong>R$ 180.000</strong></span>
-            </div>
             <Simulador />
           </div>
         </div>
       </section>
 
-      {/* NÚMEROS */}
-      <div className="numeros">
-        <div className="container numeros-grade">
-          {numeros.map((n) => (
-            <div key={n.rotulo}>
-              <strong>{n.valor}</strong>
-              <span>{n.rotulo}</span>
-            </div>
-          ))}
+      {/* BANCOS */}
+      <div className="faixa-bancos">
+        <div className="container">
+          <span>Trabalhamos com</span>
+          <Bancos />
         </div>
       </div>
 
       {/* PRODUTOS */}
       <Secao id="produtos">
-        <Cabecalho sobre="Soluções" titulo="Uma solução pra cada conquista" texto="Do crédito que organiza as contas ao financiamento da casa própria." />
+        <Cabecalho sobre="Nossas soluções" titulo="Sua solução financeira completa" texto="Do financiamento da casa própria ao consórcio do carro novo, com orientação especializada em cada etapa." />
         {cats.map((c) => (
           <div key={c} className="bloco-cat">
             <div className="bloco-cat-topo">
@@ -70,28 +69,29 @@ export function Home() {
         ))}
       </Secao>
 
-      {/* COMPARATIVO */}
-      <Secao tom="escuro">
+      {/* APROVAÇÃO EM 1 HORA */}
+      <Secao tom="escuro" className="secao--cifrao">
+        <Cifrao className="secao-cifrao" />
         <div className="duas-colunas">
-          <Cabecalho
-            sobre="Faça a conta"
-            titulo="O mesmo dinheiro pode custar 10 vezes menos"
-            texto="Quem paga cartão e cheque especial está financiando o banco. Com garantia ou consignado, a taxa despenca e a parcela volta a caber na vida."
-          />
-          <div className="comparativo">
-            {comparativoTaxas.map((c) => (
-              <div key={c.rotulo} className={`comparativo-linha ${c.destaque ? 'destaque' : ''}`}>
-                <div className="comparativo-rotulo">
-                  <span>{c.rotulo}</span>
-                  <strong>{pct(c.taxa, c.taxa < 2 ? 2 : 1)} a.m.</strong>
-                </div>
-                <div className="comparativo-trilho">
-                  <div className="comparativo-barra" style={{ width: `${Math.max(4, (c.taxa / maiorTaxa) * 100)}%` }} />
-                </div>
-              </div>
-            ))}
-            <p className="nota">Taxas médias aproximadas de mercado (referência: Banco Central). A taxa Conquistare é "a partir de" e depende de análise.</p>
+          <div>
+            <Cabecalho
+              sobre="Financiamento imobiliário"
+              titulo={<>Aprovação em até <span className="destaque-verde">1 hora</span>. Acompanhamento até o fim.</>}
+              texto="A gente não some depois da aprovação. Acompanhamos cada etapa até o recurso chegar no vendedor, com tranquilidade pra você e pros parceiros."
+            />
+            <Link para="/financiamento/imobiliario" className="btn btn--verde btn--lg">Simular financiamento</Link>
           </div>
+          <ol className="linha-tempo">
+            {(fin?.passos ?? []).map((s, i) => (
+              <li key={s.titulo}>
+                <span className="linha-tempo-n">{i + 1}</span>
+                <div>
+                  <strong>{s.titulo}</strong>
+                  <p>{s.texto}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Secao>
 
@@ -109,31 +109,60 @@ export function Home() {
         </div>
       </Secao>
 
-      {/* COMO FUNCIONA */}
-      <Secao tom="creme" id="como-funciona">
-        <Cabecalho sobre="Como funciona" titulo="Do primeiro clique ao dinheiro na conta" centro />
-        <ol className="passos">
-          {[
-            ['Simule', 'Escolha o tipo de crédito, o valor e o prazo. Leva menos de 2 minutos.'],
-            ['Converse com um especialista', 'Ele entende seu momento e leva seu perfil aos bancos parceiros.'],
-            ['Compare e decida', 'Você recebe taxa, CET e parcela final. Sem pressão.'],
-            ['Receba', 'Contrato assinado, dinheiro direto na sua conta.'],
-          ].map(([t, x], i) => (
-            <li key={t} className="passo">
-              <span className="passo-n">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{t}</h3>
-              <p>{x}</p>
-            </li>
+      {/* CONSÓRCIO x FINANCIAMENTO */}
+      {fin && cons && (
+        <Secao tom="creme">
+          <Cabecalho
+            sobre="Faça a conta"
+            titulo="Financiar agora ou planejar sem juros?"
+            texto={`O mesmo imóvel de ${moeda(valorExemplo)}, pelos dois caminhos. A gente simula os dois pra você decidir com números.`}
+            centro
+          />
+          <div className="versus">
+            <div className="versus-card">
+              <span className="versus-tag">Financiamento</span>
+              <h3>O imóvel agora</h3>
+              <strong className="versus-valor">{moeda(parcelaFin)}<small>/mês</small></strong>
+              <span className="versus-nota">em 360 meses, com juros a partir de {fin.taxaMensal?.toLocaleString('pt-BR')}% a.m.</span>
+              <ul className="lista">
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Mora ou usa o imóvel logo após o registro</li>
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Aprovação em até 1 hora</li>
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Pode usar FGTS na entrada</li>
+              </ul>
+              <Link para="/simular?produto=financiamento-imobiliario" className="btn btn--primario btn--bloco">Simular financiamento</Link>
+            </div>
+            <div className="versus-card versus-card--verde">
+              <span className="versus-tag">Consórcio</span>
+              <h3>Sem juros, com planejamento</h3>
+              <strong className="versus-valor">{moeda(parcelaCons)}<small>/mês</small></strong>
+              <span className="versus-nota">em 200 meses, taxa de administração de {cons.taxaAdm}% no total</span>
+              <ul className="lista">
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Zero juros</li>
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Contemplação por sorteio ou lance</li>
+                <li><span className="lista-ic"><Icone nome="check" tamanho={16} /></span>Compra como pagador à vista</li>
+              </ul>
+              <Link para="/simular?produto=consorcio-imovel" className="btn btn--verde btn--bloco">Simular consórcio</Link>
+            </div>
+          </div>
+          <p className="nota centro">Valores ilustrativos. Condições finais dependem de análise e da administradora ou banco.</p>
+        </Secao>
+      )}
+
+      {/* NÚMEROS */}
+      <div className="numeros">
+        <div className="container numeros-grade">
+          {numeros.map((n) => (
+            <div key={n.rotulo}>
+              <strong>{n.valor}</strong>
+              <span>{n.rotulo}</span>
+            </div>
           ))}
-        </ol>
-        <div className="centro">
-          <Link para="/simular" className="btn btn--primario btn--lg">Começar minha simulação</Link>
         </div>
-      </Secao>
+      </div>
 
       {/* DEPOIMENTOS */}
       <Secao>
-        <Cabecalho sobre="Quem já conquistou" titulo="Histórias de quem saiu do aperto" />
+        <Cabecalho sobre="Quem já conquistou" titulo="O que dizem os clientes" />
         <div className="depoimentos">
           {depoimentos.map((d) => (
             <figure key={d.nome} className="depoimento">
@@ -145,7 +174,7 @@ export function Home() {
                 <span className="avatar">{d.nome.charAt(0)}</span>
                 <span>
                   <strong>{d.nome}</strong>
-                  <small>{d.produto} · {d.cidade}</small>
+                  <small>{d.origem} · {d.produto}</small>
                 </span>
               </figcaption>
             </figure>
@@ -153,15 +182,16 @@ export function Home() {
         </div>
       </Secao>
 
-      {/* EMPRESAS */}
+      {/* PARCEIROS */}
       <Secao>
         <div className="faixa-empresas">
+          <Cifrao className="faixa-cifrao" />
           <div>
-            <span className="sobretitulo">Para empresas</span>
-            <h2>Ofereça crédito consignado como benefício aos seus colaboradores</h2>
-            <p>Custo zero pra empresa, taxa menor pro time e menos gente endividada perdendo o foco no trabalho.</p>
+            <span className="sobretitulo">Imobiliárias e corretores</span>
+            <h2>Seu cliente aprovado em até 1 hora. Você fecha mais negócios.</h2>
+            <p>A gente cuida do crédito do seu cliente do início ao registro, e você foca em vender.</p>
           </div>
-          <Link para="/empresas" className="btn btn--claro btn--lg">Conhecer o programa</Link>
+          <Link para="/parceiros" className="btn btn--claro btn--lg">Quero ser parceiro</Link>
         </div>
       </Secao>
 
@@ -190,11 +220,12 @@ export function Home() {
 
       {/* CTA FINAL */}
       <section className="cta-final">
+        <Cifrao className="cta-cifrao" />
         <div className="container cta-final-in">
-          <h2>Sua próxima conquista começa com uma simulação.</h2>
+          <h2>Vamos conquistar o seu sonho?</h2>
           <div className="cta-final-botoes">
-            <Link para="/simular" className="btn btn--dourado btn--lg">Simular agora</Link>
-            <a className="btn btn--claro-contorno btn--lg" href={linkWhatsApp(`Olá, ${marca.nome}! Quero falar com um especialista.`)} target="_blank" rel="noopener noreferrer">
+            <Link para="/simular" className="btn btn--verde btn--lg">Simular agora</Link>
+            <a className="btn btn--claro-contorno btn--lg" href={linkWhatsApp(`Olá, ${marca.nome}! Quero falar com um consultor.`)} target="_blank" rel="noopener noreferrer">
               <IconeWhatsApp tamanho={20} /> Falar no WhatsApp
             </a>
           </div>

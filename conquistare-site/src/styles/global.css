@@ -1,35 +1,39 @@
 /* ==========================================================================
-   Conquistare. Tokens de marca: trocar aqui quando chegar a identidade oficial.
-   Paleta provisória: azul-marinho profundo (confiança) + dourado (conquista)
-   sobre off-white quente.
+   Conquistare Cred. Identidade: roxo #61027E + verde #338D53 + branco,
+   com o "$" vazado como grafismo (medido das peças oficiais no Illustrator).
    ========================================================================== */
 :root {
-  --marinho: #0d1b3e;
-  --marinho-2: #16295a;
-  --marinho-3: #23407f;
-  --dourado: #e9b949;
-  --dourado-escuro: #c99a2e;
-  --dourado-suave: #fbf1d9;
-  --creme: #f7f4ee;
+  --roxo: #61027e;
+  --roxo-2: #4a0161;
+  --roxo-3: #7a1f99;
+  --roxo-fundo: #2a0038;
+  --verde: #338d53;
+  --verde-claro: #4fb874;
+  --verde-escuro: #276d40;
+  --verde-suave: #e8f4ec;
+  --lilas: #f4ecf7;
+  --creme: #f8f6fa;
   --branco: #ffffff;
-  --tinta: #0f1629;
-  --texto-2: #4a5268;
-  --texto-3: #7a8197;
-  --linha: #e6e3dc;
-  --linha-2: #d7d3ca;
-  --sucesso: #1f9d6b;
+  --tinta: #1c1024;
+  --texto-2: #54485c;
+  --texto-3: #85798c;
+  --linha: #ebe5ee;
+  --linha-2: #d9d0de;
+  --sucesso: #338d53;
   --erro: #d14343;
   --whats: #25d366;
+  --verde-luz: #8fdca8;
+  --amarelo: #f2b705;
 
-  --fonte: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fonte: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --raio: 20px;
   --raio-sm: 12px;
   --raio-xs: 8px;
-  --sombra: 0 1px 2px rgba(13, 27, 62, 0.04), 0 8px 24px rgba(13, 27, 62, 0.06);
-  --sombra-forte: 0 2px 6px rgba(13, 27, 62, 0.06), 0 24px 60px rgba(13, 27, 62, 0.14);
+  --sombra: 0 1px 2px rgba(42, 0, 56, 0.05), 0 8px 24px rgba(42, 0, 56, 0.07);
+  --sombra-forte: 0 2px 6px rgba(42, 0, 56, 0.08), 0 24px 60px rgba(42, 0, 56, 0.18);
   --maxw: 1200px;
   --gutter: 24px;
-  --topo-h: 72px;
+  --topo-h: 76px;
 }
 
 *,
@@ -62,7 +66,7 @@ h4 {
   line-height: 1.12;
   letter-spacing: -0.025em;
   font-weight: 800;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 
 p {
@@ -91,7 +95,7 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--dourado);
+  outline: 3px solid var(--verde);
   outline-offset: 2px;
 }
 
@@ -164,31 +168,32 @@ button {
   width: 100%;
 }
 .btn--primario {
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
-  box-shadow: 0 6px 18px rgba(13, 27, 62, 0.22);
+  box-shadow: 0 6px 18px rgba(42, 0, 56, 0.22);
 }
 .btn--primario:hover {
-  background: var(--marinho-2);
+  background: var(--roxo-2);
 }
-.btn--dourado {
-  background: var(--dourado);
-  color: var(--marinho);
+.btn--verde {
+  background: var(--verde);
+  color: var(--branco);
+  box-shadow: 0 6px 18px rgba(51, 141, 83, 0.3);
 }
-.btn--dourado:hover {
-  background: #f1c75e;
+.btn--verde:hover {
+  background: var(--verde-escuro);
 }
 .btn--fantasma {
   background: transparent;
   border-color: var(--linha-2);
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .btn--fantasma:hover {
-  border-color: var(--marinho);
+  border-color: var(--roxo);
 }
 .btn--claro {
   background: var(--branco);
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .btn--claro-contorno {
   background: transparent;
@@ -208,7 +213,7 @@ button {
   align-items: center;
   gap: 6px;
   font-weight: 700;
-  color: var(--marinho);
+  color: var(--roxo);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -234,58 +239,43 @@ button {
 
 /* ---------- faixa rascunho ---------- */
 .faixa-rascunho {
-  background: var(--dourado);
-  color: var(--marinho);
+  background: var(--amarelo);
+  color: var(--tinta);
   font-size: 13px;
   font-weight: 600;
   text-align: center;
   padding: 7px 16px;
 }
 
-/* ---------- logo ---------- */
+/* ---------- logo (provisório em texto até chegar o arquivo oficial) ---------- */
 .logo {
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.logo-selo {
-  fill: var(--marinho);
-}
-.logo-cume {
-  fill: var(--branco);
-}
-.logo-sol {
-  fill: var(--dourado);
+  flex-direction: column;
+  line-height: 1;
 }
 .logo-nome {
   font-weight: 800;
-  font-size: 21px;
-  letter-spacing: -0.04em;
-  color: var(--marinho);
+  font-size: 25px;
+  letter-spacing: -0.045em;
+  color: var(--roxo);
 }
-.logo-cred {
+.logo-desc {
+  font-size: 9.5px;
   font-weight: 600;
-  color: var(--dourado-escuro);
-  margin-left: 2px;
-  letter-spacing: -0.02em;
-}
-.logo--claro .logo-selo {
-  fill: var(--dourado);
-}
-.logo--claro .logo-cume {
-  fill: var(--marinho);
-}
-.logo--claro .logo-sol {
-  fill: var(--branco);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--verde);
+  margin-top: 3px;
+  padding-left: 1px;
 }
 .logo--claro .logo-nome {
   color: var(--branco);
 }
-.logo--claro .logo-cred {
-  color: var(--dourado);
+.logo--claro .logo-desc {
+  color: var(--verde-luz);
 }
 .logo-img {
-  height: 34px;
+  height: 40px;
   width: auto;
 }
 
@@ -302,7 +292,7 @@ button {
 }
 .topo--rolou {
   border-bottom-color: var(--linha);
-  box-shadow: 0 4px 20px rgba(13, 27, 62, 0.05);
+  box-shadow: 0 4px 20px rgba(42, 0, 56, 0.05);
 }
 .topo-in {
   max-width: var(--maxw);
@@ -330,7 +320,8 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 10px 12px;
+  white-space: nowrap;
+  padding: 10px 11px;
   border-radius: 10px;
   font-weight: 600;
   font-size: 15px;
@@ -340,7 +331,7 @@ button {
 }
 .nav-link:hover,
 .nav-link.ativo {
-  color: var(--marinho);
+  color: var(--roxo);
   background: var(--creme);
 }
 .mega {
@@ -377,7 +368,7 @@ button {
 }
 .mega-item strong {
   display: block;
-  color: var(--marinho);
+  color: var(--roxo);
   font-size: 15px;
 }
 .mega-item small {
@@ -393,8 +384,8 @@ button {
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: var(--dourado-suave);
-  color: var(--marinho);
+  background: var(--verde-suave);
+  color: var(--roxo);
 }
 .topo-acoes {
   display: flex;
@@ -410,7 +401,7 @@ button {
   background: var(--creme);
   border-radius: 12px;
   place-items: center;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .gaveta {
   position: fixed;
@@ -442,7 +433,7 @@ button {
   padding: 12px 0;
   font-weight: 600;
   font-size: 17px;
-  color: var(--marinho);
+  color: var(--roxo);
   text-decoration: none;
 }
 
@@ -462,8 +453,8 @@ button {
   position: relative;
   padding: 64px 0 88px;
   background:
-    radial-gradient(900px 500px at 88% 10%, rgba(233, 185, 73, 0.18), transparent 60%),
-    radial-gradient(800px 600px at 0% 100%, rgba(35, 64, 127, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 88% 10%, rgba(51, 141, 83, 0.18), transparent 60%),
+    radial-gradient(800px 600px at 0% 100%, rgba(97, 2, 126, 0.08), transparent 60%),
     var(--creme);
   overflow: hidden;
 }
@@ -488,7 +479,7 @@ button {
   border: 1px solid var(--linha);
   font-size: 13px;
   font-weight: 700;
-  color: var(--marinho);
+  color: var(--roxo);
   margin-bottom: 22px;
 }
 .selo-ponto {
@@ -505,7 +496,7 @@ button {
 }
 .hero h1 em {
   font-style: italic;
-  color: var(--dourado-escuro);
+  color: var(--verde);
   position: relative;
 }
 .hero--produto h1 {
@@ -529,7 +520,7 @@ button {
   align-items: center;
   gap: 10px;
   font-weight: 600;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .hero-provas svg {
   color: var(--sucesso);
@@ -537,50 +528,6 @@ button {
 }
 .hero-sim {
   position: relative;
-}
-.hero-flutua {
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  background: var(--branco);
-  border-radius: 16px;
-  box-shadow: var(--sombra-forte);
-  animation: flutua 6s ease-in-out infinite;
-}
-.hero-flutua small {
-  display: block;
-  font-size: 11px;
-  color: var(--texto-3);
-  font-weight: 600;
-}
-.hero-flutua strong {
-  display: block;
-  font-size: 16px;
-  color: var(--marinho);
-}
-.hero-flutua--a {
-  bottom: -26px;
-  left: -56px;
-}
-.hero .simulador-corpo {
-  padding-bottom: 40px;
-}
-.hero-flutua-ic {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(31, 157, 107, 0.12);
-  color: var(--sucesso);
-}
-@keyframes flutua {
-  50% {
-    transform: translateY(-8px);
-  }
 }
 .migalha {
   font-size: 13px;
@@ -614,7 +561,7 @@ button {
 }
 .ficha strong {
   font-size: 16px;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 
 /* ---------- simulador ---------- */
@@ -653,11 +600,11 @@ button {
   transition: background 0.15s, color 0.15s;
 }
 .simulador-abas button:hover {
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .simulador-abas button.ativa {
   background: var(--branco);
-  color: var(--marinho);
+  color: var(--roxo);
   box-shadow: var(--sombra);
 }
 .simulador-corpo {
@@ -675,7 +622,7 @@ button {
   font-size: 40px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--marinho);
+  color: var(--roxo);
   line-height: 1.1;
   margin-bottom: 14px;
   font-variant-numeric: tabular-nums;
@@ -687,7 +634,7 @@ button {
   width: 100%;
   height: 8px;
   border-radius: 99px;
-  background: linear-gradient(to right, var(--marinho) var(--pos), var(--linha) var(--pos));
+  background: linear-gradient(to right, var(--roxo) var(--pos), var(--linha) var(--pos));
   outline-offset: 6px;
 }
 .simulador input[type='range']::-webkit-slider-thumb {
@@ -696,8 +643,8 @@ button {
   height: 28px;
   border-radius: 50%;
   background: var(--branco);
-  border: 7px solid var(--dourado);
-  box-shadow: 0 2px 10px rgba(13, 27, 62, 0.25);
+  border: 7px solid var(--verde);
+  box-shadow: 0 2px 10px rgba(42, 0, 56, 0.25);
   cursor: grab;
 }
 .simulador input[type='range']::-moz-range-thumb {
@@ -705,8 +652,8 @@ button {
   height: 14px;
   border-radius: 50%;
   background: var(--branco);
-  border: 7px solid var(--dourado);
-  box-shadow: 0 2px 10px rgba(13, 27, 62, 0.25);
+  border: 7px solid var(--verde);
+  box-shadow: 0 2px 10px rgba(42, 0, 56, 0.25);
   cursor: grab;
 }
 .simulador-limites {
@@ -734,11 +681,11 @@ button {
   transition: all 0.15s;
 }
 .simulador-prazos button:hover {
-  border-color: var(--marinho);
+  border-color: var(--roxo);
 }
 .simulador-prazos button.ativo {
-  background: var(--marinho);
-  border-color: var(--marinho);
+  background: var(--roxo);
+  border-color: var(--roxo);
   color: var(--branco);
 }
 .simulador-resultado {
@@ -747,7 +694,7 @@ button {
   gap: 12px;
   padding: 18px 20px;
   border-radius: 16px;
-  background: var(--dourado-suave);
+  background: var(--verde-suave);
   margin-bottom: 18px;
 }
 .simulador-resultado small {
@@ -760,7 +707,7 @@ button {
   display: block;
   font-size: 28px;
   letter-spacing: -0.03em;
-  color: var(--marinho);
+  color: var(--roxo);
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
@@ -769,7 +716,7 @@ button {
   color: var(--texto-2);
 }
 .simulador-taxa {
-  border-left: 1px solid rgba(13, 27, 62, 0.12);
+  border-left: 1px solid rgba(42, 0, 56, 0.12);
   padding-left: 14px;
 }
 .simulador-taxa strong {
@@ -788,7 +735,7 @@ button {
 
 /* ---------- números ---------- */
 .numeros {
-  background: var(--marinho);
+  background: var(--verde);
   color: var(--branco);
 }
 .numeros-grade {
@@ -800,14 +747,15 @@ button {
 }
 .numeros strong {
   display: block;
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--dourado);
+  color: var(--branco);
+  line-height: 1.1;
 }
 .numeros span {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 /* ---------- seções ---------- */
@@ -818,7 +766,7 @@ button {
   background: var(--creme);
 }
 .secao--escuro {
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
 }
 .secao--escuro h2,
@@ -837,11 +785,11 @@ button {
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--dourado-escuro);
+  color: var(--verde);
   margin-bottom: 14px;
 }
 .secao--escuro .sobretitulo {
-  color: var(--dourado);
+  color: var(--verde-luz);
 }
 .cabecalho {
   max-width: 640px;
@@ -856,7 +804,7 @@ button {
   color: var(--texto-2);
 }
 .cabecalho p a {
-  color: var(--marinho);
+  color: var(--roxo);
   font-weight: 700;
 }
 .cabecalho--centro {
@@ -930,8 +878,8 @@ button {
   place-items: center;
   flex-shrink: 0;
   border-radius: 16px;
-  background: var(--dourado-suave);
-  color: var(--marinho);
+  background: var(--verde-suave);
+  color: var(--roxo);
   margin-bottom: 20px;
 }
 .card-produto h3 {
@@ -959,7 +907,7 @@ button {
 }
 .card-produto-taxa strong {
   font-size: 18px;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .card-produto-seta {
   width: 40px;
@@ -968,42 +916,12 @@ button {
   display: grid;
   place-items: center;
   background: var(--creme);
-  color: var(--marinho);
+  color: var(--roxo);
   transition: background 0.2s, color 0.2s;
 }
 .card-produto:hover .card-produto-seta {
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
-}
-
-/* ---------- comparativo ---------- */
-.comparativo {
-  display: grid;
-  gap: 22px;
-}
-.comparativo-rotulo {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: rgba(255, 255, 255, 0.8);
-}
-.comparativo-trilho {
-  height: 14px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-.comparativo-barra {
-  height: 100%;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.35);
-}
-.comparativo-linha.destaque .comparativo-rotulo {
-  color: var(--dourado);
-}
-.comparativo-linha.destaque .comparativo-barra {
-  background: var(--dourado);
 }
 
 /* ---------- benefícios ---------- */
@@ -1027,15 +945,15 @@ button {
   display: grid;
   place-items: center;
   border-radius: 14px;
-  background: var(--marinho);
-  color: var(--dourado);
+  background: var(--roxo);
+  color: var(--branco);
   margin-bottom: 20px;
 }
 .beneficio-n {
   display: block;
   font-size: 14px;
   font-weight: 800;
-  color: var(--dourado-escuro);
+  color: var(--verde);
   margin-bottom: 14px;
 }
 .beneficio h3 {
@@ -1076,8 +994,8 @@ button {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--dourado);
-  color: var(--marinho);
+  background: var(--verde);
+  color: var(--branco);
   font-weight: 800;
   font-size: 15px;
   margin-bottom: 20px;
@@ -1108,7 +1026,7 @@ button {
 .estrelas {
   display: flex;
   gap: 2px;
-  color: var(--dourado-escuro);
+  color: var(--amarelo);
   margin-bottom: 16px;
 }
 .estrelas svg {
@@ -1128,7 +1046,7 @@ button {
 .depoimento strong {
   display: block;
   font-size: 15px;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .depoimento small {
   display: block;
@@ -1142,8 +1060,8 @@ button {
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  background: var(--marinho);
-  color: var(--dourado);
+  background: var(--roxo);
+  color: var(--branco);
   font-weight: 800;
 }
 
@@ -1156,8 +1074,8 @@ button {
   padding: 56px;
   border-radius: 32px;
   background:
-    radial-gradient(600px 300px at 100% 0%, rgba(233, 185, 73, 0.3), transparent 60%),
-    linear-gradient(135deg, var(--marinho), var(--marinho-3));
+    radial-gradient(600px 300px at 100% 0%, rgba(51, 141, 83, 0.3), transparent 60%),
+    linear-gradient(135deg, var(--roxo), var(--roxo-3));
   color: var(--branco);
 }
 .faixa-empresas h2 {
@@ -1171,7 +1089,7 @@ button {
   max-width: 560px;
 }
 .faixa-empresas .sobretitulo {
-  color: var(--dourado);
+  color: var(--verde-luz);
 }
 
 /* ---------- artigos ---------- */
@@ -1200,8 +1118,8 @@ button {
   align-items: flex-end;
   padding: 20px;
   background:
-    radial-gradient(300px 160px at 90% 0%, rgba(233, 185, 73, 0.45), transparent 70%),
-    linear-gradient(135deg, var(--marinho), var(--marinho-3));
+    radial-gradient(300px 160px at 90% 0%, rgba(51, 141, 83, 0.45), transparent 70%),
+    linear-gradient(135deg, var(--roxo), var(--roxo-3));
 }
 .card-artigo-capa span {
   font-size: 12px;
@@ -1270,7 +1188,7 @@ button {
   margin-top: 48px;
   padding: 28px;
   border-radius: var(--raio);
-  background: var(--dourado-suave);
+  background: var(--verde-suave);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1279,7 +1197,7 @@ button {
 }
 .artigo-cta strong {
   font-size: 19px;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .legal .artigo-corpo {
   font-size: 16px;
@@ -1300,7 +1218,7 @@ button {
   border-color: transparent;
 }
 .acordeao-item.aberto {
-  border-color: var(--marinho);
+  border-color: var(--roxo);
 }
 .acordeao-item button {
   width: 100%;
@@ -1314,7 +1232,7 @@ button {
   text-align: left;
   font-weight: 700;
   font-size: 16px;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .acordeao-item button svg {
   flex-shrink: 0;
@@ -1362,8 +1280,8 @@ button {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--marinho);
-  color: var(--dourado);
+  background: var(--roxo);
+  color: var(--branco);
   margin-top: -1px;
 }
 .hero .lista {
@@ -1389,8 +1307,8 @@ button {
 .cta-final {
   padding: 80px 0;
   background:
-    radial-gradient(700px 400px at 50% 120%, rgba(233, 185, 73, 0.28), transparent 60%),
-    var(--marinho);
+    radial-gradient(700px 400px at 50% 120%, rgba(51, 141, 83, 0.28), transparent 60%),
+    var(--roxo);
   color: var(--branco);
 }
 .cta-final-in {
@@ -1413,7 +1331,7 @@ button {
 .topo-pagina {
   padding: 72px 0 64px;
   background:
-    radial-gradient(800px 400px at 90% 0%, rgba(233, 185, 73, 0.16), transparent 60%),
+    radial-gradient(800px 400px at 90% 0%, rgba(51, 141, 83, 0.16), transparent 60%),
     var(--creme);
 }
 .topo-pagina h1 {
@@ -1458,7 +1376,7 @@ button {
 }
 .campo select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230d1b3e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2361027e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 42px;
@@ -1468,15 +1386,15 @@ button {
 .campo textarea:focus,
 .busca input:focus {
   outline: none;
-  border-color: var(--marinho);
-  box-shadow: 0 0 0 4px rgba(13, 27, 62, 0.08);
+  border-color: var(--roxo);
+  box-shadow: 0 0 0 4px rgba(42, 0, 56, 0.08);
 }
 .input-grande {
   height: 64px !important;
   font-size: 28px !important;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .campo--erro input,
 .campo--erro select,
@@ -1506,11 +1424,11 @@ button {
   width: 20px;
   height: 20px;
   margin-top: 2px;
-  accent-color: var(--marinho);
+  accent-color: var(--roxo);
   flex-shrink: 0;
 }
 .aceite a {
-  color: var(--marinho);
+  color: var(--roxo);
   font-weight: 700;
 }
 .alerta {
@@ -1532,7 +1450,7 @@ button {
 }
 .alerta button {
   border: 0;
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
   border-radius: 99px;
   padding: 8px 14px;
@@ -1583,11 +1501,11 @@ button {
   font-weight: 800;
 }
 .fluxo-etapa.atual {
-  color: var(--marinho);
+  color: var(--roxo);
   box-shadow: var(--sombra);
 }
 .fluxo-etapa.atual span {
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
 }
 .fluxo-etapa.feita span {
@@ -1619,7 +1537,7 @@ button {
   transition: border-color 0.15s, transform 0.15s;
 }
 .escolha:hover {
-  border-color: var(--marinho);
+  border-color: var(--roxo);
   transform: translateY(-2px);
 }
 .escolha .card-produto-ic {
@@ -1630,7 +1548,7 @@ button {
 }
 .escolha strong {
   display: block;
-  color: var(--marinho);
+  color: var(--roxo);
 }
 .escolha small {
   color: var(--texto-3);
@@ -1652,7 +1570,7 @@ button {
   top: calc(var(--topo-h) + 24px);
   padding: 28px;
   border-radius: 28px;
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
 }
 .resumo-produto {
@@ -1676,7 +1594,7 @@ button {
   display: block;
   font-size: 40px;
   letter-spacing: -0.04em;
-  color: var(--dourado);
+  color: var(--verde-luz);
   line-height: 1.15;
   margin-bottom: 20px;
   font-variant-numeric: tabular-nums;
@@ -1726,7 +1644,7 @@ button {
   gap: 8px;
 }
 .resumo-provas svg {
-  color: var(--dourado);
+  color: var(--verde-luz);
 }
 
 /* ---------- obrigado / entrar ---------- */
@@ -1785,11 +1703,11 @@ button {
   text-align: center;
 }
 .entrar-card .obrigado-ic {
-  background: var(--marinho);
-  box-shadow: 0 0 0 12px rgba(13, 27, 62, 0.08);
+  background: var(--roxo);
+  box-shadow: 0 0 0 12px rgba(97, 2, 126, 0.1);
   width: 64px;
   height: 64px;
-  color: var(--dourado);
+  color: var(--branco);
 }
 .entrar-card h1 {
   font-size: 30px;
@@ -1806,7 +1724,7 @@ button {
   margin-top: 18px;
 }
 .entrar-card .nota a {
-  color: var(--marinho);
+  color: var(--roxo);
   font-weight: 700;
 }
 
@@ -1853,7 +1771,7 @@ button {
   border-radius: var(--raio);
   background: var(--branco);
   text-decoration: none;
-  color: var(--marinho);
+  color: var(--roxo);
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
   word-break: break-word;
@@ -1876,14 +1794,14 @@ button {
 .numero-card {
   padding: 28px;
   border-radius: var(--raio);
-  background: var(--marinho);
+  background: var(--roxo);
   color: var(--branco);
 }
 .numero-card strong {
   display: block;
   font-size: 34px;
   letter-spacing: -0.04em;
-  color: var(--dourado);
+  color: var(--verde-luz);
 }
 .numero-card span {
   font-size: 14px;
@@ -1905,7 +1823,7 @@ button {
 
 /* ---------- rodapé ---------- */
 .rodape {
-  background: #081229;
+  background: var(--roxo-fundo);
   color: rgba(255, 255, 255, 0.72);
   padding: 72px 0 32px;
   font-size: 14px;
@@ -1964,16 +1882,16 @@ button {
   margin-top: 56px;
   padding: 18px 20px;
   border-radius: var(--raio-sm);
-  background: rgba(233, 185, 73, 0.1);
+  background: rgba(51, 141, 83, 0.1);
   color: rgba(255, 255, 255, 0.85);
 }
 .rodape-alerta svg {
-  color: var(--dourado);
+  color: var(--verde-luz);
   flex-shrink: 0;
   margin-top: 2px;
 }
 .rodape-alerta strong {
-  color: var(--dourado);
+  color: var(--verde-luz);
 }
 .rodape-legal {
   margin-top: 32px;
@@ -2028,7 +1946,7 @@ button {
   animation: surge 0.25s ease;
 }
 .cookies a {
-  color: var(--marinho);
+  color: var(--roxo);
   font-weight: 700;
 }
 .cookies > div {
@@ -2038,9 +1956,297 @@ button {
   margin-top: 14px;
 }
 
+/* ---------- identidade Conquistare: hero roxo e "$" vazado ---------- */
+.hero--marca {
+  background:
+    radial-gradient(700px 480px at 90% 0%, rgba(79, 184, 116, 0.32), transparent 60%),
+    radial-gradient(900px 600px at 0% 100%, rgba(122, 31, 153, 0.7), transparent 60%),
+    var(--roxo);
+  color: var(--branco);
+}
+.hero--marca h1 {
+  color: var(--branco);
+}
+.hero--marca h1 em {
+  color: var(--verde-luz);
+}
+.hero--marca .hero-sub {
+  color: rgba(255, 255, 255, 0.82);
+}
+.hero--marca .hero-provas li {
+  color: var(--branco);
+}
+.hero--marca .hero-provas svg {
+  color: var(--verde-luz);
+}
+.hero--marca .migalha,
+.hero--marca .migalha a {
+  color: rgba(255, 255, 255, 0.7);
+}
+.hero--marca .lista li {
+  color: var(--branco);
+}
+.hero--marca .lista-ic {
+  background: var(--verde);
+}
+.hero--marca .ficha > div {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.hero--marca .ficha small {
+  color: rgba(255, 255, 255, 0.65);
+}
+.hero--marca .ficha strong {
+  color: var(--branco);
+}
+.hero--marca .hero-grade {
+  position: relative;
+  z-index: 1;
+}
+.selo--escuro {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--branco);
+}
+.selo--escuro .selo-ponto {
+  background: var(--verde-luz);
+  box-shadow: 0 0 0 4px rgba(143, 220, 168, 0.2);
+}
+
+.cifrao {
+  position: absolute;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.13);
+  z-index: 0;
+}
+.cifrao text {
+  font-family: var(--fonte);
+  font-weight: 800;
+  font-size: 300px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+}
+.hero-cifrao {
+  width: 520px;
+  right: -60px;
+  bottom: -140px;
+  transform: rotate(-12deg);
+}
+.secao--cifrao {
+  position: relative;
+  overflow: hidden;
+}
+.secao--cifrao .container {
+  position: relative;
+  z-index: 1;
+}
+.secao-cifrao {
+  width: 420px;
+  left: -90px;
+  top: -40px;
+  transform: rotate(10deg);
+  color: rgba(255, 255, 255, 0.07);
+}
+.cta-final,
+.faixa-empresas {
+  position: relative;
+  overflow: hidden;
+}
+.cta-final-in,
+.faixa-empresas > *:not(.cifrao) {
+  position: relative;
+  z-index: 1;
+}
+.cta-cifrao {
+  width: 360px;
+  right: 4%;
+  top: -60px;
+  transform: rotate(-14deg);
+}
+.faixa-cifrao {
+  width: 300px;
+  right: 18%;
+  top: -70px;
+  transform: rotate(12deg);
+}
+.destaque-verde {
+  color: var(--verde-luz);
+}
+
+/* ---------- bancos ---------- */
+.faixa-bancos {
+  border-bottom: 1px solid var(--linha);
+  padding: 22px 0;
+}
+.faixa-bancos .container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.faixa-bancos .container > span {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--texto-3);
+}
+.bancos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.faixa-bancos .bancos {
+  justify-content: flex-start;
+}
+.bancos li {
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--lilas);
+  color: var(--roxo);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ---------- linha do tempo (etapas do financiamento) ---------- */
+.linha-tempo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.linha-tempo li {
+  position: relative;
+  display: flex;
+  gap: 18px;
+  padding-bottom: 22px;
+}
+.linha-tempo li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 42px;
+  bottom: 2px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.linha-tempo-n {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--verde);
+  color: var(--branco);
+  font-weight: 800;
+}
+.linha-tempo strong {
+  display: block;
+  font-size: 17px;
+  color: var(--branco);
+  margin-top: 8px;
+}
+.linha-tempo p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+}
+
+/* ---------- financiamento x consórcio ---------- */
+.versus {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 920px;
+  margin: 0 auto 20px;
+}
+.versus-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--branco);
+  border: 2px solid var(--roxo);
+}
+.versus-card--verde {
+  border-color: var(--verde);
+}
+.versus-tag {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--roxo);
+  color: var(--branco);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.versus-card--verde .versus-tag {
+  background: var(--verde);
+}
+.versus-card h3 {
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+.versus-valor {
+  font-size: 40px;
+  letter-spacing: -0.04em;
+  color: var(--roxo);
+  line-height: 1.1;
+}
+.versus-card--verde .versus-valor {
+  color: var(--verde);
+}
+.versus-valor small {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--texto-3);
+  letter-spacing: 0;
+}
+.versus-nota {
+  font-size: 13px;
+  color: var(--texto-3);
+  margin: 6px 0 22px;
+}
+.versus-card .lista {
+  margin-bottom: 26px;
+  flex: 1;
+}
+.versus-card--verde .lista-ic {
+  background: var(--verde);
+}
+
+/* ---------- quem somos ---------- */
+.mv p {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--branco);
+}
+.grade-valores {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
 /* ==========================================================================
    Responsivo
    ========================================================================== */
+@media (max-width: 1240px) {
+  .nav-link {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+  .topo-in {
+    gap: 20px;
+  }
+}
+
 @media (max-width: 1100px) {
   .nav {
     display: none;
@@ -2053,7 +2259,8 @@ button {
   }
   .grade-beneficios,
   .passos,
-  .depoimentos {
+  .depoimentos,
+  .grade-valores {
     grid-template-columns: repeat(2, 1fr);
   }
   .hero-flutua--a {
@@ -2087,8 +2294,20 @@ button {
     padding: 36px 28px;
   }
   .passos--3,
-  .canais {
+  .canais,
+  .versus {
     grid-template-columns: 1fr;
+  }
+  .faixa-bancos .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .hero-cifrao {
+    width: 340px;
+    right: -80px;
+    bottom: auto;
+    top: 40px;
   }
   .secao {
     padding: 72px 0;
@@ -2116,8 +2335,16 @@ button {
   .passos,
   .depoimentos,
   .form-grade,
-  .grade-numeros-card {
+  .grade-numeros-card,
+  .grade-valores {
     grid-template-columns: 1fr;
+  }
+  .bancos li {
+    font-size: 13px;
+    padding: 7px 13px;
+  }
+  .versus-card {
+    padding: 24px 20px;
   }
   .rodape-grade {
     grid-template-columns: 1fr 1fr;
@@ -2138,7 +2365,7 @@ button {
   .simulador-taxa {
     border-left: 0;
     padding-left: 0;
-    border-top: 1px solid rgba(13, 27, 62, 0.12);
+    border-top: 1px solid rgba(42, 0, 56, 0.12);
     padding-top: 12px;
   }
   .fluxo-form {
