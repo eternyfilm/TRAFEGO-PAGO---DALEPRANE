@@ -38,6 +38,7 @@
   --ouro: #c79a3d;
   --ouro-suave: rgba(199, 154, 61, 0.14);
   --ouro-borda: rgba(199, 154, 61, 0.38);
+  --carregador-sol: #e2d808;
 
   /* Status */
   --st-a-fazer: #6b6f76;
@@ -632,4 +633,144 @@ textarea {
   .linha-decisao > span:first-child {
     grid-column: 1 / -1;
   }
+}
+
+/* ---------- Carregador (bolinha orbitando a casinha) ---------- */
+.carregador {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: var(--texto);
+}
+
+.carregador svg {
+  display: block;
+  overflow: visible;
+}
+
+.carregador-orbita {
+  transform-box: view-box;
+  transform-origin: 100px 160px;
+  animation: carregadorOrbita 2.4s infinite;
+}
+
+.carregador-sol {
+  fill: var(--carregador-sol);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: carregadorSol 2.4s infinite;
+}
+
+.carregador-rastro {
+  fill: none;
+  stroke: var(--carregador-sol);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 0 100;
+  opacity: 0;
+  animation: carregadorRastro 2.4s infinite;
+}
+
+.carregador-texto {
+  font-size: 13px;
+  color: var(--texto-3);
+  letter-spacing: 0.02em;
+}
+
+.carregador-tela {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+}
+
+/* Sai devagar do pico, acelera na volta e desacelera pra pousar. */
+@keyframes carregadorOrbita {
+  0%,
+  6% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.62, 0, 0.3, 1);
+  }
+  86%,
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Encolhe ao decolar, viaja pequena, pousa com um respiro (1.07) e assenta. */
+@keyframes carregadorSol {
+  0%,
+  6% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  26% {
+    transform: scale(0.56);
+    animation-timing-function: linear;
+  }
+  66% {
+    transform: scale(0.56);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  86% {
+    transform: scale(1.07);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  95%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Rastro cresce com a velocidade e some antes do pouso. */
+@keyframes carregadorRastro {
+  0%,
+  6% {
+    stroke-dasharray: 0 100;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  46% {
+    stroke-dasharray: 48 100;
+    opacity: 0.45;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  84%,
+  100% {
+    stroke-dasharray: 0 100;
+    opacity: 0;
+  }
+}
+
+/* Sem órbita pra quem pede menos movimento: o sol só pulsa no pico. */
+@media (prefers-reduced-motion: reduce) {
+  .carregador-orbita,
+  .carregador-rastro {
+    animation: none;
+  }
+  .carregador-sol {
+    animation: carregadorPulso 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes carregadorPulso {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
