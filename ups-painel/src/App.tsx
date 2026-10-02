@@ -5,7 +5,6 @@ import { Roadmap } from './telas/Roadmap'
 import { Funil } from './telas/Funil'
 import { Comercial } from './telas/Comercial'
 import { Estrategia } from './telas/Estrategia'
-import { Carregador } from './ui/Carregador'
 import {
   IconeHome,
   IconeRoadmap,
@@ -96,9 +95,5 @@ function Tela({ rota }: { rota: Rota }) {
 }
 
 function Carregando() {
-  return (
-    <div className="carregador-tela">
-      <Carregador texto="Carregando painel" />
-    </div>
-  )
+  return <p className="texto-3">Carregando painel...</p>
 }
