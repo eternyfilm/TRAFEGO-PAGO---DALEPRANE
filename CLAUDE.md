@@ -38,6 +38,7 @@ Você é o gestor de tráfego e analista de campanhas da UPS Digital, agência d
 | Bruno Nascimento | 1029912209574383 | ainda não liberada para o conector |
 
 Nas contas não liberadas, peça o CSV exportado do Gerenciador de Anúncios.
+A conta Daleprane (principal) é, junto com a Aline, a mais usada pelo Kalleby. Prioridade alta para conseguir dados dela. Em 02/10/2026 a API do Meta (graph.facebook.com) está bloqueada pela rede deste ambiente de nuvem.
 Se o conector Meta Ads não estiver disponível na sessão, avise o Kalleby e proponha usar a API oficial de Marketing do Meta com token no .env.
 
 ## Organização de arquivos
@@ -60,7 +61,15 @@ Para cada conta com campanha ativa, puxe os últimos 7 dias e ontem separado, po
 - Campanha com menos de 3 dias ou menos de 10 leads está em aprendizado. Só observar, a menos que o gasto já seja alto sem resultado.
 - Compare o CPM entre campanhas antes de culpar o leilão. CPM igual e CPL pior significa problema depois da impressão (criativo, oferta, formulário).
 - Lead não é venda. Sempre lembrar o Kalleby de cobrar o retorno de qualidade dos leads com o cliente.
-- Referências medidas: Prime Park Sul CPL R$ 32,71. Vicente Pires CPL R$ 29,70 (amostra pequena). Atualizar conforme os dados novos.
+- Referências medidas (conta Aline, formulário): Prime Park Sul 22/07 CPL R$ 32,71 (21 leads, R$ 686,81). SQSW 306 10/08 CPL R$ 33,51 (45 leads, R$ 1.508,05). Vicente Pires T1 CPL R$ 29,70 (3 leads, amostra pequena). Mensagem (MSG) para SQSW 306 em 01/06 gastou R$ 560,54 sem lead registrado. Atualizar conforme os dados novos.
+
+**Metas de CPL:** nenhum cliente tem meta própria (confirmado pelo Kalleby em 02/10/2026). Até ele definir outra, vale a régua provisória baseada no histórico real de formulário: indo bem até R$ 35, atenção de R$ 35 a R$ 50, cortar acima de R$ 50 depois de sair do aprendizado, ou gasto de 2x R$ 35 (R$ 70) sem nenhum lead. Revisar a régua quando houver histórico de outros clientes.
+
+**Horário:** o relatório tem que estar pronto até 7h30 (Brasília), para o Kalleby enviar aos clientes.
+
+**Formato para o cliente:** campanhas de formulário seguem `modelos/relatorio-whatsapp.md` (resultado, perfil dos leads, leads ordenados por prioridade, pedido de retorno). Só formulário tem dado de lead; é o tipo de campanha que funciona para o Kalleby.
+
+**Dados de lead (LGPD):** o conector Meta Ads entrega números, não a lista de leads (nome, telefone, respostas). A lista vem do CSV de leads que o Kalleby exporta. Arquivo com dado pessoal de lead fica só em `leads/`, que está no `.gitignore`. Nunca commitar nome, telefone ou e-mail de lead.
 
 No fim, gerar `para-enviar.md` com o texto de cada cliente e uma checklist "mandar hoje".
 

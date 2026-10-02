@@ -65,3 +65,10 @@ Lead não é venda. Cobrar da Aline o retorno dos 4 leads: foram atendidos, são
 - CPL meta de cada cliente (definir).
 - CSVs de Daleprane e Bruno.
 - Confirmação do que fazer com SQSW 306, Marcos Reis e Mirian.
+
+## Revisão da tarde (02/10), após feedback do Kalleby
+
+- Marcos Reis e Mirian: campanhas deveriam estar desligadas. O Kalleby desativa. Saem do relatório.
+- Metas de CPL: não existem. Passa a valer a régua provisória do CLAUDE.md (até R$ 35 / R$ 35 a 50 / acima de R$ 50).
+- **SQSW 306, veredito revisado de CORTAR para TROCAR PELA ORIGINAL.** Puxei o histórico. A campanha original (10/08) fez 45 leads a R$ 33,51 e, na última semana antes de pausar, R$ 24,91 por lead. A cópia tem o mesmo CTR (2,73% contra 2,78%), então o anúncio não cansou. O que mudou: aprendizado zerado, orçamento de R$ 40 para R$ 75 e CPM de R$ 74 para R$ 113. Com só uns 37 cliques, 1 lead é amostra pequena, não prova de anúncio ruim. Proposta: pausar a cópia e reativar a original a R$ 40/dia. Aguarda OK e o motivo da pausa da original.
+- Por idade (7d), a cópia gastou R$ 16,56 com 18 a 34 anos, CTR em torno de 1% e zero lead. Valor baixo, não muda a decisão agora.

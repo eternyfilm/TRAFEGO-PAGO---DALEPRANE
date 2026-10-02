@@ -4,7 +4,7 @@
 - **BM:** BM2 Costa Films (1042151253202315)
 - **Status no conector Meta Ads (02/10/2026):** liberada, queryable, com forma de pagamento
 - **Perfil do corretor:** não levantado
-- **Meta de CPL:** PENDENTE, perguntar ao Kalleby
+- **Meta de CPL:** sem meta própria. Régua provisória do CLAUDE.md
 - **Região e público padrão:** n/a (conta interna)
 - **Qualidade dos leads (retorno do cliente):** sem dado
 

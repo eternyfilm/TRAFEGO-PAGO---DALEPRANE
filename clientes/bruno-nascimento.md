@@ -4,7 +4,7 @@
 - **BM:** Bruno Nascimento.Imóveis (155080665194615)
 - **Status no conector Meta Ads (02/10/2026):** NÃO liberada para o conector (Ads MCP em rollout gradual)
 - **Perfil do corretor:** não levantado
-- **Meta de CPL:** PENDENTE, perguntar ao Kalleby
+- **Meta de CPL:** sem meta própria. Régua provisória do CLAUDE.md
 - **Região e público padrão:** não levantado
 - **Qualidade dos leads (retorno do cliente):** sem dado
 

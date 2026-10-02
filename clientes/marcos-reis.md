@@ -4,7 +4,7 @@
 - **BM:** Marcos Reis | Corretor de Imóveis (887492429415071)
 - **Status no conector Meta Ads (02/10/2026):** liberada, queryable, com forma de pagamento
 - **Perfil do corretor:** não levantado
-- **Meta de CPL:** PENDENTE, perguntar ao Kalleby
+- **Meta de CPL:** sem meta própria. Régua provisória do CLAUDE.md
 - **Região e público padrão:** não levantado
 - **Qualidade dos leads (retorno do cliente):** sem dado
 
@@ -14,4 +14,7 @@ Ativa em 02/10/2026:
 - Histórico: muitas campanhas pausadas de Sudoeste/Noroeste (SQS 303, SQN 314, QMSW 5 e 6, SQSW 301/304/306 e outras).
 
 ## Histórico de feedbacks e ajustes
-Nenhum registro ainda.
+
+### 02/10/2026
+- Kalleby: a campanha ativa deveria estar desativada. Ele mesmo vai desativar.
+- Decisão: nenhuma mensagem ao cliente sobre isso. Sem campanha ativa a partir de agora, a conta sai do relatório diário até nova campanha.
