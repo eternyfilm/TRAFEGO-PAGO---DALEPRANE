@@ -19,6 +19,6 @@ Investimos R$ 242 e geramos 4 leads. Ontem foram 3 leads.
 
 O destaque é o Vicente Pires T1, no ar desde 30/09: R$ 29,70 por lead no período e R$ 23,22 ontem. Ainda é pouco tempo, mas começou bem.
 
-O SQSW 306 gastou R$ 152,87 e trouxe 1 lead. Está abaixo do que esperamos: as pessoas clicam, mas poucas deixam o contato. Vamos revisar e te mostro a proposta antes de mudar qualquer coisa.
+No SQSW 306, a versão nova que subimos em 29/09 não rendeu como a anterior (1 lead em 3 dias). Por isso voltamos a rodar hoje a campanha original, a mesma que trouxe 45 leads entre agosto e setembro. A partir de hoje, os leads que chegarem do SQSW 306 são novos.
 
 Uma ajuda importante: como estão os leads que chegaram? Conseguiu falar com eles, são o perfil certo, alguém quer visitar? Esse retorno é o que mais melhora a campanha.

@@ -72,3 +72,12 @@ Lead não é venda. Cobrar da Aline o retorno dos 4 leads: foram atendidos, são
 - Metas de CPL: não existem. Passa a valer a régua provisória do CLAUDE.md (até R$ 35 / R$ 35 a 50 / acima de R$ 50).
 - **SQSW 306, veredito revisado de CORTAR para TROCAR PELA ORIGINAL.** Puxei o histórico. A campanha original (10/08) fez 45 leads a R$ 33,51 e, na última semana antes de pausar, R$ 24,91 por lead. A cópia tem o mesmo CTR (2,73% contra 2,78%), então o anúncio não cansou. O que mudou: aprendizado zerado, orçamento de R$ 40 para R$ 75 e CPM de R$ 74 para R$ 113. Com só uns 37 cliques, 1 lead é amostra pequena, não prova de anúncio ruim. Proposta: pausar a cópia e reativar a original a R$ 40/dia. Aguarda OK e o motivo da pausa da original.
 - Por idade (7d), a cópia gastou R$ 16,56 com 18 a 34 anos, CTR em torno de 1% e zero lead. Valor baixo, não muda a decisão agora.
+
+## Execução (02/10, autorizada pelo Kalleby)
+
+- SQSW 306 cópia (120248575303050557): PAUSADA. Conferido na conta.
+- SQSW 306 original 10/08 (120247791925520557): REATIVADA, R$ 40/dia, conjunto e anúncio ativos. Conferido na conta.
+- A original tinha sido pausada a pedido da Aline.
+- **Marco:** leads da SQSW 306 contam a partir de 02/10/2026. Antes disso é fase anterior (45 leads) ou cópia (1 lead).
+- Orçamento diário somado da Aline: R$ 115 (Vicente Pires R$ 75 + SQSW 306 R$ 40), antes R$ 150.
+- Regra para os próximos dias: se a SQSW 306 passar de R$ 70 sem lead desde 02/10, avisar. Avaliar o custo por lead só depois de 3 dias.
