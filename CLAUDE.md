@@ -77,7 +77,7 @@ No fim, gerar `para-enviar.md` com o texto de cada cliente e uma checklist "mand
 
 ## Rotina 2: criar campanha
 
-**Entrada pela Torre Daleprane** (https://claude.ai/artifact/M2KRXTGmddKbW5CQ2JQVLD, código em `paineis/torre-daleprane.html`): o Kalleby preenche o pedido, a página salva em `pedidos` (db do artifact) e ele cola o texto do pedido no chat junto com o criativo. Fluxo:
+**Entrada pelo UPS Campanhas** (https://claude.ai/artifact/M2KRXTGmddKbW5CQ2JQVLD, código em `paineis/ups-campanhas.html`, serve pra todos os clientes da UPS, não só Daleprane): o Kalleby preenche o pedido, a página salva em `pedidos` (db do artifact) e ele cola o texto do pedido no chat junto com o criativo. Fluxo:
 1. Ler o pedido na coleção `pedidos` (ArtifactData) e a ficha do cliente.
 2. Escrever a proposta no próprio documento: `update` com `status: "proposta"` e `proposta: {nome, copyA:{titulo,texto}, copyB:{titulo,texto}, publico, orcamento, formulario, observacao}`. Mostrar o resumo também no chat.
 3. Kalleby aprova ou pede ajuste na Fila. Status `aprovado` = OK da regra 5.
