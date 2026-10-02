@@ -81,3 +81,11 @@ Lead não é venda. Cobrar da Aline o retorno dos 4 leads: foram atendidos, são
 - **Marco:** leads da SQSW 306 contam a partir de 02/10/2026. Antes disso é fase anterior (45 leads) ou cópia (1 lead).
 - Orçamento diário somado da Aline: R$ 115 (Vicente Pires R$ 75 + SQSW 306 R$ 40), antes R$ 150.
 - Regra para os próximos dias: se a SQSW 306 passar de R$ 70 sem lead desde 02/10, avisar. Avaliar o custo por lead só depois de 3 dias.
+
+## Checagem das 7h26 (02/10)
+
+- SQSW 306 original (10/08) voltou a entregar: R$ 0,58 e 5 impressões hoje até agora. Cópia segue pausada.
+- Vicente Pires T1: R$ 6,48 hoje até agora, sem lead ainda (normal pro horário).
+- **Pendente:** Marcos Reis (SQSW 303 G) e Mirian (CBO MSG CONVIVER) continuam ATIVAS na conta. O Kalleby disse que ia desativar. Sem gasto relevante, mas seguem ligadas.
+- Tatiane, Ana Paula, Costa Films e Kalleby D Luca: nenhuma campanha ativa.
+- Daleprane e Bruno: sem dado (conta fora do conector, sem CSV).
