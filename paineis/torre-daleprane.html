@@ -1,0 +1,530 @@
+<title>Torre Daleprane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: mesa de pedidos. Formulário à esquerda, ficha da campanha calculada ao vivo à direita; fila filtrável por conta, corretor e faixa de preço. */
+:root{
+  --ink:#1B1A17; --ink-soft:#5B5748; --ink-faint:#857F6F;
+  --paper:#EFEDE6; --paper-2:#E4E1D6; --card:#F8F6F0; --line:rgba(27,26,23,.14);
+  --brass:#8C6A2F; --brass-bg:rgba(140,106,47,.12);
+  --sage:#4C6F53; --sage-bg:rgba(76,111,83,.14);
+  --brick:#8C4536; --brick-bg:rgba(140,69,54,.13);
+  --amber:#8F6C1C; --amber-bg:rgba(147,113,31,.15);
+  --f-entrada:#4E7A8C; --f-medio:#8C6A2F; --f-alto:#6B3E57;
+  --shadow:0 1px 2px rgba(27,26,23,.06),0 10px 28px -14px rgba(27,26,23,.22);
+  --display:'Fraunces',Georgia,'Times New Roman',serif;
+  --body:'Manrope',-apple-system,'Segoe UI',Arial,sans-serif;
+  --mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#ECE9DF; --ink-soft:#BDB6A4; --ink-faint:#8D8776;
+  --paper:#16140F; --paper-2:#211D16; --card:#1C1811; --line:rgba(236,233,223,.14);
+  --brass:#CDA05A; --brass-bg:rgba(205,160,90,.14);
+  --sage:#82AC8A; --sage-bg:rgba(130,172,138,.16);
+  --brick:#C9806F; --brick-bg:rgba(197,122,109,.16);
+  --amber:#D2AC64; --amber-bg:rgba(210,172,100,.16);
+  --f-entrada:#7FAFC2; --f-medio:#CDA05A; --f-alto:#C08AA8;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 14px 32px -16px rgba(0,0,0,.6); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --ink:#ECE9DF; --ink-soft:#BDB6A4; --ink-faint:#8D8776;
+  --paper:#16140F; --paper-2:#211D16; --card:#1C1811; --line:rgba(236,233,223,.14);
+  --brass:#CDA05A; --brass-bg:rgba(205,160,90,.14);
+  --sage:#82AC8A; --sage-bg:rgba(130,172,138,.16);
+  --brick:#C9806F; --brick-bg:rgba(197,122,109,.16);
+  --amber:#D2AC64; --amber-bg:rgba(210,172,100,.16);
+  --f-entrada:#7FAFC2; --f-medio:#CDA05A; --f-alto:#C08AA8;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 14px 32px -16px rgba(0,0,0,.6); color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:26px 72px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.brand h1{font:600 1.9rem/1.1 var(--display);margin:0;letter-spacing:-.01em}
+.brand p{margin:4px 0 0;font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);font-weight:700}
+.tabs{display:flex;gap:2px;background:var(--paper-2);padding:3px;border-radius:10px}
+.tab{border:0;background:transparent;padding:8px 14px;border-radius:8px;font-weight:700;font-size:.84rem;color:var(--ink-soft)}
+.tab[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.tab .count{font-family:var(--mono);color:var(--brass);margin-left:4px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:22px;margin-top:22px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);min-width:0}
+.panel h2{font:600 1.25rem/1.2 var(--display);margin:0 0 4px;text-wrap:balance}
+.panel .lead{margin:0 0 16px;color:var(--ink-soft);font-size:.88rem;max-width:60ch}
+fieldset{border:0;padding:0;margin:0 0 18px;min-width:0}
+legend{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--brass);margin-bottom:10px;padding:0}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.row.r3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.row.r4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:520px){.row,.row.r3{grid-template-columns:1fr}.row.r4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.f{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;min-width:0}
+.f > span{font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--ink-faint)}
+.f small{font-size:.76rem;color:var(--ink-faint)}
+input,select,textarea{width:100%;font:.92rem var(--body);padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);min-width:0}
+textarea{resize:vertical;min-height:72px}
+input.money{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.seg span{display:inline-flex;padding:8px 13px;border-radius:9px;border:1px solid var(--line);font-size:.85rem;font-weight:600;color:var(--ink-soft)}
+.seg input:checked + span{border-color:var(--brass);background:var(--brass-bg);color:var(--ink)}
+.seg input:focus-visible + span{outline:2px solid var(--brass);outline-offset:2px}
+.btn{border:1px solid transparent;border-radius:9px;padding:10px 16px;font-weight:700;font-size:.87rem}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.ok{background:var(--sage);color:#fff}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink-soft)}
+.btn.warn{background:transparent;border-color:var(--amber);color:var(--amber)}
+.btn.bad{background:transparent;border-color:var(--brick);color:var(--brick)}
+.btn[disabled]{opacity:.45;cursor:default}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* ficha calculada */
+.sheet{position:sticky;top:calc(14px + env(safe-area-inset-top,0px))}
+@media (max-width:860px){.sheet{position:static}}
+.band{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:11px;background:var(--paper-2);margin-bottom:14px}
+.band b{font:600 1.05rem var(--display)}
+.band .price{font-family:var(--mono);font-size:1rem}
+.faixa-entrada{--fx:var(--f-entrada)} .faixa-medio{--fx:var(--f-medio)} .faixa-alto{--fx:var(--f-alto)}
+.band{border-left:4px solid var(--fx,var(--line))}
+.kv{display:grid;grid-template-columns:118px minmax(0,1fr);gap:8px 12px;font-size:.87rem;padding:10px 0;border-top:1px solid var(--line)}
+.kv:first-of-type{border-top:0}
+.kv dt{color:var(--ink-faint);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding-top:2px}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.code{font-family:var(--mono);font-size:.82rem;background:var(--paper-2);padding:2px 6px;border-radius:5px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tags span{font-size:.74rem;background:var(--paper-2);padding:2px 8px;border-radius:6px;color:var(--ink-soft)}
+.note{margin-top:12px;padding:10px 12px;border-radius:9px;font-size:.83rem;background:var(--brass-bg);color:var(--ink)}
+.note.warn{background:var(--amber-bg)}
+.note.bad{background:var(--brick-bg)}
+.note.ok{background:var(--sage-bg)}
+.muted{color:var(--ink-faint)}
+
+/* fila */
+.filters{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:600;color:var(--ink-soft)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chiplabel{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;font-weight:800;color:var(--ink-faint);margin-right:4px;align-self:center}
+.list{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--fx,var(--line));border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.card .head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.who{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.badge{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft)}
+.badge.corretor{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.badge.fx{color:var(--fx);border-color:var(--fx)}
+.pill{font-size:.74rem;font-weight:700;padding:4px 11px;border-radius:999px;white-space:nowrap}
+.st-novo{border:1px dashed var(--ink-faint);color:var(--ink-soft)}
+.st-proposta{background:var(--brass-bg);color:var(--brass)}
+.st-ajuste{background:var(--amber-bg);color:var(--amber)}
+.st-aprovado,.st-criada{background:var(--sage-bg);color:var(--sage)}
+.st-ativa{background:var(--sage);color:#fff}
+.st-reprovado{background:var(--brick-bg);color:var(--brick)}
+.card h3{font:600 1.15rem/1.25 var(--display);margin:10px 0 2px;text-wrap:balance}
+.card .sub{margin:0;color:var(--ink-soft);font-size:.86rem}
+.cname{margin-top:8px;font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);overflow-wrap:anywhere}
+.copies{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+@media (max-width:640px){.copies{grid-template-columns:1fr}}
+.copy{background:var(--paper-2);border-radius:11px;padding:12px 14px;min-width:0}
+.copy .lab{font-size:.68rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+.copy .t{font:600 1rem/1.3 var(--display);margin:6px 0}
+.copy p{margin:0;font-size:.86rem;color:var(--ink-soft);white-space:pre-wrap}
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;font-size:.84rem}
+@media (max-width:640px){.meta{grid-template-columns:1fr}}
+.meta div{min-width:0}
+.meta b{display:block;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+.card .actions{margin-top:14px}
+.fb{display:flex;flex-direction:column;gap:8px;width:100%}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-faint)}
+.empty h3{font:600 1.2rem var(--display);color:var(--ink);margin:0 0 6px}
+.done{margin-top:16px}
+.done pre{white-space:pre-wrap;font:.82rem/1.5 var(--mono);background:var(--paper-2);padding:12px;border-radius:9px;margin:10px 0;overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.offline{margin-top:16px}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <h1>Torre Daleprane</h1>
+      <p>Pedidos de campanha · UPS Digital</p>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Seções">
+      <button class="tab" role="tab" id="tab-novo" data-tab="novo" aria-selected="true">Novo pedido</button>
+      <button class="tab" role="tab" id="tab-fila" data-tab="fila" aria-selected="false">Fila <span class="count" id="count-fila"></span></button>
+    </nav>
+  </div>
+
+  <div id="offline" class="note warn offline" hidden>Sem conexão com a base agora. Dá pra preencher e copiar o pedido, mas ele não fica salvo na fila.</div>
+
+  <!-- NOVO PEDIDO -->
+  <section id="panel-novo">
+    <div class="grid">
+      <form class="panel" id="form" novalidate>
+        <h2>O que vai rodar</h2>
+        <p class="lead">Preenche o imóvel e de quem é. A ficha ao lado já monta nome, público, orçamento e formulário no padrão das suas campanhas. O Claude escreve as duas copys e você aprova na Fila.</p>
+
+        <fieldset>
+          <legend>De quem é</legend>
+          <div class="row">
+            <label class="f"><span>Conta de anúncios</span>
+              <select id="conta"></select>
+            </label>
+            <label class="f"><span>Corretor que recebe o lead</span>
+              <input id="corretor" list="corretores" autocomplete="off" placeholder="Ex: Aline">
+              <datalist id="corretores"></datalist>
+              <small id="corretor-hint"></small>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Imóvel</legend>
+          <div class="row">
+            <label class="f"><span>Nome curto do imóvel</span>
+              <input id="imovel" autocomplete="off" placeholder="Ex: SQSW 306, Prime Park Sul">
+            </label>
+            <label class="f"><span>Tipo</span>
+              <select id="tipo">
+                <option>Apartamento</option><option>Casa</option><option>Cobertura</option><option>Lançamento</option><option>Lote</option><option>Comercial</option>
+              </select>
+            </label>
+          </div>
+          <div class="row">
+            <label class="f"><span>Bairro</span>
+              <input id="bairro" list="bairros" autocomplete="off" placeholder="Ex: Sudoeste">
+              <datalist id="bairros"><option>Lago Sul</option><option>Lago Norte</option><option>Park Way</option><option>Sudoeste</option><option>Noroeste</option><option>Asa Sul</option><option>Asa Norte</option><option>Águas Claras</option><option>Vicente Pires</option><option>Guará</option><option>Taguatinga</option><option>Jardim Botânico</option></datalist>
+            </label>
+            <label class="f"><span>Preço (R$)</span>
+              <input id="preco" class="money" inputmode="numeric" autocomplete="off" placeholder="Ex: 1.250.000">
+            </label>
+          </div>
+          <div class="row r4">
+            <label class="f"><span>Quadra / bloco</span><input id="quadra" autocomplete="off" placeholder="Bloco G"></label>
+            <label class="f"><span>Área m²</span><input id="area" inputmode="numeric" autocomplete="off" placeholder="120"></label>
+            <label class="f"><span>Quartos</span><input id="quartos" inputmode="numeric" autocomplete="off" placeholder="3"></label>
+            <label class="f"><span>Vagas</span><input id="vagas" inputmode="numeric" autocomplete="off" placeholder="2"></label>
+          </div>
+          <label class="f"><span>Diferenciais reais</span>
+            <textarea id="diferenciais" placeholder="O que só esse imóvel tem. Ex: nascente, andar alto, reformado por arquiteto, armários Florense, vista livre pro parque"></textarea>
+          </label>
+          <div class="row">
+            <label class="f"><span>Principal objeção do comprador</span>
+              <select id="objecao">
+                <option value="">Não sei, o Claude sugere</option>
+                <option>Preço</option><option>Financiamento / entrada</option><option>Obra / Habite-se</option><option>Condomínio alto</option><option>Precisa vender o atual antes</option><option>Localização</option>
+              </select>
+            </label>
+            <label class="f"><span>Condição que quebra a objeção</span>
+              <input id="condicao" autocomplete="off" placeholder="Ex: aceita permuta, Habite-se emitido">
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Campanha</legend>
+          <div class="f"><span>Objetivo</span>
+            <div class="seg" role="radiogroup" aria-label="Objetivo">
+              <label><input type="radio" name="objetivo" id="obj-form" value="FORM" checked><span>Formulário</span></label>
+              <label><input type="radio" name="objetivo" id="obj-msg" value="MSG"><span>Mensagem no WhatsApp</span></label>
+            </div>
+          </div>
+          <div class="row">
+            <label class="f"><span>Orçamento diário (R$)</span>
+              <input id="orcamento" class="money" inputmode="numeric" autocomplete="off" placeholder="40">
+              <small id="orc-hint">Vazio = usa o sugerido.</small>
+            </label>
+            <label class="f"><span>Criativo</span>
+              <select id="criativo">
+                <option value="chat">Vou mandar no chat do Claude</option>
+                <option value="link">Link do Drive</option>
+                <option value="conta">Já está na conta (post ou vídeo existente)</option>
+              </select>
+            </label>
+          </div>
+          <label class="f" id="link-wrap" hidden><span>Link do criativo</span>
+            <input id="link" autocomplete="off" placeholder="https://drive.google.com/...">
+          </label>
+          <label class="f"><span>Observação (opcional)</span>
+            <input id="obs" autocomplete="off" placeholder="Ex: cliente quer focar em quem tem imóvel pra trocar">
+          </label>
+        </fieldset>
+
+        <div class="actions">
+          <button class="btn primary" type="submit" id="btn-enviar">Enviar pedido</button>
+          <button class="btn ghost" type="button" id="btn-limpar">Limpar</button>
+        </div>
+        <div id="erro" class="note bad" hidden></div>
+
+        <div id="done" class="done" hidden>
+          <div class="note ok"><strong>Pedido salvo na Fila.</strong> Agora copia o texto abaixo e cola no chat do Claude junto com o criativo.</div>
+          <pre id="done-text"></pre>
+          <div class="actions"><button class="btn primary" type="button" id="btn-copiar">Copiar pro Claude</button><button class="btn ghost" type="button" id="btn-ver-fila">Ver na Fila</button></div>
+        </div>
+      </form>
+
+      <aside class="panel sheet faixa-medio" id="sheet" aria-live="polite">
+        <h2>Ficha da campanha</h2>
+        <p class="lead" style="margin-bottom:12px">Calculada a partir do pedido. É o que vai pra conta.</p>
+        <div class="band" id="band"><b id="faixa-nome">Informe o preço</b><span class="price" id="faixa-preco">R$ 0</span></div>
+        <dl id="ficha" style="margin:0"></dl>
+        <div id="alertas"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FILA -->
+  <section id="panel-fila" hidden>
+    <div class="filters">
+      <div class="chips" id="f-conta"><span class="chiplabel">Conta</span></div>
+      <div class="chips" id="f-corretor"><span class="chiplabel">Corretor</span></div>
+      <div class="chips" id="f-faixa"><span class="chiplabel">Faixa</span></div>
+    </div>
+    <div class="list" id="lista"></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var CONTAS=[
+    {id:'aline',nome:'Aline Daleprane',conector:true,multi:false,corretor:'Aline'},
+    {id:'daleprane',nome:'Daleprane (BM principal)',conector:false,multi:true,corretor:''},
+    {id:'marcos',nome:'Marcos Reis',conector:true,multi:false,corretor:'Marcos'},
+    {id:'mirian',nome:'Mirian Teixeira',conector:true,multi:false,corretor:'Mirian'},
+    {id:'tatiane',nome:'Tatiane Zafred',conector:true,multi:false,corretor:'Tatiane'},
+    {id:'anapaula',nome:'Ana Paula Carvalho',conector:true,multi:false,corretor:'Ana Paula'},
+    {id:'bruno',nome:'Bruno Nascimento',conector:false,multi:false,corretor:'Bruno'},
+    {id:'costa',nome:'Costa Films (interna)',conector:true,multi:false,corretor:''}
+  ];
+  var NOBRES=['Lago Sul','Lago Norte','Park Way','Sudoeste','Noroeste','Asa Sul','Asa Norte','Jardim Botânico'];
+  var FAIXAS={
+    entrada:{nome:'Entrada',cls:'faixa-entrada',idade:'28 a 55 anos',interesses:['Investimento','Propriedade de imóveis','Empreendedorismo']},
+    medio:{nome:'Médio padrão',cls:'faixa-medio',idade:'28 a 55 anos',interesses:['Investimento','Propriedade de imóveis','Empreendedorismo']},
+    alto:{nome:'Alto padrão',cls:'faixa-alto',idade:'32 a 58 anos',interesses:['Investimento imobiliário','Propriedade de imóveis','Bens de luxo']}
+  };
+  var STATUS={novo:'Aguardando o Claude',proposta:'Proposta pronta',ajuste:'Ajuste pedido',aprovado:'Aprovado',criada:'Criada pausada',ativa:'No ar',reprovado:'Reprovado'};
+  var ORC_SUGERIDO=40;
+  var FORM_PERGUNTAS=['Nome','Telefone','E-mail','Objetivo (morar, investir, pesquisando)','Já possui imóvel? (não, trocar, segundo imóvel)','Melhor horário para contato'];
+
+  var $=function(s){return document.querySelector(s)};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  var brl=function(n){return 'R$ '+Number(n||0).toLocaleString('pt-BR',{maximumFractionDigits:0})};
+  var parseNum=function(s){s=String(s||'').replace(/[^\d,]/g,'').replace(',','.');var n=parseFloat(s);return isFinite(n)?n:0};
+  function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(function(){e.classList.remove('on')},2200)}
+  function hoje(){var d=new Date();return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)}
+  function conta(id){return CONTAS.find(function(c){return c.id===id})||CONTAS[0]}
+  function faixaDe(p){if(!p)return null;if(p>=1500000)return 'alto';if(p<500000)return 'entrada';return 'medio'}
+
+  var state={db:null,pedidos:[],filtro:{conta:'todas',corretor:'todos',faixa:'todas'},ultimoTexto:'',ajusteAberto:null};
+
+  // ---------- formulário ----------
+  $('#conta').innerHTML=CONTAS.map(function(c){return '<option value="'+c.id+'">'+esc(c.nome)+(c.conector?'':' · sem conector')+'</option>'}).join('');
+  function lerForm(){
+    var c=conta($('#conta').value);
+    var preco=parseNum($('#preco').value);
+    return {
+      conta:c.id, corretor:$('#corretor').value.trim()||c.corretor,
+      imovel:{nome:$('#imovel').value.trim(),tipo:$('#tipo').value,bairro:$('#bairro').value.trim(),quadra:$('#quadra').value.trim(),
+        area:$('#area').value.trim(),quartos:$('#quartos').value.trim(),vagas:$('#vagas').value.trim(),preco:preco},
+      diferenciais:$('#diferenciais').value.trim(), objecao:$('#objecao').value, condicao:$('#condicao').value.trim(),
+      objetivo:document.querySelector('input[name="objetivo"]:checked').value,
+      orcamento:parseNum($('#orcamento').value)||ORC_SUGERIDO,
+      criativo:{modo:$('#criativo').value,link:$('#link').value.trim()}, obs:$('#obs').value.trim()
+    };
+  }
+  function ficha(p){
+    var c=conta(p.conta), fx=faixaDe(p.imovel.preco), F=fx?FAIXAS[fx]:null;
+    var nomeImovel=(p.imovel.nome||'IMÓVEL').toUpperCase();
+    var corr=(p.corretor||'').toUpperCase();
+    var nome='CBO | '+p.objetivo+' | '+nomeImovel+(c.multi&&corr?' | '+corr:'')+' - '+hoje();
+    var pins=fx==='alto'?NOBRES.slice():[p.imovel.bairro||'região do imóvel'].concat(p.imovel.bairro?['vizinhos num raio de até 5 km']:[]);
+    return {faixa:fx,F:F,conta:c,nome:nome,form:'FORM | '+nomeImovel+(corr?' | '+corr:''),pins:pins,
+      idade:F?F.idade:'',interesses:F?F.interesses:[],orcamento:p.orcamento,
+      execucao:c.conector?'O Claude cria a campanha PAUSADA na conta. Você confere e ativa.':'Conta sem conector: o Claude entrega o passo a passo e você monta no Gerenciador.'};
+  }
+  function alertas(p,fi){
+    var a=[];
+    if(fi.conta.multi&&!$('#corretor').value.trim()) a.push(['bad','Na BM da Daleprane o corretor é obrigatório. É ele que separa os leads e o relatório.']);
+    if(p.objetivo==='MSG') a.push(['warn','Seu histórico: mensagem no SQSW 306 gastou R$ 560,54 sem lead registrado. Formulário é o que funciona pra você.']);
+    if(fi.faixa==='entrada') a.push(['warn','Abaixo de R$ 500 mil ainda não tem histórico seu. Uso o público de médio padrão e ajustamos com os primeiros dados.']);
+    if(p.orcamento>ORC_SUGERIDO*1.5) a.push(['warn','Orçamento acima de R$ 60/dia. Quando a cópia da SQSW 306 subiu de R$ 40 pra R$ 75, o custo por mil impressões subiu 53%.']);
+    var dup=state.pedidos.filter(function(x){return x.conta===p.conta&&x.imovel&&p.imovel.nome&&x.imovel.nome.toLowerCase()===p.imovel.nome.toLowerCase()&&['reprovado'].indexOf(x.status)<0});
+    dup.forEach(function(x){a.push([x.corretor.toLowerCase()===String(p.corretor).toLowerCase()?'warn':'bad','Já existe pedido de '+x.imovel.nome+' nesta conta para '+x.corretor+' ('+(STATUS[x.status]||x.status)+'). Confere antes pra não rodar duas campanhas do mesmo imóvel.'])});
+    if(!fi.conta.conector) a.push(['', 'Essa conta ainda não está liberada pro conector do Meta.']);
+    return a;
+  }
+  function renderFicha(){
+    var p=lerForm(), fi=ficha(p);
+    var sheet=$('#sheet'); sheet.className='panel sheet '+(fi.F?fi.F.cls:'');
+    $('#faixa-nome').textContent=fi.F?fi.F.nome:'Informe o preço';
+    $('#faixa-preco').textContent=brl(p.imovel.preco);
+    var c=fi.conta;
+    $('#corretor-hint').textContent=c.multi?'Obrigatório nesta BM: vários corretores rodam campanha aqui.':(c.corretor?'Padrão desta conta: '+c.corretor+'.':'');
+    $('#corretor').placeholder=c.corretor||'Nome do corretor';
+    $('#orcamento').placeholder=String(ORC_SUGERIDO);
+    $('#orc-hint').textContent='Vazio = R$ '+ORC_SUGERIDO+'/dia, o orçamento da SQSW 306 (10/08), sua melhor campanha: 45 leads a R$ 33,51.';
+    $('#ficha').innerHTML=
+      kv('Nome',      '<span class="code">'+esc(fi.nome)+'</span>')+
+      kv('Estrutura', 'CBO · Leads · '+(p.objetivo==='FORM'?'formulário instantâneo':'conversa no WhatsApp'))+
+      kv('Orçamento', '<span class="num">'+brl(fi.orcamento)+'/dia</span>')+
+      kv('Público',   fi.F?esc(fi.idade)+'<div class="tags" style="margin-top:6px">'+fi.interesses.map(function(i){return '<span>'+esc(i)+'</span>'}).join('')+'</div>':'<span class="muted">Depende do preço</span>')+
+      kv('Pins',      '<div class="tags">'+fi.pins.map(function(i){return '<span>'+esc(i)+'</span>'}).join('')+'</div>')+
+      kv('Expansão',  'Desativada')+
+      (p.objetivo==='FORM'?kv('Formulário','<span class="code">'+esc(fi.form)+'</span><div class="tags" style="margin-top:6px">'+FORM_PERGUNTAS.map(function(q){return '<span>'+esc(q)+'</span>'}).join('')+'</div>'):'')+
+      kv('Lead vai pra', esc(p.corretor||'defina o corretor'))+
+      kv('Copy',      'O Claude escreve 2 variações com o diferencial, a quebra de objeção e CTA com o nome de '+esc((p.corretor||'corretor').split(' ')[0])+'.')+
+      kv('Execução',  esc(fi.execucao));
+    $('#alertas').innerHTML=alertas(p,fi).map(function(x){return '<div class="note '+x[0]+'">'+esc(x[1])+'</div>'}).join('');
+  }
+  function kv(k,v){return '<div class="kv"><dt>'+esc(k)+'</dt><dd>'+v+'</dd></div>'}
+  $('#preco').addEventListener('blur',function(){var n=parseNum(this.value);this.value=n?n.toLocaleString('pt-BR'):''});
+  $('#criativo').addEventListener('change',function(){$('#link-wrap').hidden=this.value!=='link'});
+  $('#conta').addEventListener('change',function(){$('#corretor').value='';renderFicha()});
+  document.getElementById('form').addEventListener('input',renderFicha);
+  document.getElementById('form').addEventListener('change',renderFicha);
+  $('#btn-limpar').addEventListener('click',function(){document.getElementById('form').reset();$('#done').hidden=true;$('#erro').hidden=true;$('#link-wrap').hidden=true;renderFicha()});
+
+  function textoPedido(p,fi,id){
+    var im=p.imovel, l=[];
+    l.push('Novo pedido na Torre'+(id?' (#'+id.slice(0,6)+')':'')+':');
+    l.push('Conta: '+fi.conta.nome+' · Corretor: '+p.corretor);
+    l.push('Imóvel: '+im.nome+' · '+im.tipo+' · '+im.bairro+(im.quadra?' · '+im.quadra:'')+' · '+brl(im.preco)+' ('+(fi.F?fi.F.nome:'sem faixa')+')');
+    var det=[im.area?im.area+' m²':'',im.quartos?im.quartos+' quartos':'',im.vagas?im.vagas+' vagas':''].filter(Boolean).join(' · ');
+    if(det) l.push('Detalhes: '+det);
+    if(p.diferenciais) l.push('Diferenciais: '+p.diferenciais);
+    if(p.objecao||p.condicao) l.push('Objeção: '+(p.objecao||'sugerir')+(p.condicao?' · quebra: '+p.condicao:''));
+    l.push('Objetivo: '+(p.objetivo==='FORM'?'Formulário':'Mensagem')+' · Orçamento: '+brl(p.orcamento)+'/dia');
+    l.push('Nome: '+fi.nome);
+    l.push('Criativo: '+(p.criativo.modo==='chat'?'mando aqui no chat':p.criativo.modo==='link'?p.criativo.link:'já está na conta'));
+    if(p.obs) l.push('Obs: '+p.obs);
+    l.push('Monta a proposta pra eu aprovar.');
+    return l.join('\n');
+  }
+  document.getElementById('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var p=lerForm(), fi=ficha(p), err=[];
+    if(!p.imovel.nome) err.push('o nome do imóvel');
+    if(!p.imovel.bairro) err.push('o bairro');
+    if(!p.imovel.preco) err.push('o preço');
+    if(fi.conta.multi&&!$('#corretor').value.trim()) err.push('o corretor (obrigatório na BM da Daleprane)');
+    if(!p.corretor) err.push('o corretor');
+    if(err.length){$('#erro').hidden=false;$('#erro').textContent='Falta '+err.join(', ')+'.';return}
+    $('#erro').hidden=true;
+    var doc={conta:p.conta,corretor:p.corretor,imovel:p.imovel,diferenciais:p.diferenciais,objecao:p.objecao,condicao:p.condicao,
+      objetivo:p.objetivo,orcamento:p.orcamento,criativo:p.criativo,obs:p.obs,faixa:fi.faixa,
+      ficha:{nome:fi.nome,form:fi.form,idade:fi.idade,interesses:fi.interesses,pins:fi.pins},
+      status:'novo',criado_em:new Date().toISOString()};
+    var mostrar=function(id){state.ultimoTexto=textoPedido(p,fi,id);$('#done-text').textContent=state.ultimoTexto;$('#done').hidden=false;$('#done').scrollIntoView({behavior:'smooth',block:'nearest'})};
+    if(!state.db){mostrar('');toast('Sem conexão: o pedido não foi salvo, mas dá pra copiar.');return}
+    $('#btn-enviar').disabled=true;
+    state.db.collection('pedidos').add(doc).then(function(ref){mostrar(ref.id);toast('Pedido salvo na Fila')})
+      .catch(function(){$('#erro').hidden=false;$('#erro').textContent='Não salvou. Confere a conexão e tenta de novo.'})
+      .then(function(){$('#btn-enviar').disabled=false});
+  });
+  $('#btn-copiar').addEventListener('click',function(){
+    var t=state.ultimoTexto;
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('Copiado. Cola no chat do Claude.')},selecionar)}else selecionar();
+    function selecionar(){var r=document.createRange();r.selectNodeContents($('#done-text'));var s=getSelection();s.removeAllRanges();s.addRange(r);toast('Texto selecionado. Copia manualmente.')}
+  });
+  $('#btn-ver-fila').addEventListener('click',function(){abrir('fila')});
+
+  // ---------- abas ----------
+  function abrir(t){
+    ['novo','fila'].forEach(function(x){$('#tab-'+x).setAttribute('aria-selected',String(x===t));$('#panel-'+x).hidden=x!==t});
+    try{localStorage.setItem('torre-aba',t)}catch(_){}
+  }
+  document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){abrir(b.dataset.tab)})});
+  try{var aba=localStorage.getItem('torre-aba');if(aba==='fila')abrir('fila')}catch(_){}
+
+  // ---------- fila ----------
+  function chipsHtml(tipo,opcoes,ativo){return '<span class="chiplabel">'+tipo.label+'</span>'+opcoes.map(function(o){return '<button class="chip" type="button" data-f="'+tipo.key+'" data-v="'+esc(o[0])+'" aria-pressed="'+(o[0]===ativo)+'">'+esc(o[1])+'</button>'}).join('')}
+  function renderFila(){
+    var ps=state.pedidos.slice().sort(function(a,b){return String(b.criado_em).localeCompare(String(a.criado_em))});
+    var abertos=ps.filter(function(p){return ['novo','proposta','ajuste'].indexOf(p.status)>=0}).length;
+    $('#count-fila').textContent=abertos?String(abertos):'';
+    var contasUsadas=CONTAS.filter(function(c){return ps.some(function(p){return p.conta===c.id})});
+    $('#f-conta').innerHTML=chipsHtml({key:'conta',label:'Conta'},[['todas','Todas']].concat(contasUsadas.map(function(c){return [c.id,c.nome]})),state.filtro.conta);
+    var base=ps.filter(function(p){return state.filtro.conta==='todas'||p.conta===state.filtro.conta});
+    var corrs=[];base.forEach(function(p){if(p.corretor&&corrs.indexOf(p.corretor)<0)corrs.push(p.corretor)});
+    if(state.filtro.corretor!=='todos'&&corrs.indexOf(state.filtro.corretor)<0) state.filtro.corretor='todos';
+    $('#f-corretor').innerHTML=chipsHtml({key:'corretor',label:'Corretor'},[['todos','Todos']].concat(corrs.map(function(c){return [c,c]})),state.filtro.corretor);
+    $('#f-faixa').innerHTML=chipsHtml({key:'faixa',label:'Faixa'},[['todas','Todas'],['entrada','Até R$ 500 mil'],['medio','R$ 500 mil a 1,5 mi'],['alto','Acima de R$ 1,5 mi']],state.filtro.faixa);
+    var vis=base.filter(function(p){return (state.filtro.corretor==='todos'||p.corretor===state.filtro.corretor)&&(state.filtro.faixa==='todas'||p.faixa===state.filtro.faixa)});
+    $('#lista').innerHTML=vis.length?vis.map(cardHtml).join(''):
+      '<div class="empty"><h3>'+(ps.length?'Nada com esses filtros':'Nenhum pedido ainda')+'</h3><div>'+(ps.length?'Troca o filtro de conta, corretor ou faixa.':'Faz o primeiro em "Novo pedido". Ele aparece aqui com a ficha e, depois, com as copys pra aprovar.')+'</div></div>';
+    // corretores conhecidos pro datalist
+    var todos=[];ps.forEach(function(p){if(p.corretor&&todos.indexOf(p.corretor)<0)todos.push(p.corretor)});
+    $('#corretores').innerHTML=todos.map(function(c){return '<option value="'+esc(c)+'">'}).join('');
+  }
+  function cardHtml(p){
+    var c=conta(p.conta), F=p.faixa?FAIXAS[p.faixa]:null, im=p.imovel||{}, pr=p.proposta||null;
+    var det=[im.tipo,im.bairro,im.quadra,im.area?im.area+' m²':'',im.quartos?im.quartos+' qts':''].filter(Boolean).join(' · ');
+    var h='<article class="card '+(F?F.cls:'')+'" data-id="'+esc(p.id)+'">'+
+      '<div class="head"><div class="who"><span class="badge corretor">'+esc(p.corretor)+'</span><span class="badge">'+esc(c.nome)+'</span>'+(F?'<span class="badge fx">'+esc(F.nome)+'</span>':'')+'</div>'+
+      '<span class="pill st-'+esc(p.status)+'">'+esc(STATUS[p.status]||p.status)+'</span></div>'+
+      '<h3>'+esc(im.nome)+' <span class="num" style="font-size:.95rem;color:var(--ink-soft)">'+brl(im.preco)+'</span></h3>'+
+      '<p class="sub">'+esc(det)+'</p>'+
+      '<div class="cname">'+esc((pr&&pr.nome)||(p.ficha&&p.ficha.nome)||'')+'</div>';
+    if(pr){
+      h+='<div class="copies">'+['A','B'].map(function(k){var cp=pr['copy'+k];return cp?'<div class="copy"><div class="lab">Variação '+k+'</div><div class="t">'+esc(cp.titulo)+'</div><p>'+esc(cp.texto)+'</p></div>':''}).join('')+'</div>'+
+        '<div class="meta"><div><b>Público</b>'+esc(pr.publico||'')+'</div><div><b>Orçamento</b><span class="num">'+brl(pr.orcamento||p.orcamento)+'/dia</span></div><div><b>Formulário</b>'+esc(pr.formulario||(p.ficha&&p.ficha.form)||'')+'</div></div>'+
+        (pr.observacao?'<div class="note">'+esc(pr.observacao)+'</div>':'');
+    } else if(p.status==='novo'){
+      h+='<div class="note">O Claude ainda não montou as copys. Se você não colou o pedido no chat, copia de novo aqui.</div>';
+    }
+    if(p.feedback) h+='<div class="note warn"><strong>Seu ajuste:</strong> '+esc(p.feedback)+'</div>';
+    if(p.status==='criada'||p.status==='ativa') h+='<div class="note ok">'+esc(p.execucao||'Criada pausada na conta. Ativação é sua.')+'</div>';
+    h+='<div class="actions">';
+    if(p.status==='proposta'){
+      h+='<button class="btn ok" type="button" data-act="aprovar">Aprovar</button><button class="btn warn" type="button" data-act="ajuste">Pedir ajuste</button><button class="btn bad" type="button" data-act="reprovar">Reprovar</button>';
+    }
+    if(p.status==='novo') h+='<button class="btn ghost" type="button" data-act="copiar">Copiar pedido de novo</button>';
+    if(p.status==='aprovado') h+='<span class="muted" style="font-size:.85rem">Aprovado. Avisa o Claude no chat pra criar.</span>';
+    h+='</div>';
+    if(state.ajusteAberto===p.id) h+='<div class="fb" style="margin-top:10px"><textarea id="fb-'+esc(p.id)+'" placeholder="O que muda? Ex: tirar o preço do título, orçamento 50, focar em quem quer trocar"></textarea><div class="actions"><button class="btn primary" type="button" data-act="enviar-ajuste">Enviar ajuste</button><button class="btn ghost" type="button" data-act="cancelar">Cancelar</button></div></div>';
+    return h+'</article>';
+  }
+  document.addEventListener('click',function(e){
+    var ch=e.target.closest('[data-f]');
+    if(ch){state.filtro[ch.dataset.f]=ch.dataset.v;if(ch.dataset.f==='conta')state.filtro.corretor='todos';renderFila();return}
+    var b=e.target.closest('[data-act]'); if(!b) return;
+    var card=b.closest('.card'); if(!card) return;
+    var id=card.dataset.id, p=state.pedidos.find(function(x){return x.id===id}); if(!p) return;
+    var act=b.dataset.act;
+    if(act==='copiar'){
+      var t=textoPedido({conta:p.conta,corretor:p.corretor,imovel:p.imovel,diferenciais:p.diferenciais,objecao:p.objecao,condicao:p.condicao,objetivo:p.objetivo,orcamento:p.orcamento,criativo:p.criativo||{modo:'chat'},obs:p.obs},
+        {conta:conta(p.conta),F:p.faixa?FAIXAS[p.faixa]:null,nome:(p.ficha&&p.ficha.nome)||''},p.id);
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function(){toast('Copiado. Cola no chat do Claude.')},function(){toast('Não deu pra copiar automático.')}); else toast('Não deu pra copiar automático.');
+      return;
+    }
+    if(act==='ajuste'){state.ajusteAberto=id;renderFila();setTimeout(function(){var el=document.getElementById('fb-'+id);if(el)el.focus()});return}
+    if(act==='cancelar'){state.ajusteAberto=null;renderFila();return}
+    var patch=null;
+    if(act==='aprovar') patch={status:'aprovado',decidido_em:new Date().toISOString()};
+    if(act==='reprovar') patch={status:'reprovado',decidido_em:new Date().toISOString()};
+    if(act==='enviar-ajuste'){var txt=(document.getElementById('fb-'+id)||{}).value||'';txt=txt.trim();if(!txt){toast('Escreve o que precisa mudar.');return}patch={status:'ajuste',feedback:txt,decidido_em:new Date().toISOString()};state.ajusteAberto=null}
+    if(!patch) return;
+    Object.assign(p,patch); renderFila();
+    if(state.db) state.db.doc('pedidos/'+id).update(patch).then(function(){toast(act==='aprovar'?'Aprovado. Avisa o Claude no chat.':act==='reprovar'?'Reprovado.':'Ajuste enviado. Avisa o Claude no chat.')}).catch(function(){toast('Não salvou. Tenta de novo.')});
+  });
+
+  renderFicha(); renderFila();
+
+  (async function(){
+    var db=null;
+    try{ if(window.claude&&window.claude.use) db=await window.claude.use('db'); }catch(_){ db=null }
+    if(!db){$('#offline').hidden=false;return}
+    state.db=db;
+    db.collection('pedidos').onSnapshot(function(snap){
+      state.pedidos=snap.docs.map(function(d){var x=d.data()||{};x.id=d.id;return x});
+      renderFila(); renderFicha();
+    },function(){$('#offline').hidden=false});
+  })();
+})();
+</script>

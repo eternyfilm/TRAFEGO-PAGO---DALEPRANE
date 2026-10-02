@@ -77,12 +77,27 @@ No fim, gerar `para-enviar.md` com o texto de cada cliente e uma checklist "mand
 
 ## Rotina 2: criar campanha
 
+**Entrada pela Torre Daleprane** (https://claude.ai/artifact/M2KRXTGmddKbW5CQ2JQVLD, código em `paineis/torre-daleprane.html`): o Kalleby preenche o pedido, a página salva em `pedidos` (db do artifact) e ele cola o texto do pedido no chat junto com o criativo. Fluxo:
+1. Ler o pedido na coleção `pedidos` (ArtifactData) e a ficha do cliente.
+2. Escrever a proposta no próprio documento: `update` com `status: "proposta"` e `proposta: {nome, copyA:{titulo,texto}, copyB:{titulo,texto}, publico, orcamento, formulario, observacao}`. Mostrar o resumo também no chat.
+3. Kalleby aprova ou pede ajuste na Fila. Status `aprovado` = OK da regra 5.
+4. Conta com conector: criar tudo PAUSADO, conferir, gravar `status: "criada"` e `execucao` no documento e salvar `campanhas/AAAA-MM-DD-NOME-IMOVEL.md`. Conta sem conector (Daleprane, Bruno): entregar passo a passo para montar no Gerenciador.
+5. Nunca apagar documento da fila.
+
+**Separação por corretor (BM Daleprane):** na BM da Daleprane rodam campanhas de 2 a 5 corretores ao mesmo tempo, com imóveis de R$ 300 mil a R$ 2 milhões, e cada lead vai direto pro corretor da campanha. Por isso:
+- Nome da campanha leva o corretor: `CBO | FORM | IMÓVEL | CORRETOR - DD/MM`. Formulário: `FORM | IMÓVEL | CORRETOR`.
+- Relatório e fila agrupam por corretor, nunca misturam leads de corretores diferentes.
+- Faixas de preço: entrada até R$ 500 mil, médio de R$ 500 mil a R$ 1,5 mi, alto acima de R$ 1,5 mi. Público por faixa conforme os padrões abaixo (entrada usa o de médio até ter histórico).
+- Antes de criar, checar se o mesmo imóvel já tem campanha de outro corretor na mesma conta.
+
 Antes de criar, confirme com o Kalleby: cliente, imóvel (bairro, quadra, metragem, quartos, preço, diferenciais), objetivo (formulário ou conversa no WhatsApp), orçamento diário e criativo disponível. Se faltar detalhe, assuma o padrão e diga qual assumiu.
 
 **Padrões:**
 - Estrutura CBO. Nome: `CBO | FORM | NOME DO IMÓVEL - DD/MM` (ou `MSG` para conversa).
 - Alto padrão (acima de R$ 1,5mi): pins nos bairros nobres, 32 a 58 anos, interesses em investimento imobiliário, propriedade de imóveis e bens de luxo. Médio padrão: pins na região do imóvel, 28 a 55 anos, investimento, propriedade e empreendedorismo. Expansão de público sempre desativada.
-- Formulário para imóveis acima de R$ 800k. Mensagem só quando o volume importar mais que a qualidade.
+- Formulário é o padrão em todas as faixas (é o que funciona para o Kalleby; MSG no SQSW 306 gastou R$ 560,54 sem lead). Mensagem só se ele pedir.
+- Orçamento sugerido: R$ 40/dia (SQSW 306 de 10/08, melhor histórico: 45 leads a R$ 33,51). Acima de R$ 60/dia, avisar.
+- Formulário padrão: nome, telefone, e-mail, objetivo (morar, investir, pesquisando), já possui imóvel (não, trocar, segundo imóvel), melhor horário. Casa com o modelo de relatório.
 - Copy: título direto com o diferencial real do imóvel, texto específico e situacional (prefira "a casa acende sozinha de dia" a "excelente iluminação"), validação por marca ou arquiteto quando existir, quebra da principal objeção antes do CTA, CTA com o primeiro nome do corretor. Entregar duas variações para teste.
 
 Ao terminar: campanha PAUSADA, arquivo salvo em `campanhas/` e um resumo curto para o Kalleby conferir e ativar.
