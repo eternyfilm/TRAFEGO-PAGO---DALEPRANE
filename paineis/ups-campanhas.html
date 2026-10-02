@@ -362,7 +362,7 @@ input.money{font-family:var(--mono);font-variant-numeric:tabular-nums}
     if(p.objetivo==='MSG') a.push(['warn','Seu histórico: mensagem no SQSW 306 gastou R$ 560,54 sem lead registrado. Formulário é o que funciona pra você.']);
     if(fi.faixa==='entrada') a.push(['warn','Abaixo de R$ 500 mil ainda não tem histórico seu. Uso o público de médio padrão e ajustamos com os primeiros dados.']);
     if(p.orcamento>ORC_SUGERIDO*1.5) a.push(['warn','Orçamento acima de R$ 60/dia. Quando a cópia da SQSW 306 subiu de R$ 40 pra R$ 75, o custo por mil impressões subiu 53%.']);
-    var dup=state.pedidos.filter(function(x){return x.conta===p.conta&&x.imovel&&p.imovel.nome&&x.imovel.nome.toLowerCase()===p.imovel.nome.toLowerCase()&&['reprovado'].indexOf(x.status)<0});
+    var dup=state.pedidos.filter(function(x){return x.id!==state.ultimoId&&x.conta===p.conta&&x.imovel&&p.imovel.nome&&x.imovel.nome.toLowerCase()===p.imovel.nome.toLowerCase()&&['reprovado'].indexOf(x.status)<0});
     dup.forEach(function(x){a.push([x.corretor.toLowerCase()===String(p.corretor).toLowerCase()?'warn':'bad','Já existe pedido de '+x.imovel.nome+' nesta conta para '+x.corretor+' ('+(STATUS[x.status]||x.status)+'). Confere antes pra não rodar duas campanhas do mesmo imóvel.'])});
     if(!fi.conta.conector) a.push(['', 'Essa conta ainda não está liberada pro conector do Meta.']);
     return a;
@@ -396,7 +396,7 @@ input.money{font-family:var(--mono);font-variant-numeric:tabular-nums}
   $('#conta').addEventListener('change',function(){$('#corretor').value='';renderFicha()});
   document.getElementById('form').addEventListener('input',renderFicha);
   document.getElementById('form').addEventListener('change',renderFicha);
-  $('#btn-limpar').addEventListener('click',function(){document.getElementById('form').reset();$('#done').hidden=true;$('#erro').hidden=true;$('#link-wrap').hidden=true;renderFicha()});
+  $('#btn-limpar').addEventListener('click',function(){state.ultimoId=null;document.getElementById('form').reset();$('#done').hidden=true;$('#erro').hidden=true;$('#link-wrap').hidden=true;renderFicha()});
 
   function textoPedido(p,fi,id){
     var im=p.imovel, l=[];
@@ -431,7 +431,7 @@ input.money{font-family:var(--mono);font-variant-numeric:tabular-nums}
     var mostrar=function(id){state.ultimoTexto=textoPedido(p,fi,id);$('#done-text').textContent=state.ultimoTexto;$('#done').hidden=false;$('#done').scrollIntoView({behavior:'smooth',block:'nearest'})};
     if(!state.db){mostrar('');toast('Sem conexão: o pedido não foi salvo, mas dá pra copiar.');return}
     $('#btn-enviar').disabled=true;
-    state.db.collection('pedidos').add(doc).then(function(ref){mostrar(ref.id);toast('Pedido salvo na Fila')})
+    state.db.collection('pedidos').add(doc).then(function(ref){state.ultimoId=ref.id;mostrar(ref.id);renderFicha();toast('Pedido salvo na Fila')})
       .catch(function(){$('#erro').hidden=false;$('#erro').textContent='Não salvou. Confere a conexão e tenta de novo.'})
       .then(function(){$('#btn-enviar').disabled=false});
   });
