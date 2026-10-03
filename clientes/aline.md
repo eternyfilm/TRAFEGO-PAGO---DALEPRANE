@@ -17,7 +17,7 @@
 | CBO FORM PRIME PARK SUL - 22/07 | 22/07 a 04/08 | | 686,81 | 21 | 32,71 | | pausada |
 | CBO FORM SQSW 306 - 10/08 | 10/08 a ~18/09, **reativada em 02/10/2026** | 40 | 1.508,05 (até a pausa) | 45 | 33,51 | 73,71 | **ativa** |
 | CBO FORM SQSW 306 - 29/09 (cópia) | 29/09 a 02/10/2026 | 75 | 153,25 | 1 | 153,25 | 112,93 | pausada em 02/10 |
-| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 89,11 (7d) | 3 | 29,70 | 110,42 | ativa |
+| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 170,06 (até 02/10) | 4 | 42,52 | 99,28 | ativa |
 
 SQSW 306 (10/08) por semana: CPL 20,61 / 43,79 / 47,41 / 31,33 / 47,74 / 24,91. Na última semana antes de pausar ainda fazia R$ 24,91 por lead. O CPM subiu toda semana (59,75 até 91,05) e o alcance semanal caiu (2.860 até 1.041), sinal de público da região se esgotando.
 
