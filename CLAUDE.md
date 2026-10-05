@@ -102,6 +102,8 @@ Antes de criar, confirme com o Kalleby: cliente, imóvel (bairro, quadra, metrag
 
 Ao terminar: campanha PAUSADA, arquivo salvo em `campanhas/` e um resumo curto para o Kalleby conferir e ativar.
 
+**Criativo em vídeo (opcional):** `criativos/` tem um template Remotion (Vertical 9:16 e Feed 4:5). Quando o pedido vier sem vídeo pronto, montar o JSON a partir do pedido (mesmos campos de `corretor` e `imovel`) mais gancho, destaque e objeção, e renderizar com `npm run render -- arquivo.json`. Detalhes em `criativos/README.md`. Mídia do imóvel fica em `criativos/public/midia/`, fora do git.
+
 ## Rotina 3: feedback do cliente
 
 Quando o Kalleby disser que um cliente reclamou ou pediu algo:

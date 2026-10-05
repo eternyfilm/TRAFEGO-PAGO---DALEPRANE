@@ -1,0 +1,4 @@
+node_modules/
+out/
+# Fotos e vídeos dos imóveis: pesados e do cliente, ficam só na máquina
+public/midia/

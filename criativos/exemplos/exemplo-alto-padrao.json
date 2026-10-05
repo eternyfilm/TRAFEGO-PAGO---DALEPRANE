@@ -1,0 +1,72 @@
+{
+  "corretor": "Aline Daleprane",
+  "marca": {
+    "nome": "Daleprane Inteligência Imobiliária",
+    "slogan": "Seu imóvel sem stress"
+  },
+  "imovel": {
+    "nome": "Casa Exemplo",
+    "tipo": "Casa",
+    "bairro": "Lago Sul",
+    "quadra": "QL 00",
+    "area": "620",
+    "quartos": "5",
+    "vagas": "6",
+    "preco": 4800000
+  },
+  "gancho": {
+    "setup": "O problema dessa casa é que você vai parar de viajar nas férias...",
+    "revelacao": "o resort agora é aqui!"
+  },
+  "destaque": "Piscina aquecida que você usa em julho, às sete da noite.",
+  "assinadoPor": "Arquitetura assinada por Escritório Exemplo",
+  "objecao": "Aceita imóvel menor como parte do pagamento.",
+  "cta": "Agende sua visita com {corretor}",
+  "premium": "auto",
+  "assinaturaPremium": "Comprar com inteligência, viver com sofisticação.",
+  "cenas": [
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    },
+    {
+      "src": "",
+      "tipo": "video",
+      "inicio": 0,
+      "legenda": ""
+    }
+  ],
+  "trilha": ""
+}

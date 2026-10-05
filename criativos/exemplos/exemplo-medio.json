@@ -1,0 +1,33 @@
+{
+  "corretor": "Aline Daleprane",
+  "marca": {"nome": "Daleprane Inteligência Imobiliária", "slogan": "Seu imóvel sem stress"},
+  "imovel": {
+    "nome": "Residencial Exemplo",
+    "tipo": "Apartamento",
+    "bairro": "Noroeste",
+    "quadra": "SQNW 000",
+    "area": "118",
+    "quartos": "3",
+    "vagas": "2",
+    "preco": 1690000
+  },
+  "gancho": {
+    "setup": "Aqui o único problema é que seu final de semana será sempre o mesmo...",
+    "revelacao": "ficar em casa!"
+  },
+  "destaque": "De manhã você não acende luz. A sala faz isso sozinha.",
+  "assinadoPor": "",
+  "objecao": "Habite-se emitido. Dá pra mudar no mês que vem.",
+  "cta": "Preencha o formulário e fale com {corretor}",
+  "premium": "auto",
+  "assinaturaPremium": "Comprar com inteligência, viver com sofisticação.",
+  "cenas": [
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": ""},
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": ""},
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": "Varanda virada pro parque"},
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": ""},
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": "Suíte com closet"},
+    {"src": "", "tipo": "foto", "inicio": 0, "legenda": ""}
+  ],
+  "trilha": ""
+}
