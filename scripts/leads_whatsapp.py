@@ -70,6 +70,13 @@ def email_ok(e):
     return e if re.fullmatch(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}", e) else ""
 
 
+def horario(v):
+    v = bonito(v)
+    if len(re.sub(r"\D", "", v)) >= 8 or len(v.strip(" .-")) == 0:
+        return ""
+    return v[:1].upper() + v[1:]
+
+
 def prioridade(objetivo, imovel):
     o, i = norm(objetivo), norm(imovel)
     tem = "trocar" in i or "segundo" in i or i.startswith("sim")
@@ -98,6 +105,7 @@ def main():
     ap.add_argument("--ate")
     ap.add_argument("--campanha")
     ap.add_argument("--titulo", default="Relatório de leads")
+    ap.add_argument("--investimento", type=float, help="investido no período, vindo da conta de anúncios")
     a = ap.parse_args()
 
     linhas = ler_csv(a.csv)
@@ -111,6 +119,7 @@ def main():
     c_obj = coluna(cols, "objetivo")
     c_imv = coluna(cols, "possui", "imovel")
     c_hor = coluna(cols, "horario", "melhor")
+    c_vis = coluna(cols, "quando", "conhecer", "visita")
     c_camp = [c for c in cols if norm(c) in ("campaign_name", "form_name", "ad_name", "adset_name")]
 
     desde = date.fromisoformat(a.desde)
@@ -127,18 +136,31 @@ def main():
         obj, imv = bonito(r.get(c_obj)), bonito(r.get(c_imv))
         leads.append({"data": d, "nome": str(r.get(c_nome) or "").strip(), "tel": telefone(r.get(c_tel)),
                       "mail": email_ok(r.get(c_mail)), "mail_bruto": str(r.get(c_mail) or "").strip(),
-                      "obj": obj, "imv": imv, "hor": bonito(r.get(c_hor)), "p": prioridade(obj, imv)})
+                      "obj": obj, "imv": imv, "hor": horario(r.get(c_hor)), "vis": bonito(r.get(c_vis)) if c_vis else "",
+                      "p": prioridade(obj, imv)})
 
-    leads.sort(key=lambda x: (x["p"], x["data"]))
+    urg = lambda v: 0 if "quanto antes" in norm(v) else 1 if "proxim" in norm(v) else 2
+    leads.sort(key=lambda x: (x["p"], urg(x["vis"]), x["data"]))
     n = len(leads)
     periodo = f"{desde:%d/%m} a {(ate or max([l['data'] for l in leads], default=desde)):%d/%m/%Y}"
     out = [f"📊 *RELATÓRIO DE LEADS*", f"*{a.titulo}*", f"_Formulário · {periodo}_", "",
-           f"📩 Leads novos no período: *{n}*", ""]
+           f"📩 Leads novos no período: *{n}*"]
+    if a.investimento:
+        out += [f"💳 Investimento: R$ {a.investimento:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")]
+        if n:
+            out += [f"💰 Custo por lead: *R$ {a.investimento / n:,.2f}*".replace(",", "X").replace(".", ",").replace("X", ".")]
+    out += [""]
     if n:
         conta = lambda f: sum(1 for l in leads if f(l))
         out += ["*PERFIL DOS LEADS*",
                 f"🏡 {conta(lambda l: 'morar' in norm(l['obj']))} querem morar · {conta(lambda l: 'invest' in norm(l['obj']))} querem investir · {conta(lambda l: 'pesquis' in norm(l['obj']))} ainda pesquisando",
-                f"🔑 {conta(lambda l: l['p'] == 1)} já têm imóvel", ""]
+                f"🔑 {conta(lambda l: 'trocar' in norm(l['imv']) or 'segundo' in norm(l['imv']))} já têm imóvel"]
+        if c_vis:
+            out += [f"🗓️ {conta(lambda l: urg(l['vis']) == 0)} querem conhecer o quanto antes"]
+        fora = conta(lambda l: l['tel'].startswith('(') and l['tel'][1:3] not in ('61',))
+        if fora:
+            out += [f"📍 {fora} com DDD de fora do DF"]
+        out += [""]
         rotulo = {1: "🔥 *PRIORIDADE 1*", 2: "🟡 *PRIORIDADE 2*", 3: "⚪ *PRIORIDADE 3*"}
         atual, i = None, 0
         for l in leads:
@@ -147,8 +169,10 @@ def main():
                 out += ["━━━━━━━━━━━━━━", rotulo[atual], ""]
             i += 1
             mail = l["mail"] or ("⚠️ conferir no Meta" if l["mail_bruto"] else "")
-            out += [f"*{i}. {l['nome']}*", f"📞 {l['tel']}"] + ([f"📧 {mail}"] if mail else []) + \
-                   [" · ".join(x for x in [l["obj"], l["imv"], ("⏰ " + l["hor"]) if l["hor"] else ""] if x),
+            tel = l["tel"] + ("  ⚠️ conferir número" if len(re.sub(r"\D", "", l["tel"])) == 10 else "")
+            out += [f"*{i}. {l['nome']}*", f"📞 {tel}"] + ([f"📧 {mail}"] if mail else []) + \
+                   [" · ".join(x for x in [l["obj"], l["imv"]] if x)] + \
+                   ([" · ".join(x for x in [("🗓️ Visita: " + l["vis"]) if l["vis"] else "", ("⏰ " + l["hor"]) if l["hor"] else ""] if x)] if (l["vis"] or l["hor"]) else []) + [
                     f"_Entrou em {l['data']:%d/%m}_", ""]
     out += ["━━━━━━━━━━━━━━",
             "💬 Depois dos primeiros contatos, nos conta: quem atendeu, quem tem perfil e quem agendou visita.",

@@ -7,7 +7,8 @@
 - **Meta de CPL:** sem meta própria. Régua provisória do CLAUDE.md (até R$ 35 indo bem, R$ 35 a 50 atenção, acima de R$ 50 cortar).
 - **Tipo de campanha que funciona:** formulário. Mensagem para SQSW 306 (01/06) gastou R$ 560,54 sem lead registrado.
 - **Região e público padrão:** conforme CLAUDE.md, por faixa de preço.
-- **Qualidade dos leads (retorno do cliente):** sem dado
+- **Qualidade dos leads (retorno do cliente):** sem retorno da Aline ainda.
+- **Perfil declarado no formulário (05/10):** SQSW 306 fase nova, 6 leads: 5 querem morar, 5 já têm imóvel (troca ou segundo), 2 querem visitar o quanto antes, 1 DDD de fora. Vicente Pires T1, 9 leads: 8 querem morar, 7 já têm imóvel, 4 querem visitar o quanto antes, 1 DDD de fora. Perfil forte de quem já tem imóvel pra dar na troca.
 
 ## Histórico de campanhas (dados da conta)
 
