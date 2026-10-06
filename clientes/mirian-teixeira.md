@@ -18,3 +18,6 @@ Ativa em 02/10/2026:
 ### 02/10/2026
 - Kalleby: a campanha ativa deveria estar desativada. Ele mesmo vai desativar.
 - Decisão: nenhuma mensagem ao cliente sobre isso. Sem campanha ativa a partir de agora, a conta sai do relatório diário até nova campanha.
+
+### 06/10/2026
+- Confirmado na conta: nenhuma campanha ativa.
