@@ -18,7 +18,7 @@
 | CBO FORM PRIME PARK SUL - 22/07 | 22/07 a 04/08 | | 686,81 | 21 | 32,71 | | pausada |
 | CBO FORM SQSW 306 - 10/08 | 10/08 a ~18/09, **reativada em 02/10/2026** | 40 | 1.508,05 (até a pausa) | 45 | 33,51 | 73,71 | **ativa** |
 | CBO FORM SQSW 306 - 29/09 (cópia) | 29/09 a 02/10/2026 | 75 | 153,25 | 1 | 153,25 | 112,93 | pausada em 02/10 |
-| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 384,20 (até 05/10) | 11 | 34,93 | 68,59 | ativa |
+| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 485,22 (até 06/10) | 17 | 28,54 | 60,71 | ativa |
 
 SQSW 306 (10/08) por semana: CPL 20,61 / 43,79 / 47,41 / 31,33 / 47,74 / 24,91. Na última semana antes de pausar ainda fazia R$ 24,91 por lead. O CPM subiu toda semana (59,75 até 91,05) e o alcance semanal caiu (2.860 até 1.041), sinal de público da região se esgotando.
 
@@ -40,4 +40,5 @@ Leads da SQSW 306 que contam para o relatório a partir de agora: **só os gerad
 - Os 45 leads de 10/08 a ~18/09 são da fase anterior. Já foram entregues, não reenviar como novos.
 - O 1 lead da cópia (29/09 a 01/10) é de outra campanha. Também não entra na contagem nova.
 - Fase nova começa do zero. Os primeiros dias podem oscilar até a campanha reaquecer.
-- Resultado da fase nova até 05/10: R$ 223,23, 6 leads, CPL R$ 37,21 (02/10: 1, 03/10: 1, 04/10: 4, 05/10: 0).
+- Resultado da fase nova até 06/10: R$ 261,80, 8 leads, CPL R$ 32,73 (02/10: 1, 03/10: 1, 04/10: 4, 05/10: 0, 06/10: 2).
+- Listas já entregues cobrem até 04/10. Próxima lista: leads de 05/10 em diante.
