@@ -16,13 +16,17 @@
 |---|---|---|---|---|---|---|---|
 | CBO MSG SQSW 306 - 01/06 | jun | 40 | 560,54 | 0 | sem lead | 38,02 | pausada |
 | CBO FORM PRIME PARK SUL - 22/07 | 22/07 a 04/08 | | 686,81 | 21 | 32,71 | | pausada |
-| CBO FORM SQSW 306 - 10/08 | 10/08 a ~18/09, **reativada em 02/10/2026** | 40 | 1.508,05 (até a pausa) | 45 | 33,51 | 73,71 | **ativa** |
+| CBO FORM SQSW 306 - 10/08 | 10/08 a ~18/09; 02/10 a 07/10/2026 | 40 | 1.508,05 + 273,84 | 45 + 9 | 33,51 / 30,43 | 73,71 | pausada em 07/10 |
 | CBO FORM SQSW 306 - 29/09 (cópia) | 29/09 a 02/10/2026 | 75 | 153,25 | 1 | 153,25 | 112,93 | pausada em 02/10 |
-| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 485,22 (até 06/10) | 17 | 28,54 | 60,71 | ativa |
+| CBO FORM VICENTE PIRES T1 - 30/09 | desde 30/09 | 75 | 565,46 (até 07/10) | 24 | 23,56 | 65,39 | ativa |
 
 SQSW 306 (10/08) por semana: CPL 20,61 / 43,79 / 47,41 / 31,33 / 47,74 / 24,91. Na última semana antes de pausar ainda fazia R$ 24,91 por lead. O CPM subiu toda semana (59,75 até 91,05) e o alcance semanal caiu (2.860 até 1.041), sinal de público da região se esgotando.
 
 ## Histórico de feedbacks e ajustes
+
+### 07/10/2026
+- SQSW 306 (120247791925520557) pausada pelo Kalleby às 12h24, pelo Gerenciador (histórico de atividade da conta). Motivo: a confirmar.
+- Fase 02 a 07/10 fechada: R$ 273,84, 9 leads, CPL R$ 30,43.
 
 ### 05/10/2026
 - Listas de leads entregues (SQSW 306 desde 02/10 e Vicente Pires desde 30/09), filtradas do CSV com `scripts/leads_whatsapp.py`. Contagem bateu com a conta.
@@ -42,3 +46,4 @@ Leads da SQSW 306 que contam para o relatório a partir de agora: **só os gerad
 - Fase nova começa do zero. Os primeiros dias podem oscilar até a campanha reaquecer.
 - Resultado da fase nova até 06/10: R$ 261,80, 8 leads, CPL R$ 32,73 (02/10: 1, 03/10: 1, 04/10: 4, 05/10: 0, 06/10: 2).
 - Listas já entregues cobrem até 04/10. Próxima lista: leads de 05/10 em diante.
+- **Fase encerrada em 07/10/2026** (pausa manual do Kalleby). Total: R$ 273,84, 9 leads, CPL R$ 30,43.

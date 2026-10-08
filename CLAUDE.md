@@ -61,9 +61,9 @@ Para cada conta com campanha ativa, puxe os últimos 7 dias e ontem separado, po
 - Campanha com menos de 3 dias ou menos de 10 leads está em aprendizado. Só observar, a menos que o gasto já seja alto sem resultado.
 - Compare o CPM entre campanhas antes de culpar o leilão. CPM igual e CPL pior significa problema depois da impressão (criativo, oferta, formulário).
 - Lead não é venda. Sempre lembrar o Kalleby de cobrar o retorno de qualidade dos leads com o cliente.
-- Referências medidas (conta Aline, formulário): Prime Park Sul 22/07 CPL R$ 32,71 (21 leads, R$ 686,81). SQSW 306 10/08 CPL R$ 33,51 (45 leads, R$ 1.508,05). Vicente Pires T1 CPL R$ 28,54 (17 leads até 06/10). SQSW 306 reativada CPL R$ 32,73 (8 leads de 02 a 06/10). Mensagem (MSG) para SQSW 306 em 01/06 gastou R$ 560,54 sem lead registrado. Atualizar conforme os dados novos.
+- Referências medidas (conta Aline, formulário): Prime Park Sul 22/07 CPL R$ 32,71 (21 leads, R$ 686,81). SQSW 306 10/08 CPL R$ 33,51 (45 leads, R$ 1.508,05). Vicente Pires T1 CPL R$ 23,56 (24 leads até 07/10). SQSW 306 reativada CPL R$ 30,43 (9 leads de 02 a 07/10, pausada pelo Kalleby em 07/10). Mensagem (MSG) para SQSW 306 em 01/06 gastou R$ 560,54 sem lead registrado. Atualizar conforme os dados novos.
 
-**Marcos de reativação:** quando uma campanha é reativada, o relatório conta leads só a partir da data de reativação registrada na ficha do cliente. Leads anteriores já foram entregues e não aparecem como novos. Ativo hoje: SQSW 306 (Aline) reativada em 02/10/2026.
+**Marcos de reativação:** quando uma campanha é reativada, o relatório conta leads só a partir da data de reativação registrada na ficha do cliente. Leads anteriores já foram entregues e não aparecem como novos. SQSW 306 (Aline): fase de 02/10 a 07/10/2026, pausada pelo Kalleby em 07/10. Se for reativada de novo, a contagem recomeça na nova data.
 
 **Metas de CPL:** nenhum cliente tem meta própria (confirmado pelo Kalleby em 02/10/2026). Até ele definir outra, vale a régua provisória baseada no histórico real de formulário: indo bem até R$ 35, atenção de R$ 35 a R$ 50, cortar acima de R$ 50 depois de sair do aprendizado, ou gasto de 2x R$ 35 (R$ 70) sem nenhum lead. Revisar a régua quando houver histórico de outros clientes.
 
