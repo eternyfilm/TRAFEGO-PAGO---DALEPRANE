@@ -61,12 +61,14 @@ Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN
 
 ## Copy (duas variações para teste)
 
-**A. Preço na frente (filtro máximo)**
-Título: Vista 360° pro lago. R$ 18 milhões.
-Texto:
-12.500 m² de terreno no Lago Norte. Quase dois campos de futebol, com vista 360° para o lago.
+O vídeo da Aline foca na área de lazer (informação do Kalleby, 09/10). A copy abre pelo lazer para bater com o vídeo; terreno e vista entram como prova.
 
-1.300 m² de casa, 5 suítes e um clube particular dentro do terreno: piscina, SPA, sauna, academia, quadra e salão de festas.
+**A. Preço na frente (filtro máximo)**
+Título: Um clube particular no Lago Norte. R$ 18 milhões.
+Texto:
+Piscina, SPA, sauna, academia, quadra, salão de festas e espaço gourmet. Tudo no quintal, com vista 360° para o lago.
+
+São 12.500 m² de terreno, quase dois campos de futebol, e 1.300 m² de casa com 5 suítes.
 Poço artesiano, gerador e aquecimento solar. A casa não depende de ninguém para funcionar.
 Entregue mobiliada. Você chega com as malas.
 
@@ -74,13 +76,12 @@ SHIN QL 5, Lago Norte. R$ 18 milhões.
 Por discrição, visita só com hora marcada. Deixe seu contato e a Aline Daleprane fala com você pessoalmente.
 
 **B. Gancho com quebra de expectativa**
-Título: Aqui o difícil é escolher para qual lado olhar.
+Título: O clube mais exclusivo do Lago Norte tem uma família só.
 Texto:
-Em Brasília, todo mundo quer vista para o lago. Nesta casa, o difícil é escolher para qual lado olhar.
+Tem clube em Brasília com menos estrutura do que o quintal desta casa.
 
-Vista 360° no Lago Norte, em 12.500 m² de terreno.
-5 suítes, 1.300 m² de casa e o sol da manhã entrando pela frente.
-Piscina, SPA, sauna, academia e quadra sem sair de casa. Guarita e circuito de segurança. Mobiliada, pronta para morar.
+Piscina com o lago de fundo, SPA, sauna, academia, quadra e salão de festas. Sem fila, sem horário, sem sócio.
+12.500 m² de terreno, vista 360° para o lago e 5 suítes em 1.300 m² de casa. Mobiliada, pronta para morar.
 
 R$ 18 milhões. Apresentação privativa com hora marcada.
 Fale com a Aline Daleprane pelo formulário.
@@ -91,7 +92,7 @@ Botão (CTA): "Saiba mais".
 
 Vídeo da Aline apresentando (único criativo). Conferir:
 - Os 3 primeiros segundos funcionam sem som? Legenda queimada no vídeo.
-- Texto na tela no início: "Vista 360° pro lago | 12.500 m² | Lago Norte". Abrir com a imagem da piscina com o lago ao fundo, não com a Aline falando.
+- Texto na tela no início: "Vista 360° pro lago | 12.500 m² | Lago Norte". Abrir com a imagem da piscina com o lago ao fundo, não com a Aline falando. O vídeo foca no lazer, então o texto na tela pode ser: "Um clube particular | Vista 360° pro lago | Lago Norte".
 - Preço aparece no vídeo ou só na legenda? Se der, um texto discreto "R$ 18 mi | Lago Norte" no início também filtra.
 
 ## Régua de leitura (específica desta campanha)
