@@ -1,7 +1,19 @@
 # Casa Lago Norte SHIN QL 5 Conj. 6 | R$ 18 milhões | Aline
 
 Status: **guia para o Kalleby montar no Gerenciador.** Nada foi criado pelo conector.
-Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN QL 5 Conj. 6, Lago Norte). Não consegui abrir a página: o site está bloqueado pela rede deste ambiente. Os detalhes do imóvel entre [colchetes] precisam vir da descrição.
+Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN QL 5 Conj. 6, Lago Norte). Dados tirados dos prints do anúncio enviados pelo Kalleby em 09/10 (o site é bloqueado pela rede deste ambiente).
+
+## Ficha do imóvel
+
+- Título do anúncio: "Vista 360 pro lago". Sobrado, SHIN QL 5 Conjunto 6, Lago Norte.
+- R$ 18.000.000. Aceita financiamento.
+- 1.300 m² de área útil, terreno de 12.500 m² (1,25 hectare).
+- 5 quartos, todos suítes. 10 vagas, parte coberta.
+- Lazer: piscina, SPA, sauna, academia, quadra esportiva, salão de festas, salão gourmet, churrasqueira, sala de jogos, home theater, lazer no pilotis, jardim.
+- Autonomia: poço artesiano, gerador de energia, aquecimento solar.
+- Segurança: guarita, circuito de TV, portão eletrônico.
+- Mobiliado. Posição fundos, sol nascente. Vista livre. Aceita pet.
+- A confirmar com a Aline: a mobília entra no preço?
 
 ## Por que essa campanha é diferente das outras
 
@@ -50,34 +62,36 @@ Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN
 ## Copy (duas variações para teste)
 
 **A. Preço na frente (filtro máximo)**
-Título: Lago Norte, QL 5. R$ 18 milhões.
+Título: Vista 360° pro lago. R$ 18 milhões.
 Texto:
-Poucas casas em Brasília chegam a esse nível. Esta fica na QL 5 do Lago Norte.
+12.500 m² de terreno no Lago Norte. Quase dois campos de futebol, com vista 360° para o lago.
 
-5 quartos, [área construída] m² em [área do terreno] m² de terreno. [Diferencial 1, escrito como cena: o que a pessoa vive na casa].
-[Diferencial 2: arquiteto, marca ou acabamento que o comprador reconhece].
+1.300 m² de casa, 5 suítes e um clube particular dentro do terreno: piscina, SPA, sauna, academia, quadra e salão de festas.
+Poço artesiano, gerador e aquecimento solar. A casa não depende de ninguém para funcionar.
+Entregue mobiliada. Você chega com as malas.
 
-Valor: R$ 18 milhões.
+SHIN QL 5, Lago Norte. R$ 18 milhões.
+Por discrição, visita só com hora marcada. Deixe seu contato e a Aline Daleprane fala com você pessoalmente.
 
-Por discrição, endereço, plantas e visita só com hora marcada. Deixe seu contato e a Aline Daleprane fala com você pessoalmente.
-
-**B. Gancho com quebra de expectativa (mecanismo dos vídeos da Aline)**
-Título: Uma visita e você para de procurar.
+**B. Gancho com quebra de expectativa**
+Título: Aqui o difícil é escolher para qual lado olhar.
 Texto:
-Tem quem passe anos procurando casa no Lago Norte. E tem quem conheça esta uma vez e encerre a busca.
+Em Brasília, todo mundo quer vista para o lago. Nesta casa, o difícil é escolher para qual lado olhar.
 
-[Cena específica da casa: ex. o que se vê ou se faz em um horário do dia].
-5 quartos na QL 5, [área] m², [diferencial com nome de arquiteto ou marca].
+Vista 360° no Lago Norte, em 12.500 m² de terreno.
+5 suítes, 1.300 m² de casa e o sol da manhã entrando pela frente.
+Piscina, SPA, sauna, academia e quadra sem sair de casa. Guarita e circuito de segurança. Mobiliada, pronta para morar.
 
-R$ 18 milhões. Apresentação privativa, só com hora marcada.
+R$ 18 milhões. Apresentação privativa com hora marcada.
 Fale com a Aline Daleprane pelo formulário.
 
-Botão (CTA): "Saiba mais" (não "Cadastre-se", que soa promoção).
+Botão (CTA): "Saiba mais".
 
 ## Criativo
 
 Vídeo da Aline apresentando (único criativo). Conferir:
 - Os 3 primeiros segundos funcionam sem som? Legenda queimada no vídeo.
+- Texto na tela no início: "Vista 360° pro lago | 12.500 m² | Lago Norte". Abrir com a imagem da piscina com o lago ao fundo, não com a Aline falando.
 - Preço aparece no vídeo ou só na legenda? Se der, um texto discreto "R$ 18 mi | Lago Norte" no início também filtra.
 
 ## Régua de leitura (específica desta campanha)
