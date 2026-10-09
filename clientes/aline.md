@@ -24,6 +24,10 @@ SQSW 306 (10/08) por semana: CPL 20,61 / 43,79 / 47,41 / 31,33 / 47,74 / 24,91. 
 
 ## Histórico de feedbacks e ajustes
 
+### 09/10/2026
+- Kalleby: a Aline está reclamando muito da qualidade dos leads. Detalhe do que é "lead ruim" (não atende, sem capacidade de compra, curioso) ainda não informado.
+- Nova campanha planejada: casa Lago Norte SHIN QL 5 Conj. 6, R$ 18 mi, 5 quartos, vídeo da Aline apresentando, R$ 50/dia. O Kalleby monta. Guia com foco em qualificação (preço na copy, formulário de maior intenção, pergunta de faixa de valor, pins de moradores): `campanhas/2026-10-09-casa-lago-norte-ql5.md`.
+
 ### 07/10/2026
 - SQSW 306 (120247791925520557) pausada pelo Kalleby às 12h24, pelo Gerenciador (histórico de atividade da conta). Motivo: a confirmar.
 - Fase 02 a 07/10 fechada: R$ 273,84, 9 leads, CPL R$ 30,43.
