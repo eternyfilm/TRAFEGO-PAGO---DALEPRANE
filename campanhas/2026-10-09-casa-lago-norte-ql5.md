@@ -13,7 +13,7 @@ Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN
 - Autonomia: poço artesiano, gerador de energia, aquecimento solar.
 - Segurança: guarita, circuito de TV, portão eletrônico.
 - Mobiliado. Posição fundos, sol nascente. Vista livre. Aceita pet.
-- A confirmar com a Aline: a mobília entra no preço?
+- Acabamento de estilo mais antigo. O vídeo e a copy focam no lazer, terreno e vista. Mobília fora da copy.
 
 ## Por que essa campanha é diferente das outras
 
@@ -61,18 +61,20 @@ Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN
 
 ## Copy (duas variações para teste)
 
-O vídeo da Aline foca na área de lazer (informação do Kalleby, 09/10). A copy abre pelo lazer para bater com o vídeo; terreno e vista entram como prova.
+O vídeo da Aline foca na área de lazer porque a casa tem acabamento de estilo mais antigo (Kalleby, 09/10). Por isso a copy:
+- abre pelo lazer, para bater com o vídeo;
+- não vende o interior: sai "mobiliada", "pronta para morar" e "chega com as malas". Prometer casa pronta e o comprador encontrar acabamento antigo na visita queima o lead mais caro que existe;
+- quebra a objeção antes do CTA: o valor está no que não se refaz (terreno, vista, lazer). O interior vira espaço para a assinatura do comprador.
 
 **A. Preço na frente (filtro máximo)**
 Título: Um clube particular no Lago Norte. R$ 18 milhões.
 Texto:
-Piscina, SPA, sauna, academia, quadra, salão de festas e espaço gourmet. Tudo no quintal, com vista 360° para o lago.
+Piscina com o lago de fundo, SPA, sauna, academia, quadra, salão de festas e espaço gourmet. Tudo dentro de 12.500 m² de terreno, com vista 360° para o lago.
 
-São 12.500 m² de terreno, quase dois campos de futebol, e 1.300 m² de casa com 5 suítes.
-Poço artesiano, gerador e aquecimento solar. A casa não depende de ninguém para funcionar.
-Entregue mobiliada. Você chega com as malas.
+Terreno desse tamanho, com essa vista, é raro no Lago Norte. A casa tem 1.300 m² e 5 suítes, com espaço de sobra para ganhar a sua assinatura.
+Poço artesiano, gerador e aquecimento solar já instalados.
 
-SHIN QL 5, Lago Norte. R$ 18 milhões.
+SHIN QL 5. R$ 18 milhões.
 Por discrição, visita só com hora marcada. Deixe seu contato e a Aline Daleprane fala com você pessoalmente.
 
 **B. Gancho com quebra de expectativa**
@@ -81,12 +83,14 @@ Texto:
 Tem clube em Brasília com menos estrutura do que o quintal desta casa.
 
 Piscina com o lago de fundo, SPA, sauna, academia, quadra e salão de festas. Sem fila, sem horário, sem sócio.
-12.500 m² de terreno, vista 360° para o lago e 5 suítes em 1.300 m² de casa. Mobiliada, pronta para morar.
+Vista 360° para o lago, 12.500 m² de terreno e 1.300 m² de casa com 5 suítes, prontos para receber a sua assinatura.
 
 R$ 18 milhões. Apresentação privativa com hora marcada.
 Fale com a Aline Daleprane pelo formulário.
 
 Botão (CTA): "Saiba mais".
+
+**Atendimento:** a Aline deve falar do estilo da casa já no primeiro contato, antes da visita ("o lazer e o terreno são o coração do imóvel; a casa tem acabamento original e muita gente compra pensando em personalizar"). Quem segue depois disso é comprador. Quem desiste, desistiria na visita.
 
 ## Criativo
 
