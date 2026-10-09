@@ -26,6 +26,9 @@ Anúncio de referência: daleprane.com.br, imóvel 1442845 (casa 5 quartos, SHIN
 - Conta: Aline (1396371857747331), ou a da Daleprane se o imóvel for da casa. Confirmar.
 - Nome: `CBO | FORM | CASA LAGO NORTE QL 5 | ALINE - DD/MM`
 - Objetivo: Cadastros. Local da conversão: Formulários instantâneos.
+- Montada pelo Kalleby em 09/10 na conta da Aline (1396371857747331): `CBO | FORM | QL 5 LAGO NORTE - 09/10`, conjunto `QL 5 LAGO NORTE - 09/10`, em rascunho.
+- Meta de desempenho: Maximizar o número de leads. "Leads qualificados" exige CRM conectado, e a Aline não tem. Quando tiver, trocar: é a meta que ensina o Meta a buscar quem vira visita.
+- Público: usar as opções de público original. Com o público Advantage+, a idade máxima e os interesses viram só sugestão.
 - Orçamento: R$ 50/dia, CBO, 1 conjunto e 1 anúncio. Com R$ 50 não dá para dividir verba entre conjuntos.
 - Categoria especial de anúncio: se o Gerenciador exigir "Habitação", idade, interesses e raio ficam travados. Nesse caso o filtro fica todo na copy e no formulário.
 
